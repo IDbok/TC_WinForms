@@ -1,9 +1,6 @@
 ﻿using OfficeOpenXml;
 
 using TC_WinForms.DataProcessing;
-using System.Text.Json;
-using System.Text.RegularExpressions;
-using TC_WinForms.Models;
 
 namespace TC_WinForms
 {
@@ -113,8 +110,6 @@ namespace TC_WinForms
                 }
             }
 
-            // TODO: функционал по парсингу листов с ТК
-
             // Регистрирую делигат для вывода сообщений
             ExParser.RegisterMessageHandler(PrintMessage);
             ExParser.RegisterFilePath(filepath);
@@ -125,9 +120,9 @@ namespace TC_WinForms
             Directory.CreateDirectory(jsonCatalog);
             MessageBox.Show("Hello World!");
         }
-        void PrintMessage(string message) => MessageBox.Show(message);
 
+        void PrintMessage(string message) => MessageBox.Show(message);
     }
 
-    
+
 }
