@@ -25,7 +25,7 @@ namespace TC_WinForms.Models
             this.staff = staff;
             this.stepExecutionTime = stepExecutionTime;
             this.stage = stage;
-            // TODO: add stage to stagesDic
+            // TODO: добавить этапы и операции
             this.stageExecutionTime = stageExecutionTime;
             this.machineExecutionTime = machineExecutionTime;
             this.protections = protections;

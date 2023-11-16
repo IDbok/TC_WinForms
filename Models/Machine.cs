@@ -9,19 +9,17 @@ namespace TC_WinForms.Models
         string type;
         string unit;
         int amount; // TODO - проверка на 0 и отриц значений
-        float price;// TODO - проверка на 0 и отриц значений
         public Machine()
         {
 
         }
-        public Machine(int num, string name, string type, string unit, int amount, float price)
+        public Machine(int num, string name, string type, string unit, int amount)
         {
             this.num = num;
             this.name = name;
             this.type = type;
             this.unit = unit;
             this.amount = amount;
-            this.price = price;
         }
 
         public override int Num
@@ -36,7 +34,6 @@ namespace TC_WinForms.Models
         { get { return unit; } set { unit = value; } }
         public override int Amount
         { get { return amount; } set { amount = value; } }
-        public override float Price
-        { get { return price; } set { price = value; } }
+        
     }
 }

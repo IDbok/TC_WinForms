@@ -21,29 +21,38 @@ namespace TC_WinForms
 
         private void btnFilePathCheck_Click(object sender, EventArgs e)
         {
+            gbxTCSheets.Visible = false;
 
+            // Очистка списка листов с ТК
+            sheetsTK.Clear();
+            clbxTCSheets.DataSource = null;
+            
             string filePathCheck = txtFilePath.Text;
             if (File.Exists(filePathCheck))
             {
-
-
+                filepath = filePathCheck;
                 // Получение названия всех листов с ТК в книге
                 // Передача названий листов в clbxTCSheets
-                using (var package = new ExcelPackage(new FileInfo(filepath)))
+                try
                 {
-                    foreach (var ws in package.Workbook.Worksheets)
+                    using (var package = new ExcelPackage(new FileInfo(filepath)))
                     {
-                        if (ws.Name.ToString().Contains("ТК_")) sheetsTK.Add(ws.Name);
+                        foreach (var ws in package.Workbook.Worksheets)
+                        {
+                            if (ws.Name.ToString().Contains("ТК_")) sheetsTK.Add(ws.Name);
+                        }
                     }
+                    gbxTCSheets.Visible = true;
 
+                    sheetsTK.Sort();
+                    clbxTCSheets.DataSource = sheetsTK;
                 }
-
-                btnFilePathCheck.Visible = false;
-                gbxTCSheets.Visible = true;
-
-                sheetsTK.Sort();
-                clbxTCSheets.DataSource = sheetsTK;
-                filepath = filePathCheck;
+                catch (System.IO.IOException ex)
+                {
+                    PrintMessage("Произошла ошибка. Проверьте закрыт ли обрабатываемый файл.\n(" + ex + ")");
+                    gbxTCSheets.Visible = false;
+                }
+                catch (Exception ex) { PrintMessage("Произошла ошибка при открытии файла."); }
 
             }
             else MessageBox.Show("Файл по указаному пути не найден!");
@@ -51,23 +60,25 @@ namespace TC_WinForms
 
         private void btnTCSheetsSelectAll_Click(object sender, EventArgs e)
         {
-            if (btnTCSheetsSelectAll.Text == "Выделить всё")
+            if (gbxTCSheets.Visible && clbxTCSheets.Items.Count > 0)
             {
-                for (int i = 0; i < clbxTCSheets.Items.Count; i++)
+                if (btnTCSheetsSelectAll.Text == "Выделить всё")
                 {
-                    clbxTCSheets.SetItemChecked(i, true);
+                    for (int i = 0; i < clbxTCSheets.Items.Count; i++)
+                    {
+                        clbxTCSheets.SetItemChecked(i, true);
+                    }
+                    btnTCSheetsSelectAll.Text = "Отменить\nвыделение";
                 }
-                btnTCSheetsSelectAll.Text = "Отменить\nвыделение";
-            }
-            else
-            {
-                for (int i = 0; i < clbxTCSheets.Items.Count; i++)
+                else
                 {
-                    clbxTCSheets.SetItemChecked(i, false);
+                    for (int i = 0; i < clbxTCSheets.Items.Count; i++)
+                    {
+                        clbxTCSheets.SetItemChecked(i, false);
+                    }
+                    btnTCSheetsSelectAll.Text = "Выделить всё";
                 }
-                btnTCSheetsSelectAll.Text = "Выделить всё";
             }
-
         }
 
         private void btnParseFile_Click(object sender, EventArgs e)
@@ -111,12 +122,12 @@ namespace TC_WinForms
             }
 
             // Регистрирую делигат для вывода сообщений
-            ExParser.RegisterMessageHandler(PrintMessage);
-            ExParser.RegisterFilePath(filepath);
-            ExParser.RegisterJsonCatalog(jsonCatalog);
-            ExParser.RegisterCardNameToParse(sheetsToParse);
+            ExParserTC.RegisterMessageHandler(PrintMessage);
+            ExParserTC.RegisterFilePath(filepath);
+            ExParserTC.RegisterJsonCatalog(jsonCatalog);
+            ExParserTC.RegisterCardNameToParse(sheetsToParse);
 
-            ExParser.DoMain();
+            ExParserTC.DoMain();
             Directory.CreateDirectory(jsonCatalog);
             MessageBox.Show("Hello World!");
         }

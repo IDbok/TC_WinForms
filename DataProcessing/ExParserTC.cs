@@ -1,16 +1,11 @@
 ﻿using OfficeOpenXml;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using TC_WinForms.Models;
 
 namespace TC_WinForms.DataProcessing
 {
-    internal static class ExParser
+    internal static class ExParserTC
     {
 
         internal delegate void MessageHandler(string message);
@@ -23,17 +18,17 @@ namespace TC_WinForms.DataProcessing
 
         internal static void RegisterFilePath(string filepath)
         {
-            ExParser.filepath = filepath;
+            ExParserTC.filepath = filepath;
         }
         internal static void RegisterJsonCatalog(string jsonCatalog)
         {
-            ExParser.jsonCatalog = jsonCatalog;
+            ExParserTC.jsonCatalog = jsonCatalog;
         }
 
         static List<string> listCardName = new();
         internal static void RegisterCardNameToParse(List<string> listCardName)
         {
-            ExParser.listCardName = listCardName;
+            ExParserTC.listCardName = listCardName;
         }
 
         // Путь к файлу с ТК
@@ -72,11 +67,13 @@ namespace TC_WinForms.DataProcessing
                         // Определение листа в переменную
                         var worksheet = package.Workbook.Worksheets[sheetName];
 
+                        // Поиск номеров строк с ключевыми словами
+                        int[] startRows = new int[keyWords.Count()];
+                        startRows = StartRowsCounter(startRows, worksheet);
+
                         for (int i = 0; i < stuctNames.Count(); i++)
                         {
-                            // Поиск номеров строк с ключевыми словами
-                            int[] startRows = new int[keyWords.Count()];
-                            startRows = StartRowsCounter(startRows, worksheet);
+                            
                             try
                             {
                                 // Запись данных из Excel в json в соответствии с моделью данных
@@ -127,15 +124,33 @@ namespace TC_WinForms.DataProcessing
         public static int[] StartRowsCounter(int[] startRows, ExcelWorksheet worksheet)
         {
             int numRowsFound = 0;
+            int numLastRowStart = 0;
+            bool lastTableStarts = false;
             for (int i = 1; i < 1000; i++)
             {
-
                 string valueCell = worksheet.Cells[i, 1].Value != null ? worksheet.Cells[i, 1].Value.ToString() : "";
                 string keyWord = keyWords[numRowsFound];
-                if (valueCell == keyWord)
+                switch (keyWord)
                 {
-                    startRows[numRowsFound] = i;
-                    numRowsFound++;
+                    case "6. Выполнение работ":
+
+                        if (valueCell.Contains(keyWord))
+                        {
+                            lastTableStarts = true;
+                            numLastRowStart = i;
+                            startRows[numRowsFound] = i;
+                        }
+                        else if (lastTableStarts && i != (numLastRowStart + 1) && !int.TryParse(valueCell, out int result))
+                        {
+                            startRows[numRowsFound] = numLastRowStart;
+                            numRowsFound++;
+                            startRows[numRowsFound] = i;
+                            numRowsFound++;
+                        }
+                        break;
+                    default:
+                        if (valueCell.Contains(keyWord)) { startRows[numRowsFound] = i; numRowsFound++; }
+                        break;
                 }
                 if (numRowsFound == startRows.Count()) { break; }
             }
@@ -152,53 +167,62 @@ namespace TC_WinForms.DataProcessing
 
         public static void SaveToJSON(List<Struct> ListOfStruct, int numTitle, string sheetName)
         {
-            foreach (var item in ListOfStruct)
+            if (ListOfStruct.Count != 0)
             {
-                // Создание объекта для записи без кодировки в Unicode
-                var options = new JsonSerializerOptions
+                foreach (var item in ListOfStruct)
                 {
-                    // set the encoder to UnicodeEncoding
-                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-                };
+                    // Создание объекта для записи без кодировки в Unicode
+                    var options = new JsonSerializerOptions
+                    {
+                        // set the encoder to UnicodeEncoding
+                        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                    };
 
-                string json = JsonSerializer.Serialize(item, options);
-                string pathJson = $@"{jsonCatalog}\{sheetName}\{stuctNames[numTitle]}\";
-                if (!Directory.Exists(pathJson)) Directory.CreateDirectory(pathJson);
-                File.WriteAllText(pathJson + item.Num + ".json", json);
+                    string json = JsonSerializer.Serialize(item, options);
+                    string pathJson = $@"{jsonCatalog}\{sheetName}\{stuctNames[numTitle]}\";
+                    if (!Directory.Exists(pathJson)) Directory.CreateDirectory(pathJson);
+                    File.WriteAllText(pathJson + item.Num + ".json", json);
+                }
             }
         }
         public static void SaveToJSON(List<Staff> ListOfStruct, int numTitle, string sheetName)
         {
-            foreach (var item in ListOfStruct)
+            if (ListOfStruct.Count != 0)
             {
-                // Создание объекта для записи без кодировки в Unicode
-                var options = new JsonSerializerOptions
+                foreach (var item in ListOfStruct)
                 {
-                    // set the encoder to UnicodeEncoding
-                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-                };
+                    // Создание объекта для записи без кодировки в Unicode
+                    var options = new JsonSerializerOptions
+                    {
+                        // set the encoder to UnicodeEncoding
+                        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                    };
 
-                string json = JsonSerializer.Serialize(item, options);
-                string pathJson = $@"{jsonCatalog}\{sheetName}\{stuctNames[numTitle]}\";
-                if (!Directory.Exists(pathJson)) Directory.CreateDirectory(pathJson);
-                File.WriteAllText(pathJson + item.Num + ".json", json);
+                    string json = JsonSerializer.Serialize(item, options);
+                    string pathJson = $@"{jsonCatalog}\{sheetName}\{stuctNames[numTitle]}\";
+                    if (!Directory.Exists(pathJson)) Directory.CreateDirectory(pathJson);
+                    File.WriteAllText(pathJson + item.Num + ".json", json);
+                }
             }
         }
         public static void SaveToJSON(List<WorkStep> ListOfStruct, int numTitle, string sheetName)
         {
-            foreach (var item in ListOfStruct)
+            if (ListOfStruct.Count != 0)
             {
-                // Создание объекта для записи без кодировки в Unicode
-                var options = new JsonSerializerOptions
+                foreach (var item in ListOfStruct)
                 {
-                    // set the encoder to UnicodeEncoding
-                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-                };
+                    // Создание объекта для записи без кодировки в Unicode
+                    var options = new JsonSerializerOptions
+                    {
+                        // set the encoder to UnicodeEncoding
+                        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                    };
 
-                string json = JsonSerializer.Serialize(item, options);
-                string pathJson = $@"{jsonCatalog}\{sheetName}\{stuctNames[numTitle]}\";
-                if (!Directory.Exists(pathJson)) Directory.CreateDirectory(pathJson);
-                File.WriteAllText(pathJson + item.Num + ".json", json);
+                    string json = JsonSerializer.Serialize(item, options);
+                    string pathJson = $@"{jsonCatalog}\{sheetName}\{stuctNames[numTitle]}\";
+                    if (!Directory.Exists(pathJson)) Directory.CreateDirectory(pathJson);
+                    File.WriteAllText(pathJson + item.Num + ".json", json);
+                }
             }
         }
 
@@ -206,16 +230,28 @@ namespace TC_WinForms.DataProcessing
         public static List<Struct> CreateListModel(List<Struct> structs, int numTitle, int[] startRows, ExcelWorksheet worksheet)
         {
             StructType structType = (StructType)Enum.ToObject(typeof(StructType), numTitle + 1);
+
             // Запись данных из Excel в список в соответствии с моделью данных
             int startRow = startRows[numTitle] + 2;
             int endRow = startRows[numTitle + 1];
+
             for (int i = startRow; i < endRow; i++)
             {
-                string num = worksheet.Cells[i, 1].Value.ToString().Trim();
-                string name = worksheet.Cells[i, 2].Value.ToString().Trim();
-                string type = worksheet.Cells[i, 3].Value.ToString().Trim();
-                string unit = worksheet.Cells[i, 4].Value.ToString().Trim();
-                string amount = worksheet.Cells[i, 5].Value.ToString().Trim();
+
+                // Поиск номеров столбцов с ключевыми словами
+                int numCol = 1;
+                int titleCol = FindColumn("Наименование", startRows[numTitle] + 1, worksheet);
+                int typeCol = FindColumn("Тип (исполнение)", startRows[numTitle] + 1, worksheet);
+                int initCol = FindColumn("Ед. Изм.", startRows[numTitle] + 1, worksheet);
+                int amountCol = FindColumn("Кол-во", startRows[numTitle] + 1, worksheet);
+                int priceCol = FindColumn("Стоимость, руб. без НДС", startRows[numTitle] + 1, worksheet);
+
+                string num = worksheet.Cells[i, numCol].Value.ToString().Trim();
+                string name = worksheet.Cells[i, titleCol].Value.ToString().Trim();
+                string type = worksheet.Cells[i, typeCol].Value.ToString().Trim();
+                string unit = worksheet.Cells[i, initCol].Value.ToString().Trim();
+                string? amount = amountCol != 0 ? worksheet.Cells[i, amountCol].Value.ToString().Trim() : "0";
+                string? price = priceCol != 0 ? worksheet.Cells[i, priceCol].Value.ToString().Trim() : null;
 
                 if (structType == StructType.Tool)
                 {
@@ -225,7 +261,8 @@ namespace TC_WinForms.DataProcessing
                         Name = name,
                         Type = type,
                         Unit = unit,
-                        Amount = (int)uint.Parse(amount)
+                        Amount = (int)uint.Parse(amount),
+                        Price = price != null ? float.Parse(price) : null
                     });
                 }
                 else if (structType == StructType.Component)
@@ -236,7 +273,8 @@ namespace TC_WinForms.DataProcessing
                         Name = name,
                         Type = type,
                         Unit = unit,
-                        Amount = (int)uint.Parse(amount)
+                        Amount = (int)uint.Parse(amount),
+                        Price = price != null ? float.Parse(price) : null
                     });
                 }
                 else if (structType == StructType.Protection)
@@ -247,7 +285,8 @@ namespace TC_WinForms.DataProcessing
                         Name = name,
                         Type = type,
                         Unit = unit,
-                        Amount = (int)uint.Parse(amount)
+                        Amount = (int)uint.Parse(amount),
+                        Price = price != null ? float.Parse(price) : null
                     });
                 }
                 else if (structType == StructType.Machine)
@@ -258,55 +297,64 @@ namespace TC_WinForms.DataProcessing
                         Name = name,
                         Type = type,
                         Unit = unit,
-                        Amount = (int)uint.Parse(amount)
+                        Amount = (int)uint.Parse(amount),
+                        Price = price != null ? float.Parse(price) : null
                     });
                 }
             }
+            
             return structs;
         }
         public static List<Staff> CreateListModel(List<Staff> structs, int numTitle, int[] startRows, ExcelWorksheet worksheet)
         {
             int startRow = startRows[numTitle] + 2;
             int endRow = startRows[numTitle + 1];
+
+            // Поиск номеров столбцов с ключевыми словами
+            int numCol = 1;
+            int titleCol = FindColumn("Наименование", startRows[numTitle] + 1, worksheet);
+            int typeCol = FindColumn("Тип (исполнение)", startRows[numTitle] + 1, worksheet);
+            int combineResponsibilityCol = FindColumn("Возможность совмещения обязанностей", startRows[numTitle] + 1, worksheet);
+            int elSaftyGroupCol = FindColumn("Группа ЭБ, не ниже", startRows[numTitle] + 1, worksheet);
+            int gradeCol = FindColumn("Разряд,\r\nне ниже", startRows[numTitle] + 1, worksheet);
+            int competenceCol = FindColumn("Квалификация", startRows[numTitle] + 1, worksheet);
             int symbolCol = FindColumn("Обозначение в ТК", startRows[numTitle] + 1, worksheet);
+
             for (int i = startRow; i < endRow; i++)
             {
-                string num = worksheet.Cells[i, 1].Value.ToString().Trim();
-                string name = worksheet.Cells[i, 2].Value.ToString().Trim();
-                string type = worksheet.Cells[i, 3].Value.ToString().Trim();
-                string combineResponsibility = worksheet.Cells[i, 4].Value.ToString().Trim();
-                string elSaftyGroup = worksheet.Cells[i, 5].Value.ToString().Trim();
-                string grade = worksheet.Cells[i, 6].Value.ToString().Trim();
-                string competence = worksheet.Cells[i, 7].Value.ToString().Trim();
-                string symbol = worksheet.Cells[i, symbolCol].Value.ToString().Trim();
-                //string comment = worksheet.Cells[i, 12].Value.ToString().Trim();
-
                 structs.Add(new Staff
                 {
-                    Num = int.Parse(num),
-                    Name = name,
-                    Type = type,
-                    CombineResponsibility = combineResponsibility,
-                    ElSaftyGroup = elSaftyGroup,
-                    Grade = grade,
-                    Competence = competence,
-                    Symbol = symbol,
-                    //Comment = comment
+                    Num = int.Parse(worksheet.Cells[i, numCol].Value.ToString().Trim()),
+                    Name = worksheet.Cells[i, titleCol].Value.ToString().Trim(),
+                    Type = worksheet.Cells[i, typeCol].Value.ToString().Trim(),
+                    CombineResponsibility = worksheet.Cells[i, combineResponsibilityCol].Value.ToString().Trim(),
+                    ElSaftyGroup = elSaftyGroupCol != 0 ? worksheet.Cells[i, elSaftyGroupCol].Value.ToString().Trim() : null,
+                    Grade = gradeCol != 0 ? worksheet.Cells[i, 6].Value.ToString().Trim() : null,
+                    Competence = worksheet.Cells[i, competenceCol].Value.ToString().Trim(),
+                    Symbol = worksheet.Cells[i, symbolCol].Value.ToString().Trim(),
+                    
                 });
             }
             return structs;
         }
         public static List<WorkStep> CreateListModel(List<WorkStep> structs, int numTitle, int[] startRows, ExcelWorksheet worksheet)
         {
+            // Определение начальной и конечной строки для парсинга
             int startRow = startRows[numTitle] + 2;
             int endRow = startRows[numTitle + 1];
+
+            // Поиск номеров столбцов с ключевыми словами
+            int numCol = 1; //FindColumn("№", startRows[numTitle] + 1, worksheet);
+            int descriptionCol = FindColumn(new string[] { "Описание работ", "Технологические переходы"}, startRows[numTitle] + 1, worksheet);
+            int stepTimeCol = FindColumn("Время выполнения действия, мин.", startRows[numTitle] + 1, worksheet);
             int protectionCol = FindColumn("№ средства защиты", startRows[numTitle] + 1, worksheet);
+
 
             for (int i = startRow; i < endRow; i++)
             {
-                string num = worksheet.Cells[i, 1].Value.ToString().Trim();
+                string num = worksheet.Cells[i, numCol].Value.ToString().Trim();
 
-                string allDescription = worksheet.Cells[i, 2].Value.ToString();
+                string allDescription = worksheet.Cells[i, descriptionCol].Value.ToString();
 
                 string[] parts = allDescription.Split(':', 2);
                 string? staff, description, comments;
@@ -326,11 +374,12 @@ namespace TC_WinForms.DataProcessing
                     comments = parts2.Count() == 2 ? parts2[1].Trim() : null;
                 }
 
-                string stepExecutionTime = worksheet.Cells[i, 5].Value.ToString().Trim();
+                string stepExecutionTime = worksheet.Cells[i, stepTimeCol].Value.ToString().Trim();
                 if (worksheet.Cells[i, 6].Value != null)
                 {
                     WorkStep.AddStage(WorkStep.GetLastStageNum() + 1, float.Parse(worksheet.Cells[i, 6].Value.ToString().Trim()));
                 }
+
                 string stageExecutionTime = WorkStep.GetLastStageTime().ToString();
                 string stage = WorkStep.GetLastStageNum().ToString();
                 //string machineExecutionTime = worksheet.Cells[i, 7].Value.ToString().Trim();
@@ -354,10 +403,18 @@ namespace TC_WinForms.DataProcessing
 
         public static int FindColumn(string columnName, int columnRow, ExcelWorksheet worksheet)
         {
+            string[] columnNameList = { columnName };
+            return FindColumn(columnNameList, columnRow, worksheet);
+        }
+
+        public static int FindColumn(string[] columnNameList, int columnRow, ExcelWorksheet worksheet)
+        {
+            // TODO: Если столбец не найден выдавать - 1 (или 0, как сейчас)
+
             int numColumn = 0;
             for (int i = 1; i < 100; i++)
             {
-                if (worksheet.Cells[columnRow, i].Value != null && worksheet.Cells[columnRow, i].Value.ToString() == columnName)
+                if (worksheet.Cells[columnRow, i].Value != null && columnNameList.Contains(worksheet.Cells[columnRow, i].Value.ToString()))
                 { numColumn = i; break; }
             }
             return numColumn;

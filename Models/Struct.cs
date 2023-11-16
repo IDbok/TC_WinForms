@@ -10,6 +10,6 @@ namespace TC_WinForms.Models
 
         virtual public string Unit { get; set; }
         virtual public int Amount { get; set; }
-        virtual public float Price { get; set; }
+        virtual public float? Price { get; set; }
     }
 }

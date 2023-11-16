@@ -9,29 +9,28 @@ namespace TC_WinForms.Models
         string name;
         string type;
         string unit;
-        int amount; // using uint here
+        int amount;
+        float? price;
 
         public Component()
         {
             count++;
         }
 
-        public Component(int num, string name, string type, string unit, int amount)
+        public Component(int num, string name, string type, string unit, int amount, float? price)
         {
             this.num = num;
             this.name = name;
             this.type = type;
             this.unit = unit;
             this.amount = amount;
+            this.price = price;
             count++;
         }
-        [JsonInclude]
         public override int Num
         { get { return num; } set { num = value; } }
-        [JsonInclude]
         public override string Name
         { get { return name; } set { name = value; } }
-        [JsonInclude]
         public override string Type
         { get { return type; } set { type = value; } }
         public override string Unit

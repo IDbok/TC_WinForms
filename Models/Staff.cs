@@ -12,18 +12,18 @@ namespace TC_WinForms.Models
         string name;
         string type;
         string combineResponsibility;
-        string elSaftyGroup;
-        string grade;
+        string? elSaftyGroup;
+        string? grade;
         string competence;
         string symbol;
-        string comment;
+        string? comment;
 
         public Staff()
         {
 
         }
         public Staff(int num, string name, string type, string combineResponsibility,
-            string elSaftyGroup, string grade, string competence, string symbol, string comment)
+            string? elSaftyGroup, string? grade, string competence, string symbol, string? comment)
         {
             this.num = num;
             this.name = name;
@@ -58,15 +58,15 @@ namespace TC_WinForms.Models
             get { return combineResponsibility; }
             set { combineResponsibility = value; }
         }
-        public string ElSaftyGroup
+        public string? ElSaftyGroup
         { get { return elSaftyGroup; } set { elSaftyGroup = value; } }
-        public string Grade
+        public string? Grade
         { get { return grade; } set { grade = value; } }
         public string Competence
         { get { return competence; } set { competence = value; } }
         public string Symbol
         { get { return symbol; } set { symbol = value; } }
-        public string Comment
+        public string? Comment
         { get { return comment; } set { comment = value; } }
 
         public string ToSring()
