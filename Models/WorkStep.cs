@@ -11,14 +11,14 @@ namespace TC_WinForms.Models
         int stage { get; set; }
         float stageExecutionTime { get; set; }
         float machineExecutionTime { get; set; }
-        string protections { get; set; }
+        string? protections { get; set; }
         string? comments { get; set; }
 
         public WorkStep()
         {
         }
         public WorkStep(int num, string description, string? staff, float stepExecutionTime, int stage, float stageExecutionTime,
-            float machineExecutionTime, string protections, string? comments)
+            float machineExecutionTime, string? protections, string? comments)
         {
             this.num = num;
             this.description = description;
@@ -39,7 +39,7 @@ namespace TC_WinForms.Models
         public int Stage { get { return stage; } set { stage = value; } }
         public float StageExecutionTime { get { return stageExecutionTime; } set { stageExecutionTime = value; } }
         public float MachineExecutionTime { get { return machineExecutionTime; } set { machineExecutionTime = value; } }
-        public string Protections { get { return protections; } set { protections = value; } }
+        public string? Protections { get { return protections; } set { protections = value; } }
         public string? Comments { get { return comments; } set { comments = value; } }
 
         public static int GetLastStageNum() => !stagesDic.Any() ? 0 : stagesDic.Last().Key;

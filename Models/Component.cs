@@ -2,22 +2,23 @@
 
 namespace TC_WinForms.Models
 {
-    internal class Component : Struct//2. Требования к материалам и комплектующим
+    internal class Component : Struct //2. Требования к материалам и комплектующим
     {
         static int count;
         int num;
         string name;
-        string type;
+        string? type;
         string unit;
-        int amount;
+        double amount;
         float? price;
+        List<Struct>? complect; // 
 
         public Component()
         {
             count++;
         }
 
-        public Component(int num, string name, string type, string unit, int amount, float? price)
+        public Component(int num, string name, string? type, string unit, int amount, float? price)
         {
             this.num = num;
             this.name = name;
@@ -31,11 +32,11 @@ namespace TC_WinForms.Models
         { get { return num; } set { num = value; } }
         public override string Name
         { get { return name; } set { name = value; } }
-        public override string Type
+        public override string? Type
         { get { return type; } set { type = value; } }
         public override string Unit
         { get { return unit; } set { unit = value; } }
-        public override int Amount
+        public override double Amount
         {
             get { return amount; }
             set
@@ -44,6 +45,13 @@ namespace TC_WinForms.Models
                 else { Console.WriteLine("Кол-во не может быть 0 или отрицательным"); }
 
             }
+        }
+        public override List<Struct> Complect
+        { get { return complect; } }
+        public override void AddComplectItem(Struct Item)
+        {
+            if (complect.Count == 0 ) complect = new List<Struct>();
+            complect.Add(Item);
         }
 
         public string ToString()

@@ -7,7 +7,7 @@ namespace TC_WinForms
     public partial class ExParserMain : Form
     {
         // Путь к файлу с ТК
-        static string filepath = @"C:\Users\bokar\Documents\ТК.xlsx";
+        static string filepath = @"C:\Users\bokar\OneDrive\Работа\Таврида\Технологические карты\Пример\ТК_ТТ_v4.0_Уфа — копия.xlsx";//@"C:\Users\bokar\Documents\ТК.xlsx";
         static string jsonCatalog = @"Temp\Cards";
 
         List<String> sheetsTK = new();
@@ -26,7 +26,7 @@ namespace TC_WinForms
             // Очистка списка листов с ТК
             sheetsTK.Clear();
             clbxTCSheets.DataSource = null;
-            
+
             string filePathCheck = txtFilePath.Text;
             if (File.Exists(filePathCheck))
             {
@@ -44,7 +44,7 @@ namespace TC_WinForms
                     }
                     gbxTCSheets.Visible = true;
 
-                    sheetsTK.Sort();
+                    //sheetsTK.Sort();
                     clbxTCSheets.DataSource = sheetsTK;
                 }
                 catch (System.IO.IOException ex)
@@ -133,6 +133,7 @@ namespace TC_WinForms
         }
 
         void PrintMessage(string message) => MessageBox.Show(message);
+
     }
 
 

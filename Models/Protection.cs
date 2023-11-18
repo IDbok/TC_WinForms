@@ -5,14 +5,14 @@ namespace TC_WinForms.Models
     {
         int num;
         string name;
-        string type;
+        string? type;
         string unit;
-        int amount;
+        double amount;
         public Protection()
         {
 
         }
-        public Protection(int num, string name, string type, string unit, int amount)
+        public Protection(int num, string name, string? type, string unit, int amount)
         {
             this.num = num;
             this.name = name;
@@ -26,12 +26,12 @@ namespace TC_WinForms.Models
 
         public override string Name
         { get { return name; } set { name = value; } }
-        public override string Type
+        public override string? Type
         { get { return type; } set { type = value; } }
 
         public override string Unit
         { get { return unit; } set { unit = value; } }
-        public override int Amount
+        public override double Amount
         { get { return amount; } set { amount = value; } }
     }
 }

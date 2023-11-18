@@ -43,8 +43,7 @@ namespace TC_WinForms.DataProcessing
                 "3. Требования к механизмам",
                 "4. Требования к средствам защиты",
                 "5. Требования к инструментам и приспособлениям",
-                "6. Выполнение работ",
-                ""
+                "6. Выполнение работ"
 
             };
         static string[] stuctNames = { "Staff", "Components", "Machines", "Protection", "Tools", "WorkSteps" };
@@ -68,7 +67,7 @@ namespace TC_WinForms.DataProcessing
                         var worksheet = package.Workbook.Worksheets[sheetName];
 
                         // Поиск номеров строк с ключевыми словами
-                        int[] startRows = new int[keyWords.Count()];
+                        int[] startRows = new int[keyWords.Count()+1];
                         startRows = StartRowsCounter(startRows, worksheet);
 
                         for (int i = 0; i < stuctNames.Count(); i++)
@@ -133,6 +132,8 @@ namespace TC_WinForms.DataProcessing
                 switch (keyWord)
                 {
                     case "6. Выполнение работ":
+
+                        //TODO: Проверить бывают ли пункты не int пункты
 
                         if (valueCell.Contains(keyWord))
                         {
@@ -235,6 +236,10 @@ namespace TC_WinForms.DataProcessing
             int startRow = startRows[numTitle] + 2;
             int endRow = startRows[numTitle + 1];
 
+            int itemCounter = 0;
+            int itemWhithConponents = 0;
+            // TODO: при работе с таблицей 2 комплектующие могу разбиварить на комплекты
+
             for (int i = startRow; i < endRow; i++)
             {
 
@@ -248,10 +253,20 @@ namespace TC_WinForms.DataProcessing
 
                 string num = worksheet.Cells[i, numCol].Value.ToString().Trim();
                 string name = worksheet.Cells[i, titleCol].Value.ToString().Trim();
-                string type = worksheet.Cells[i, typeCol].Value.ToString().Trim();
+                //string? type = worksheet.Cells[i, typeCol].Value.ToString().Trim();
+                string? type = null;
+                if (worksheet.Cells[i, typeCol].Value != null)
+                {
+                    type = worksheet.Cells[i, typeCol].Value.ToString().Trim();
+                }
                 string unit = worksheet.Cells[i, initCol].Value.ToString().Trim();
                 string? amount = amountCol != 0 ? worksheet.Cells[i, amountCol].Value.ToString().Trim() : "0";
-                string? price = priceCol != 0 ? worksheet.Cells[i, priceCol].Value.ToString().Trim() : null;
+                //string? price = priceCol != 0 ? worksheet.Cells[i, priceCol].Value.ToString().Trim() : null;
+                string? price = null;
+                if (priceCol != 0 && worksheet.Cells[i, typeCol].Value != null)
+                {
+                    type = worksheet.Cells[i, typeCol].Value.ToString().Trim();
+                }
 
                 if (structType == StructType.Tool)
                 {
@@ -261,21 +276,42 @@ namespace TC_WinForms.DataProcessing
                         Name = name,
                         Type = type,
                         Unit = unit,
-                        Amount = (int)uint.Parse(amount),
+                        Amount = double.Parse(amount),
                         Price = price != null ? float.Parse(price) : null
                     });
                 }
                 else if (structType == StructType.Component)
                 {
-                    structs.Add(new Component
+                    
+                    if (name.Contains("в составе")) itemWhithConponents = itemCounter;
+
+                    if (itemCounter > itemWhithConponents && num == "-") 
                     {
-                        Num = int.Parse(num),
-                        Name = name,
-                        Type = type,
-                        Unit = unit,
-                        Amount = (int)uint.Parse(amount),
-                        Price = price != null ? float.Parse(price) : null
-                    });
+                        structs[itemWhithConponents].AddComplectItem(new Component
+                        {
+                            Num = 0,
+                            Name = name,
+                            Type = type,
+                            Unit = unit,
+                            Amount = double.Parse(amount),
+                            Price = price != null ? float.Parse(price) : null
+                        });
+                    }
+                    else { 
+                        if (itemWhithConponents != 0 && itemCounter > itemWhithConponents) itemWhithConponents = 0; // Сброс счетчика (исключаем попадание компонентов из другого списка)
+                        structs.Add(new Component
+                        {
+                            Num = int.Parse(num),
+                            Name = name,
+                            Type = type,
+                            Unit = unit,
+                            Amount = double.Parse(amount),
+                            Price = price != null ? float.Parse(price) : null
+                        });
+                        
+                    }
+                    
+                    itemCounter++;
                 }
                 else if (structType == StructType.Protection)
                 {
@@ -285,7 +321,7 @@ namespace TC_WinForms.DataProcessing
                         Name = name,
                         Type = type,
                         Unit = unit,
-                        Amount = (int)uint.Parse(amount),
+                        Amount = double.Parse(amount),
                         Price = price != null ? float.Parse(price) : null
                     });
                 }
@@ -297,7 +333,7 @@ namespace TC_WinForms.DataProcessing
                         Name = name,
                         Type = type,
                         Unit = unit,
-                        Amount = (int)uint.Parse(amount),
+                        Amount = double.Parse(amount),
                         Price = price != null ? float.Parse(price) : null
                     });
                 }
@@ -374,18 +410,21 @@ namespace TC_WinForms.DataProcessing
                     comments = parts2.Count() == 2 ? parts2[1].Trim() : null;
                 }
 
-                string stepExecutionTime = worksheet.Cells[i, stepTimeCol].Value.ToString().Trim();
-                if (worksheet.Cells[i, 6].Value != null)
+                string stepExecutionTime = "0";
+                if (worksheet.Cells[i, stepTimeCol].Value != null)
                 {
+                    stepExecutionTime = worksheet.Cells[i, stepTimeCol].Value.ToString().Trim();
                     WorkStep.AddStage(WorkStep.GetLastStageNum() + 1, float.Parse(worksheet.Cells[i, 6].Value.ToString().Trim()));
                 }
 
                 string stageExecutionTime = WorkStep.GetLastStageTime().ToString();
                 string stage = WorkStep.GetLastStageNum().ToString();
                 //string machineExecutionTime = worksheet.Cells[i, 7].Value.ToString().Trim();
-                string protections = worksheet.Cells[i, protectionCol].Value.ToString().Trim();
-
-
+                string? protections = null;
+                if (worksheet.Cells[i, protectionCol].Value != null)
+                {
+                    protections = worksheet.Cells[i, protectionCol].Value.ToString().Trim();
+                }
                 structs.Add(new WorkStep
                 {
                     Num = int.Parse(num),
@@ -409,8 +448,6 @@ namespace TC_WinForms.DataProcessing
 
         public static int FindColumn(string[] columnNameList, int columnRow, ExcelWorksheet worksheet)
         {
-            // TODO: Если столбец не найден выдавать - 1 (или 0, как сейчас)
-
             int numColumn = 0;
             for (int i = 1; i < 100; i++)
             {
