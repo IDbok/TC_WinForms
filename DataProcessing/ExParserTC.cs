@@ -31,7 +31,6 @@ namespace TC_WinForms.DataProcessing
             ExParserTC.listCardName = listCardName;
         }
 
-        // Путь к файлу с ТК
         static string filepath;
         static string jsonCatalog;
 
@@ -46,15 +45,16 @@ namespace TC_WinForms.DataProcessing
                 "6. Выполнение работ"
 
             };
-        static string[] stuctNames = { "Staff", "Components", "Machines", "Protection", "Tools", "WorkSteps" };
 
+        static StructType[] parserModelTypes = (StructType[])Enum.GetValues(typeof(StructType));
 
+        //static StructType[] stuctNames = { StructType.Staff, StructType.Machine, StructType.Protection, StructType.WorkSteps, StructType.Tool, StructType.Component };
+            //{ "Staff", "Components", "Machines", "Protection", "Tools", "WorkSteps" };
 
         public static void DoMain()
         {
             msg?.Invoke("Выполняется функционал консольного парсинга");
 
-            // Ввод лицензии для работы с Excel
             ExcelPackage.LicenseContext = LicenseContext.Commercial;
             try
             {
@@ -70,31 +70,23 @@ namespace TC_WinForms.DataProcessing
                         int[] startRows = new int[keyWords.Count()+1];
                         startRows = StartRowsCounter(startRows, worksheet);
 
-                        for (int i = 0; i < stuctNames.Count(); i++)
+                        foreach (StructType modelType in parserModelTypes)
                         {
-                            
                             try
                             {
+
                                 // Запись данных из Excel в json в соответствии с моделью данных
-                                switch (i)
+                                switch (modelType)
                                 {
-                                    case 1:
-                                        SaveToJSON(CreateListModel(new List<Struct>(), i, startRows, worksheet), i, sheetName);
+                                    case StructType.Component: case StructType.Protection: case StructType.Machine: case StructType.Tool:
+                                        SaveToJSON(CreateListModel(new List<Struct>(), modelType, startRows, worksheet), i, sheetName);
                                         break;
-                                    case 2:
-                                        SaveToJSON(CreateListModel(new List<Struct>(), i, startRows, worksheet), i, sheetName);
-                                        break;
-                                    case 3:
-                                        SaveToJSON(CreateListModel(new List<Struct>(), i, startRows, worksheet), i, sheetName);
-                                        break;
-                                    case 4:
-                                        SaveToJSON(CreateListModel(new List<Struct>(), i, startRows, worksheet), i, sheetName);
-                                        break;
+                                    
                                     case 0:
-                                        SaveToJSON(CreateListModel(new List<Staff>(), i, startRows, worksheet), i, sheetName);
+                                        SaveToJSON(CreateListModel(new List<Staff>(), modelType, startRows, worksheet), i, sheetName);
                                         break;
                                     case 5:
-                                        SaveToJSON(CreateListModel(new List<WorkStep>(), i, startRows, worksheet), i, sheetName);
+                                        SaveToJSON(CreateListModel(new List<WorkStep>(), modelType, startRows, worksheet), i, sheetName);
                                         break;
 
                                     default:
@@ -160,10 +152,12 @@ namespace TC_WinForms.DataProcessing
 
         public enum StructType
         {
+            Staff =0,
             Component = 2,
             Machine = 3,
             Protection = 4,
-            Tool = 5
+            Tool = 5,
+            WorkSteps = 6
         }
 
         public static void SaveToJSON(List<Struct> ListOfStruct, int numTitle, string sheetName)
@@ -180,7 +174,7 @@ namespace TC_WinForms.DataProcessing
                     };
 
                     string json = JsonSerializer.Serialize(item, options);
-                    string pathJson = $@"{jsonCatalog}\{sheetName}\{stuctNames[numTitle]}\";
+                    string pathJson = $@"{jsonCatalog}\{sheetName}\{parserModelTypes[numTitle]}\";
                     if (!Directory.Exists(pathJson)) Directory.CreateDirectory(pathJson);
                     File.WriteAllText(pathJson + item.Num + ".json", json);
                 }
@@ -200,7 +194,7 @@ namespace TC_WinForms.DataProcessing
                     };
 
                     string json = JsonSerializer.Serialize(item, options);
-                    string pathJson = $@"{jsonCatalog}\{sheetName}\{stuctNames[numTitle]}\";
+                    string pathJson = $@"{jsonCatalog}\{sheetName}\{parserModelTypes[numTitle]}\";
                     if (!Directory.Exists(pathJson)) Directory.CreateDirectory(pathJson);
                     File.WriteAllText(pathJson + item.Num + ".json", json);
                 }
@@ -220,7 +214,7 @@ namespace TC_WinForms.DataProcessing
                     };
 
                     string json = JsonSerializer.Serialize(item, options);
-                    string pathJson = $@"{jsonCatalog}\{sheetName}\{stuctNames[numTitle]}\";
+                    string pathJson = $@"{jsonCatalog}\{sheetName}\{parserModelTypes[numTitle]}\";
                     if (!Directory.Exists(pathJson)) Directory.CreateDirectory(pathJson);
                     File.WriteAllText(pathJson + item.Num + ".json", json);
                 }
@@ -228,9 +222,9 @@ namespace TC_WinForms.DataProcessing
         }
 
 
-        public static List<Struct> CreateListModel(List<Struct> structs, int numTitle, int[] startRows, ExcelWorksheet worksheet)
+        public static List<Struct> CreateListModel(List<Struct> structs, StructType structType, int[] startRows, ExcelWorksheet worksheet)
         {
-            StructType structType = (StructType)Enum.ToObject(typeof(StructType), numTitle + 1);
+            //StructType structType = (StructType)Enum.ToObject(typeof(StructType), numTitle + 1);
 
             // Запись данных из Excel в список в соответствии с моделью данных
             int startRow = startRows[numTitle] + 2;
