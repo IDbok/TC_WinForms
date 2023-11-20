@@ -1,8 +1,11 @@
 ﻿
 namespace TC_WinForms.Models
 {
-    internal class Protection : Struct//4. Требования к средствам защиты
+    internal class Protection : Struct, IModelStructure//4. Требования к средствам защиты
     {
+        static private EModelType modelType = EModelType.Protection;
+        public EModelType ModelType { get { return modelType; } }
+
         int num;
         string name;
         string? type;

@@ -1,8 +1,28 @@
 ﻿
 namespace TC_WinForms.Models
 {
-    public class WorkStep
+    public class WorkStep : IModelStructure
     {
+
+        static private EModelType modelType = EModelType.WorkStep;
+        static public EModelType ModelType { get { return modelType; } }
+
+        //static string[][] columnsNames = new string[][] 
+        //{
+        //    new [] { "№" },
+        //    new [] { "Наименование операции", "Технологические переходы" },
+        //    //{ "Состав бригады" },
+        //    new[] { "Время выполнения операции, мин" },
+        //    new[] { "Этап" },
+        //    new[] { "Время выполнения этапа, мин" },
+        //    new[] { "Время выполнения операции на станке, мин" },
+        //    new[] { "Средства защиты" },
+        //    new[] { "Примечание" }
+            
+        //};
+
+        //static public string[][] GetColumnsNames => columnsNames;
+        
         static Dictionary<int, float> stagesDic = new Dictionary<int, float>();
         int num { get; set; }
         string description { get; set; }

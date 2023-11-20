@@ -2,9 +2,11 @@
 
 namespace TC_WinForms.Models
 {
-    internal class Component : Struct //2. Требования к материалам и комплектующим
+    internal class Component : Struct, IModelStructure //2. Требования к материалам и комплектующим
     {
-        static int count;
+        static EModelType modelType = EModelType.Component;
+        public EModelType ModelType { get => modelType; }
+
         int num;
         string name;
         string? type;
@@ -15,7 +17,7 @@ namespace TC_WinForms.Models
 
         public Component()
         {
-            count++;
+            
         }
 
         public Component(int num, string name, string? type, string unit, int amount, float? price)
@@ -26,7 +28,6 @@ namespace TC_WinForms.Models
             this.unit = unit;
             this.amount = amount;
             this.price = price;
-            count++;
         }
         public override int Num
         { get { return num; } set { num = value; } }
@@ -48,6 +49,8 @@ namespace TC_WinForms.Models
         }
         public override List<Struct> Complect
         { get { return complect; } }
+
+
         public override void AddComplectItem(Struct Item)
         {
             if (complect.Count == 0 ) complect = new List<Struct>();

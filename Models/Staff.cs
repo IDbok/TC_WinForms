@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace TC_WinForms.Models
 {
-    public class Staff //1. Требования к составу бригады и квалификации
+    public class Staff : IModelStructure //1. Требования к составу бригады и квалификации
     {
+        static private EModelType modelType = EModelType.Staff;
+        public EModelType ModelType { get { return modelType; } }
         int num;
         string name;
         string type;

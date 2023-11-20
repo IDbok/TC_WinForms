@@ -2,8 +2,11 @@
 
 namespace TC_WinForms.Models
 {
-    internal class Machine : Struct  //3. Требования к механизмам
+    internal class Machine : Struct, IModelStructure  //3. Требования к механизмам
     {
+        static EModelType modelType = EModelType.Machine;
+        public EModelType ModelType { get => modelType; }
+
         int num;
         string name;
         string? type;
@@ -34,6 +37,5 @@ namespace TC_WinForms.Models
         { get { return unit; } set { unit = value; } }
         public override double Amount
         { get { return amount; } set { amount = value; } }
-        
     }
 }

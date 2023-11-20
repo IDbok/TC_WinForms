@@ -1,8 +1,11 @@
 ﻿
 namespace TC_WinForms.Models
 {
-    internal class Tool : Struct //5. Требования к инструментам и приспособлениям
+    internal class Tool : Struct, IModelStructure //5. Требования к инструментам и приспособлениям
     {
+        static private EModelType modelType = EModelType.Tool;
+        public EModelType ModelType { get { return modelType; } }
+
         int num;
         string name;
         string? type;
