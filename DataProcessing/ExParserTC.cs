@@ -56,21 +56,16 @@ namespace TC_WinForms.DataProcessing
                         
                         foreach (EModelType modelType in parsedData.Keys)
                         {
-                            //SaveToJSON(parsedData[modelType], modelType.ToString(), sheetName);
                             string tableName = keyValuePairs.FirstOrDefault(x => x.Value == modelType).Key;
                             try
                             {
                                 SaveToJSON(parsedData[modelType], modelType.ToString(), sheetName);
-
                             }
                             catch (Exception ex)
                             {
                                 msg?.Invoke($"Ошибка при парсинге таблицы {tableName}:\n{ex.Message}");
                             }
-
-
                         }
-
                     msg?.Invoke($"Парсиг карты на листе {sheetName} законцен!");
                     }
                 }
@@ -80,14 +75,10 @@ namespace TC_WinForms.DataProcessing
                 msg?.Invoke($"Произошла ошибка: {ex.Message}");
             }
             Console.ReadLine();
-
         }
         
-
-
         public static void SaveToJSON(List<IModelStructure> ListOfModels, string modelName, string sheetName)
         {
-            //TODO: cleane folder before saving
             if (ListOfModels.Count != 0)
             {
                 foreach (var item in ListOfModels)
@@ -113,54 +104,15 @@ namespace TC_WinForms.DataProcessing
                     else if (item is WorkStep workStep)
                     { json = JsonSerializer.Serialize(workStep, options); }
                     else
-                    { msg?.Invoke($"Ошибка при сохранении в JSON структуры {item.GetType}:\nнеизвестный тип структуры данных"); }
+                    { msg?.Invoke($"Ошибка при сохранении в JSON структуры {item.GetType}:" +
+                                $"\nнеизвестный тип структуры данных"); }
 
                     string pathJson = $@"{jsonCatalog}\{sheetName}\{modelName}\";
                     if (!Directory.Exists(pathJson)) Directory.CreateDirectory(pathJson);
+                    //TODO: cleane folder before saving
                     File.WriteAllText(pathJson + item.Num + ".json", json);
                 }
             }
         }
-        //public static void SaveToJSON(List<Staff> ListOfStruct, int numTitle, string sheetName)
-        //{
-        //    if (ListOfStruct.Count != 0)
-        //    {
-        //        foreach (var item in ListOfStruct)
-        //        {
-        //            // Создание объекта для записи без кодировки в Unicode
-        //            var options = new JsonSerializerOptions
-        //            {
-        //                // set the encoder to UnicodeEncoding
-        //                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-        //            };
-
-        //            string json = JsonSerializer.Serialize(item, options);
-        //            string pathJson = $@"{jsonCatalog}\{sheetName}\{parserModelTypes[numTitle]}\";
-        //            if (!Directory.Exists(pathJson)) Directory.CreateDirectory(pathJson);
-        //            File.WriteAllText(pathJson + item.Num + ".json", json);
-        //        }
-        //    }
-        //}
-        //public static void SaveToJSON(List<WorkStep> ListOfStruct, int numTitle, string sheetName)
-        //{
-        //    if (ListOfStruct.Count != 0)
-        //    {
-        //        foreach (var item in ListOfStruct)
-        //        {
-        //            // Создание объекта для записи без кодировки в Unicode
-        //            var options = new JsonSerializerOptions
-        //            {
-        //                // set the encoder to UnicodeEncoding
-        //                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-        //            };
-
-        //            string json = JsonSerializer.Serialize(item, options);
-        //            string pathJson = $@"{jsonCatalog}\{sheetName}\{parserModelTypes[numTitle]}\";
-        //            if (!Directory.Exists(pathJson)) Directory.CreateDirectory(pathJson);
-        //            File.WriteAllText(pathJson + item.Num + ".json", json);
-        //        }
-        //    }
-        //}
-
     }
 }

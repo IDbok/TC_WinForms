@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace TC_WinForms
 {
-    public partial class NewForm : Form
+    public partial class ChangeItemForm : Form
     {
-        public NewForm()
+        public ChangeItemForm()
         {
             InitializeComponent();
         }

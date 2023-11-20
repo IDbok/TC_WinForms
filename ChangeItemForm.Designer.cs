@@ -1,6 +1,6 @@
 ﻿namespace TC_WinForms
 {
-    partial class NewForm
+    partial class ChangeItemForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "NewForm";
+            components = new System.ComponentModel.Container();
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(800, 450);
+            Text = "NewForm";
         }
 
         #endregion

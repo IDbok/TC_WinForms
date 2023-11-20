@@ -133,7 +133,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(632, 329);
+            ClientSize = new Size(631, 329);
             Controls.Add(gbxTCSheets);
             Controls.Add(gbxFilePath);
             Controls.Add(btnParseFile);

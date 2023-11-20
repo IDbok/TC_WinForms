@@ -8,7 +8,6 @@ namespace TC_WinForms.Models
 {
     public enum EModelType
     {
-        //TODO - исправить индексацию
         Staff,
         Component,
         Machine,
