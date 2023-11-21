@@ -10,14 +10,10 @@ namespace TC_WinForms.DataProcessing
     {
 
         internal delegate void MessageHandler(string message);
-        
         static MessageHandler? msg;
         internal static void RegisterMessageHandler (MessageHandler? messegeOutMethod)  { msg = messegeOutMethod;}
-
         internal static void RegisterFilePath(string filepath) { ExParserTC.filepath = filepath; }
-        
         internal static void RegisterJsonCatalog(string jsonCatalog) { ExParserTC.jsonCatalog = jsonCatalog; }
-
         static List<string> listCardName = new();
         internal static void RegisterCardNameToParse(List<string> listCardName) { ExParserTC.listCardName = listCardName; }
 
@@ -37,22 +33,19 @@ namespace TC_WinForms.DataProcessing
         public static void DoMain()
         {
             msg?.Invoke("Выполняется функционал консольного парсинга");
-
             ExcelPackage.LicenseContext = LicenseContext.Commercial;
             try
             {
                 // Создаю объект для работы с Excel
-                using (
-                    var package = new ExcelPackage(new FileInfo(filepath)))
+                using (var package = new ExcelPackage(new FileInfo(filepath)))
                 {
+                    var parser = new FromExelToObjectMapper();
                     foreach (string sheetName in listCardName)
                     {
                         // Определение листа в переменную
                         var worksheet = package.Workbook.Worksheets[sheetName];
 
-                        var parser = new FromExelToObjectMapper();
-                        parser.mapFrom(keyValuePairs, worksheet);
-                        Dictionary<EModelType,List<IModelStructure>> parsedData = parser.GetModelsList();
+                        var parsedData = parser.mapFrom(keyValuePairs, worksheet);
                         
                         foreach (EModelType modelType in parsedData.Keys)
                         {

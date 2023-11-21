@@ -1,9 +1,8 @@
 ﻿
 namespace TC_WinForms.Models
 {
-    public class Struct
+    public class Struct //TODO - check if it is possible to delete this class
     {
-        // TODO: описать что делал и зачем этот класс
         virtual public int Num { get; set; }
         virtual public string Name { get; set; }
         virtual public string Type { get; set; }

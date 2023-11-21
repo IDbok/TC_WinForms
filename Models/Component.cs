@@ -13,7 +13,7 @@ namespace TC_WinForms.Models
         string unit;
         double amount;
         float? price;
-        List<Struct>? complect; // 
+        List<Struct>? complect; 
 
         public Component()
         {

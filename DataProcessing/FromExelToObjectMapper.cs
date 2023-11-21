@@ -1,28 +1,25 @@
 ﻿using OfficeOpenXml;
-using System.Collections.Generic;
-using System.DirectoryServices.ActiveDirectory;
 using TC_WinForms.Models;
 
 namespace TC_WinForms.DataProcessing
 {
     internal class FromExelToObjectMapper
     {
+        const int maxRow = 1000;
+        const int maxColumn = 20;
 
         // create dictionarys with start and end rows for EModelType from keyValuePairs
-        Dictionary<EModelType?, int> modelStartRows = new();
-        Dictionary<EModelType?, int> modelEndRows = new();
-        Dictionary<EModelType, List<IModelStructure>> modelsList = new();
+        private Dictionary<EModelType?, int> modelStartRows = new();
+        private Dictionary<EModelType?, int> modelEndRows = new();
 
-        public Dictionary<EModelType, List<IModelStructure>> GetModelsList() { return modelsList; }
-
-        public void mapFrom(Dictionary<string, EModelType> keyValuePairs, ExcelWorksheet worksheet) 
+        public Dictionary<EModelType, List<IModelStructure>> mapFrom(Dictionary<string, EModelType> keyValuePairs, ExcelWorksheet worksheet) 
         {
+            Dictionary<EModelType, List<IModelStructure>> modelsList = new();
+
             EModelType[] eModels = new EModelType[keyValuePairs.Count];
             keyValuePairs.Values.CopyTo(eModels, 0);
 
             FindTableBorderRows(keyValuePairs, worksheet,out modelStartRows,out modelEndRows);
-
-
             foreach (EModelType eModel in eModels)
             {
                 int startRow = modelStartRows[eModel];
@@ -51,10 +48,10 @@ namespace TC_WinForms.DataProcessing
                         break;
                 }
             }
-
+            return modelsList;
         }
 
-        public void FindTableBorderRows(Dictionary<string, EModelType> keyValuePairs, ExcelWorksheet worksheet,
+        private void FindTableBorderRows(Dictionary<string, EModelType> keyValuePairs, ExcelWorksheet worksheet,
             out Dictionary<EModelType?, int> modelStartRows,
             out Dictionary<EModelType?, int> modelEndRows)
         {
@@ -71,7 +68,7 @@ namespace TC_WinForms.DataProcessing
 
             bool lastTableStarts = false;
 
-            for (int i = 1; i < 1000; i++)
+            for (int i = 1; i < maxRow; i++)
             {
                 string valueCell = worksheet.Cells[i, 1].Value != null ? worksheet.Cells[i, 1].Value.ToString() : "";
 
@@ -104,7 +101,7 @@ namespace TC_WinForms.DataProcessing
             }
         }
 
-        public static List<IModelStructure> ParseStaffs(int startRow, int endRow, ExcelWorksheet worksheet)
+        private List<IModelStructure> ParseStaffs(int startRow, int endRow, ExcelWorksheet worksheet)
         {
             List<IModelStructure> structs = new();
             int columnRow = startRow + 1;
@@ -176,42 +173,43 @@ namespace TC_WinForms.DataProcessing
 
                 if (name.Contains("в составе")) itemWhithConponents = itemCounter;
 
-                    if (itemCounter > itemWhithConponents && num == "-")
+                if (itemCounter > itemWhithConponents && num == "-")
+                {
+                    ((Component)structs[itemWhithConponents]).AddComplectItem(new Component
                     {
-                        ((Component)structs[itemWhithConponents]).AddComplectItem(new Component
-                        {
-                            Num = 0,
-                            Name = name,
-                            Type = type,
-                            Unit = unit,
-                            Amount = double.Parse(amount),
-                            Price = price != null ? float.Parse(price) : null
-                        });
-                    }
-                    else
+                        Num = 0,
+                        Name = name,
+                        Type = type,
+                        Unit = unit,
+                        Amount = double.Parse(amount),
+                        Price = price != null ? float.Parse(price) : null
+                    });
+                }
+                else
+                {
+                    if (itemWhithConponents != 0 && itemCounter > itemWhithConponents) itemWhithConponents = 0; // Сброс счетчика (исключаем попадание компонентов из другого списка)
+                    
+                    structs.Add(new Component
                     {
-                        if (itemWhithConponents != 0 && itemCounter > itemWhithConponents) itemWhithConponents = 0; // Сброс счетчика (исключаем попадание компонентов из другого списка)
-                        structs.Add(new Component
-                        {
-                            Num = int.Parse(num),
-                            Name = name,
-                            Type = type,
-                            Unit = unit,
-                            Amount = double.Parse(amount),
-                            Price = price != null ? float.Parse(price) : null
-                        });
+                        Num = int.Parse(num),
+                        Name = name,
+                        Type = type,
+                        Unit = unit,
+                        Amount = double.Parse(amount),
+                        Price = price != null ? float.Parse(price) : null
+                    });
 
-                    }
+                }
 
-                    itemCounter++;
+                itemCounter++;
                 
             }
 
             return structs;
         }
-        public static List<IModelStructure> ParseMachines(int startRow, int endRow, ExcelWorksheet worksheet)
+        private List<IModelStructure> ParseMachines(int startRow, int endRow, ExcelWorksheet worksheet)
         {
-            List < IModelStructure > structs = new();
+            List<IModelStructure> structs = new();
             int columnRow = startRow + 1;
 
             for (int i = startRow + 2; i < endRow; i++)
@@ -251,7 +249,7 @@ namespace TC_WinForms.DataProcessing
 
             return structs;
         }
-        public static List<IModelStructure> ParseProtections(int startRow, int endRow, ExcelWorksheet worksheet)    
+        private List<IModelStructure> ParseProtections(int startRow, int endRow, ExcelWorksheet worksheet)    
         {
             List<IModelStructure> structs = new();
             int columnRow = startRow + 1;
@@ -292,7 +290,7 @@ namespace TC_WinForms.DataProcessing
 
             return structs;
         }
-        public static List<IModelStructure> ParseTools(int startRow, int endRow, ExcelWorksheet worksheet)
+        private List<IModelStructure> ParseTools(int startRow, int endRow, ExcelWorksheet worksheet)
         {
             List<IModelStructure> structs = new();
             int columnRow = startRow + 1;
@@ -336,17 +334,15 @@ namespace TC_WinForms.DataProcessing
             return structs;
         }
 
-
-        public static int FindColumn(string columnName, int columnRow, ExcelWorksheet worksheet)
+        private int FindColumn(string columnName, int columnRow, ExcelWorksheet worksheet)
         {
             string[] columnNameList = { columnName };
             return FindColumn(columnNameList, columnRow, worksheet);
         }
-
-        public static int FindColumn(string[] columnNameList, int columnRow, ExcelWorksheet worksheet)
+        private int FindColumn(string[] columnNameList, int columnRow, ExcelWorksheet worksheet)
         {
             int numColumn = 0;
-            for (int i = 1; i < 100; i++)
+            for (int i = 1; i < maxColumn; i++)
             {
                 if (worksheet.Cells[columnRow, i].Value != null && columnNameList.Contains(worksheet.Cells[columnRow, i].Value.ToString()))
                 { numColumn = i; break; }

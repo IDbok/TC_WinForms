@@ -10,7 +10,7 @@ namespace TC_WinForms
         static string filepath = @"C:\Users\bokar\OneDrive\Работа\Таврида\Технологические карты\Пример\ТК_ТТ_v4.0_Уфа — копия.xlsx";//@"C:\Users\bokar\Documents\ТК.xlsx";
         static string jsonCatalog = @"Temp\Cards";
 
-        List<String> sheetsTK = new();
+        List<string> sheetsTK = new();
         public ExParserMain()
         {
             ExcelPackage.LicenseContext = LicenseContext.Commercial;
@@ -27,6 +27,7 @@ namespace TC_WinForms
             sheetsTK.Clear();
             clbxTCSheets.DataSource = null;
 
+            // TODO - Make all file manipulations in new class
             string filePathCheck = txtFilePath.Text;
             if (File.Exists(filePathCheck))
             {
@@ -43,8 +44,7 @@ namespace TC_WinForms
                         }
                     }
                     gbxTCSheets.Visible = true;
-
-                    //sheetsTK.Sort();
+                    
                     clbxTCSheets.DataSource = sheetsTK;
                 }
                 catch (System.IO.IOException ex)
@@ -52,8 +52,7 @@ namespace TC_WinForms
                     PrintMessage("Произошла ошибка. Проверьте закрыт ли обрабатываемый файл.\n(" + ex + ")");
                     gbxTCSheets.Visible = false;
                 }
-                catch (Exception ex) { PrintMessage("Произошла ошибка при открытии файла."); }
-
+                catch (Exception) { PrintMessage("Произошла ошибка при открытии файла."); }
             }
             else MessageBox.Show("Файл по указаному пути не найден!");
         }
@@ -131,9 +130,8 @@ namespace TC_WinForms
             Directory.CreateDirectory(jsonCatalog);
             MessageBox.Show("Hello World!");
         }
-
+        // TODO - create a new methot to print event history in the form
         void PrintMessage(string message) => MessageBox.Show(message);
-
     }
 
 
