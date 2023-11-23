@@ -2,6 +2,9 @@
 {
     internal static class Authorizator
     {
+        private static User authUser = null;
+        public static string AuthUserName() => authUser.Name();
+
         private static Dictionary<int, User> Operators = new Dictionary<int, User>()
         {
             {1, new User("Александр", "Кузнецов")},
@@ -11,13 +14,24 @@
 
         public static bool IsUserExust(string name, string surname)
         {
-            return Operators.Values.Any(
-                user => user.Name().ToLower() == name.ToLower() && 
-                user.Surname().ToLower() == surname.ToLower()
-                );
+            
+            foreach (var user in Operators.Values)
+            {
+                if (user.Name().ToLower() == name.ToLower() && user.Surname().ToLower() == surname.ToLower())
+                {
+                    // return an link to the user
+                    authUser = user;
+                    return true;
+                }
+            }
+            return false;
+            //return Operators.Values.Any(
+            //    user => user.Name().ToLower() == name.ToLower() && 
+            //    user.Surname().ToLower() == surname.ToLower()
+            //    );
         }
 
-        private class User
+        public class User
         {
             private string name;
             private string surname;
@@ -27,6 +41,10 @@
             {
                 this.name = name;
                 this.surname = surname;
+            }
+            public User Copy()
+            {
+                return (User)this.MemberwiseClone();
             }
         }
     }

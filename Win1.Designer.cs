@@ -1,6 +1,6 @@
 ﻿namespace TC_WinForms
 {
-    partial class WinIndex1
+    partial class Win1
     {
         /// <summary>
         /// Required designer variable.
@@ -28,9 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            gbxInformation = new GroupBox();
-            lblIinformProgramName = new Label();
-            lblInformVer = new Label();
             gbxAuthorizationForm = new GroupBox();
             lblAuthSurname = new Label();
             txtSurname = new TextBox();
@@ -43,40 +40,13 @@
             btnTcEditng = new Button();
             lbxPreviousActionsTC = new ListBox();
             pnlControlPanel = new Panel();
-            gbxInformation.SuspendLayout();
+            panel1 = new Panel();
+            button1 = new Button();
             gbxAuthorizationForm.SuspendLayout();
             gbxFunctionalityChoice.SuspendLayout();
             pnlControlPanel.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
-            // 
-            // gbxInformation
-            // 
-            gbxInformation.Controls.Add(lblIinformProgramName);
-            gbxInformation.Controls.Add(lblInformVer);
-            gbxInformation.Location = new Point(23, 26);
-            gbxInformation.Name = "gbxInformation";
-            gbxInformation.Size = new Size(392, 125);
-            gbxInformation.TabIndex = 0;
-            gbxInformation.TabStop = false;
-            gbxInformation.Text = "Информационное окно";
-            // 
-            // lblIinformProgramName
-            // 
-            lblIinformProgramName.AutoSize = true;
-            lblIinformProgramName.Location = new Point(23, 39);
-            lblIinformProgramName.Name = "lblIinformProgramName";
-            lblIinformProgramName.Size = new Size(164, 20);
-            lblIinformProgramName.TabIndex = 1;
-            lblIinformProgramName.Text = "Название программы";
-            // 
-            // lblInformVer
-            // 
-            lblInformVer.AutoSize = true;
-            lblInformVer.Location = new Point(23, 79);
-            lblInformVer.Name = "lblInformVer";
-            lblInformVer.Size = new Size(74, 20);
-            lblInformVer.TabIndex = 0;
-            lblInformVer.Text = "Версия: 0";
             // 
             // gbxAuthorizationForm
             // 
@@ -85,9 +55,9 @@
             gbxAuthorizationForm.Controls.Add(lblAuthName);
             gbxAuthorizationForm.Controls.Add(txtName);
             gbxAuthorizationForm.Controls.Add(btnAuthorization);
-            gbxAuthorizationForm.Location = new Point(23, 189);
+            gbxAuthorizationForm.Location = new Point(39, 30);
             gbxAuthorizationForm.Name = "gbxAuthorizationForm";
-            gbxAuthorizationForm.Size = new Size(392, 195);
+            gbxAuthorizationForm.Size = new Size(360, 195);
             gbxAuthorizationForm.TabIndex = 1;
             gbxAuthorizationForm.TabStop = false;
             gbxAuthorizationForm.Text = "Форма авторизации";
@@ -136,90 +106,109 @@
             // 
             // btnTcDesign
             // 
-            btnTcDesign.Location = new Point(19, 42);
+            btnTcDesign.Location = new Point(19, 28);
             btnTcDesign.Name = "btnTcDesign";
             btnTcDesign.Size = new Size(140, 90);
             btnTcDesign.TabIndex = 2;
             btnTcDesign.Text = "Создать новой";
             btnTcDesign.UseVisualStyleBackColor = true;
+            btnTcDesign.Click += btnTcDesign_Click;
             // 
             // btnNext
             // 
-            btnNext.Location = new Point(190, 395);
+            btnNext.Enabled = false;
+            btnNext.Location = new Point(537, 363);
             btnNext.Name = "btnNext";
             btnNext.Size = new Size(160, 45);
             btnNext.TabIndex = 4;
             btnNext.Text = "Далее";
             btnNext.UseVisualStyleBackColor = true;
+            btnNext.Click += btnNext_Click;
             // 
             // gbxFunctionalityChoice
             // 
             gbxFunctionalityChoice.Controls.Add(btnTcEditng);
             gbxFunctionalityChoice.Controls.Add(btnTcDesign);
-            gbxFunctionalityChoice.Location = new Point(13, 26);
+            gbxFunctionalityChoice.Location = new Point(39, 26);
             gbxFunctionalityChoice.Name = "gbxFunctionalityChoice";
-            gbxFunctionalityChoice.Size = new Size(337, 145);
+            gbxFunctionalityChoice.Size = new Size(337, 127);
             gbxFunctionalityChoice.TabIndex = 5;
             gbxFunctionalityChoice.TabStop = false;
             gbxFunctionalityChoice.Text = "Выбор функционала";
             // 
             // btnTcEditng
             // 
-            btnTcEditng.Location = new Point(166, 42);
+            btnTcEditng.Location = new Point(166, 28);
             btnTcEditng.Name = "btnTcEditng";
             btnTcEditng.Size = new Size(140, 90);
             btnTcEditng.TabIndex = 3;
             btnTcEditng.Text = "Редактировать";
             btnTcEditng.UseVisualStyleBackColor = true;
+            btnTcEditng.Click += btnTcEditng_Click;
             // 
             // lbxPreviousActionsTC
             // 
             lbxPreviousActionsTC.FormattingEnabled = true;
             lbxPreviousActionsTC.ItemHeight = 20;
-            lbxPreviousActionsTC.Location = new Point(13, 200);
+            lbxPreviousActionsTC.Location = new Point(394, 25);
             lbxPreviousActionsTC.Name = "lbxPreviousActionsTC";
-            lbxPreviousActionsTC.Size = new Size(337, 184);
+            lbxPreviousActionsTC.Size = new Size(337, 204);
             lbxPreviousActionsTC.TabIndex = 6;
             // 
             // pnlControlPanel
             // 
+            pnlControlPanel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             pnlControlPanel.Controls.Add(btnNext);
             pnlControlPanel.Controls.Add(gbxFunctionalityChoice);
             pnlControlPanel.Controls.Add(lbxPreviousActionsTC);
-            pnlControlPanel.Dock = DockStyle.Right;
             pnlControlPanel.Enabled = false;
-            pnlControlPanel.Location = new Point(421, 0);
+            pnlControlPanel.Location = new Point(21, 231);
             pnlControlPanel.Name = "pnlControlPanel";
-            pnlControlPanel.Size = new Size(379, 452);
+            pnlControlPanel.Size = new Size(755, 177);
             pnlControlPanel.TabIndex = 8;
             // 
-            // WinIndex1
+            // panel1
+            // 
+            panel1.Controls.Add(button1);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(788, 24);
+            panel1.TabIndex = 10;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(720, 0);
+            button1.Name = "button1";
+            button1.Size = new Size(64, 29);
+            button1.TabIndex = 0;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // Win1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 452);
+            ClientSize = new Size(788, 438);
+            ControlBox = false;
             Controls.Add(pnlControlPanel);
             Controls.Add(gbxAuthorizationForm);
-            Controls.Add(gbxInformation);
-            FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            Name = "WinIndex1";
+            Controls.Add(panel1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Name = "Win1";
             RightToLeft = RightToLeft.No;
             ShowIcon = false;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Форма авторизации";
-            gbxInformation.ResumeLayout(false);
-            gbxInformation.PerformLayout();
             gbxAuthorizationForm.ResumeLayout(false);
             gbxAuthorizationForm.PerformLayout();
             gbxFunctionalityChoice.ResumeLayout(false);
             pnlControlPanel.ResumeLayout(false);
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
-
-        private GroupBox gbxInformation;
-        private Label lblIinformProgramName;
-        private Label lblInformVer;
         private GroupBox gbxAuthorizationForm;
         private Button btnTcDesign;
         private Button button2;
@@ -233,5 +222,7 @@
         private Label lblAuthSurname;
         private TextBox txtSurname;
         private Panel pnlControlPanel;
+        private Panel panel1;
+        private Button button1;
     }
 }
