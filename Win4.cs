@@ -17,5 +17,9 @@ namespace TC_WinForms
             InitializeComponent();
         }
 
+        private void Win4_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            WinProcessing.CloseingApp(e);
+        }
     }
 }

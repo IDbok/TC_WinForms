@@ -30,9 +30,9 @@
         {
             gbxAuthorizationForm = new GroupBox();
             lblAuthSurname = new Label();
-            txtSurname = new TextBox();
-            lblAuthName = new Label();
-            txtName = new TextBox();
+            txtPassword = new TextBox();
+            lblAuthLogin = new Label();
+            txtLogin = new TextBox();
             btnAuthorization = new Button();
             btnTcDesign = new Button();
             btnNext = new Button();
@@ -40,22 +40,26 @@
             btnTcEditng = new Button();
             lbxPreviousActionsTC = new ListBox();
             pnlControlPanel = new Panel();
-            panel1 = new Panel();
-            button1 = new Button();
+            pnlToolBar = new Panel();
+            toolStrip1 = new ToolStrip();
+            toolStripButton1 = new ToolStripButton();
+            toolStripButton2 = new ToolStripButton();
+            toolStripButton3 = new ToolStripButton();
             gbxAuthorizationForm.SuspendLayout();
             gbxFunctionalityChoice.SuspendLayout();
             pnlControlPanel.SuspendLayout();
-            panel1.SuspendLayout();
+            pnlToolBar.SuspendLayout();
+            toolStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // gbxAuthorizationForm
             // 
             gbxAuthorizationForm.Controls.Add(lblAuthSurname);
-            gbxAuthorizationForm.Controls.Add(txtSurname);
-            gbxAuthorizationForm.Controls.Add(lblAuthName);
-            gbxAuthorizationForm.Controls.Add(txtName);
+            gbxAuthorizationForm.Controls.Add(txtPassword);
+            gbxAuthorizationForm.Controls.Add(lblAuthLogin);
+            gbxAuthorizationForm.Controls.Add(txtLogin);
             gbxAuthorizationForm.Controls.Add(btnAuthorization);
-            gbxAuthorizationForm.Location = new Point(39, 30);
+            gbxAuthorizationForm.Location = new Point(12, 42);
             gbxAuthorizationForm.Name = "gbxAuthorizationForm";
             gbxAuthorizationForm.Size = new Size(360, 195);
             gbxAuthorizationForm.TabIndex = 1;
@@ -65,34 +69,35 @@
             // lblAuthSurname
             // 
             lblAuthSurname.AutoSize = true;
-            lblAuthSurname.Location = new Point(62, 84);
+            lblAuthSurname.Location = new Point(9, 84);
             lblAuthSurname.Name = "lblAuthSurname";
-            lblAuthSurname.Size = new Size(73, 20);
+            lblAuthSurname.Size = new Size(123, 20);
             lblAuthSurname.TabIndex = 4;
-            lblAuthSurname.Text = "Фамилия";
+            lblAuthSurname.Text = "Введите пароль:";
             // 
-            // txtSurname
+            // txtPassword
             // 
-            txtSurname.Location = new Point(141, 81);
-            txtSurname.Name = "txtSurname";
-            txtSurname.Size = new Size(200, 27);
-            txtSurname.TabIndex = 3;
+            txtPassword.Location = new Point(141, 81);
+            txtPassword.Name = "txtPassword";
+            txtPassword.Size = new Size(200, 27);
+            txtPassword.TabIndex = 3;
             // 
-            // lblAuthName
+            // lblAuthLogin
             // 
-            lblAuthName.AutoSize = true;
-            lblAuthName.Location = new Point(96, 32);
-            lblAuthName.Name = "lblAuthName";
-            lblAuthName.Size = new Size(39, 20);
-            lblAuthName.TabIndex = 2;
-            lblAuthName.Text = "Имя";
+            lblAuthLogin.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            lblAuthLogin.AutoSize = true;
+            lblAuthLogin.Location = new Point(19, 35);
+            lblAuthLogin.Name = "lblAuthLogin";
+            lblAuthLogin.Size = new Size(113, 20);
+            lblAuthLogin.TabIndex = 2;
+            lblAuthLogin.Text = "Введите логин:";
             // 
-            // txtName
+            // txtLogin
             // 
-            txtName.Location = new Point(141, 32);
-            txtName.Name = "txtName";
-            txtName.Size = new Size(200, 27);
-            txtName.TabIndex = 1;
+            txtLogin.Location = new Point(141, 32);
+            txtLogin.Name = "txtLogin";
+            txtLogin.Size = new Size(200, 27);
+            txtLogin.TabIndex = 1;
             // 
             // btnAuthorization
             // 
@@ -117,7 +122,7 @@
             // btnNext
             // 
             btnNext.Enabled = false;
-            btnNext.Location = new Point(537, 363);
+            btnNext.Location = new Point(209, 335);
             btnNext.Name = "btnNext";
             btnNext.Size = new Size(160, 45);
             btnNext.TabIndex = 4;
@@ -129,16 +134,17 @@
             // 
             gbxFunctionalityChoice.Controls.Add(btnTcEditng);
             gbxFunctionalityChoice.Controls.Add(btnTcDesign);
-            gbxFunctionalityChoice.Location = new Point(39, 26);
+            gbxFunctionalityChoice.Enabled = false;
+            gbxFunctionalityChoice.Location = new Point(12, 248);
             gbxFunctionalityChoice.Name = "gbxFunctionalityChoice";
-            gbxFunctionalityChoice.Size = new Size(337, 127);
+            gbxFunctionalityChoice.Size = new Size(360, 127);
             gbxFunctionalityChoice.TabIndex = 5;
             gbxFunctionalityChoice.TabStop = false;
             gbxFunctionalityChoice.Text = "Выбор функционала";
             // 
             // btnTcEditng
             // 
-            btnTcEditng.Location = new Point(166, 28);
+            btnTcEditng.Location = new Point(201, 28);
             btnTcEditng.Name = "btnTcEditng";
             btnTcEditng.Size = new Size(140, 90);
             btnTcEditng.TabIndex = 3;
@@ -150,61 +156,89 @@
             // 
             lbxPreviousActionsTC.FormattingEnabled = true;
             lbxPreviousActionsTC.ItemHeight = 20;
-            lbxPreviousActionsTC.Location = new Point(394, 25);
+            lbxPreviousActionsTC.Location = new Point(13, 16);
             lbxPreviousActionsTC.Name = "lbxPreviousActionsTC";
-            lbxPreviousActionsTC.Size = new Size(337, 204);
+            lbxPreviousActionsTC.Size = new Size(337, 304);
             lbxPreviousActionsTC.TabIndex = 6;
             // 
             // pnlControlPanel
             // 
-            pnlControlPanel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             pnlControlPanel.Controls.Add(btnNext);
-            pnlControlPanel.Controls.Add(gbxFunctionalityChoice);
             pnlControlPanel.Controls.Add(lbxPreviousActionsTC);
+            pnlControlPanel.Dock = DockStyle.Right;
             pnlControlPanel.Enabled = false;
-            pnlControlPanel.Location = new Point(21, 231);
+            pnlControlPanel.Location = new Point(382, 25);
             pnlControlPanel.Name = "pnlControlPanel";
-            pnlControlPanel.Size = new Size(755, 177);
+            pnlControlPanel.Size = new Size(400, 428);
             pnlControlPanel.TabIndex = 8;
             // 
-            // panel1
+            // pnlToolBar
             // 
-            panel1.Controls.Add(button1);
-            panel1.Dock = DockStyle.Top;
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(788, 24);
-            panel1.TabIndex = 10;
+            pnlToolBar.Controls.Add(toolStrip1);
+            pnlToolBar.Dock = DockStyle.Top;
+            pnlToolBar.Location = new Point(0, 0);
+            pnlToolBar.Name = "pnlToolBar";
+            pnlToolBar.Size = new Size(782, 25);
+            pnlToolBar.TabIndex = 10;
             // 
-            // button1
+            // toolStrip1
             // 
-            button1.Location = new Point(720, 0);
-            button1.Name = "button1";
-            button1.Size = new Size(64, 29);
-            button1.TabIndex = 0;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
+            toolStrip1.ImageScalingSize = new Size(20, 20);
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripButton1, toolStripButton2, toolStripButton3 });
+            toolStrip1.Location = new Point(0, 0);
+            toolStrip1.Name = "toolStrip1";
+            toolStrip1.Size = new Size(782, 27);
+            toolStrip1.TabIndex = 0;
+            toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripButton1
+            // 
+            toolStripButton1.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripButton1.ImageTransparentColor = Color.Magenta;
+            toolStripButton1.Name = "toolStripButton1";
+            toolStripButton1.Size = new Size(49, 24);
+            toolStripButton1.Text = "Файл";
+            // 
+            // toolStripButton2
+            // 
+            toolStripButton2.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripButton2.ImageTransparentColor = Color.Magenta;
+            toolStripButton2.Name = "toolStripButton2";
+            toolStripButton2.Size = new Size(69, 24);
+            toolStripButton2.Text = "Главная";
+            // 
+            // toolStripButton3
+            // 
+            toolStripButton3.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripButton3.ImageTransparentColor = Color.Magenta;
+            toolStripButton3.Name = "toolStripButton3";
+            toolStripButton3.Size = new Size(71, 24);
+            toolStripButton3.Text = "Справка";
             // 
             // Win1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(788, 438);
-            ControlBox = false;
+            ClientSize = new Size(782, 453);
             Controls.Add(pnlControlPanel);
+            Controls.Add(gbxFunctionalityChoice);
+            Controls.Add(pnlToolBar);
             Controls.Add(gbxAuthorizationForm);
-            Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "Win1";
             RightToLeft = RightToLeft.No;
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Форма авторизации";
+            FormClosing += Win1_FormClosing;
             gbxAuthorizationForm.ResumeLayout(false);
             gbxAuthorizationForm.PerformLayout();
             gbxFunctionalityChoice.ResumeLayout(false);
             pnlControlPanel.ResumeLayout(false);
-            panel1.ResumeLayout(false);
+            pnlToolBar.ResumeLayout(false);
+            pnlToolBar.PerformLayout();
+            toolStrip1.ResumeLayout(false);
+            toolStrip1.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -216,13 +250,16 @@
         private GroupBox gbxFunctionalityChoice;
         private Button btnTcEditng;
         private ListBox lbxPreviousActionsTC;
-        private Label lblAuthName;
-        private TextBox txtName;
+        private Label lblAuthLogin;
+        private TextBox txtLogin;
         private Button btnAuthorization;
         private Label lblAuthSurname;
-        private TextBox txtSurname;
+        private TextBox txtPassword;
         private Panel pnlControlPanel;
-        private Panel panel1;
-        private Button button1;
+        private Panel pnlToolBar;
+        private ToolStrip toolStrip1;
+        private ToolStripButton toolStripButton1;
+        private ToolStripButton toolStripButton2;
+        private ToolStripButton toolStripButton3;
     }
 }

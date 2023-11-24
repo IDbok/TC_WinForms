@@ -33,6 +33,10 @@
             gbxInformation = new GroupBox();
             lblWinInformantion = new Label();
             gbxFunctionalityChoice = new GroupBox();
+            button4 = new Button();
+            button7 = new Button();
+            button10 = new Button();
+            button11 = new Button();
             btnGround = new Button();
             btnFoundation = new Button();
             btnSwitchgear10_6 = new Button();
@@ -44,12 +48,15 @@
             btnOpenSwitchgear = new Button();
             btnTcOilSub = new Button();
             btnSwitchgear35 = new Button();
-            button4 = new Button();
-            button7 = new Button();
-            button10 = new Button();
-            button11 = new Button();
+            pnlToolBar = new Panel();
+            toolStrip1 = new ToolStrip();
+            toolStripButton1 = new ToolStripButton();
+            toolStripButton2 = new ToolStripButton();
+            toolStripButton3 = new ToolStripButton();
             gbxInformation.SuspendLayout();
             gbxFunctionalityChoice.SuspendLayout();
+            pnlToolBar.SuspendLayout();
+            toolStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // btnBack
@@ -113,6 +120,42 @@
             gbxFunctionalityChoice.TabIndex = 11;
             gbxFunctionalityChoice.TabStop = false;
             gbxFunctionalityChoice.Text = "Выбор функционала";
+            // 
+            // button4
+            // 
+            button4.Location = new Point(150, 212);
+            button4.Name = "button4";
+            button4.Size = new Size(140, 90);
+            button4.TabIndex = 18;
+            button4.UseVisualStyleBackColor = true;
+            button4.Visible = false;
+            // 
+            // button7
+            // 
+            button7.Location = new Point(442, 212);
+            button7.Name = "button7";
+            button7.Size = new Size(140, 90);
+            button7.TabIndex = 17;
+            button7.UseVisualStyleBackColor = true;
+            button7.Visible = false;
+            // 
+            // button10
+            // 
+            button10.Location = new Point(588, 212);
+            button10.Name = "button10";
+            button10.Size = new Size(140, 90);
+            button10.TabIndex = 16;
+            button10.UseVisualStyleBackColor = true;
+            button10.Visible = false;
+            // 
+            // button11
+            // 
+            button11.Location = new Point(296, 212);
+            button11.Name = "button11";
+            button11.Size = new Size(140, 90);
+            button11.TabIndex = 15;
+            button11.UseVisualStyleBackColor = true;
+            button11.Visible = false;
             // 
             // btnGround
             // 
@@ -213,58 +256,72 @@
             btnSwitchgear35.Text = "ОРУ 35";
             btnSwitchgear35.UseVisualStyleBackColor = true;
             // 
-            // button4
+            // pnlToolBar
             // 
-            button4.Location = new Point(150, 212);
-            button4.Name = "button4";
-            button4.Size = new Size(140, 90);
-            button4.TabIndex = 18;
-            button4.UseVisualStyleBackColor = true;
-            button4.Visible = false;
+            pnlToolBar.Controls.Add(toolStrip1);
+            pnlToolBar.Dock = DockStyle.Top;
+            pnlToolBar.Location = new Point(0, 0);
+            pnlToolBar.Name = "pnlToolBar";
+            pnlToolBar.Size = new Size(782, 25);
+            pnlToolBar.TabIndex = 12;
             // 
-            // button7
+            // toolStrip1
             // 
-            button7.Location = new Point(442, 212);
-            button7.Name = "button7";
-            button7.Size = new Size(140, 90);
-            button7.TabIndex = 17;
-            button7.UseVisualStyleBackColor = true;
-            button7.Visible = false;
+            toolStrip1.ImageScalingSize = new Size(20, 20);
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripButton1, toolStripButton2, toolStripButton3 });
+            toolStrip1.Location = new Point(0, 0);
+            toolStrip1.Name = "toolStrip1";
+            toolStrip1.Size = new Size(782, 27);
+            toolStrip1.TabIndex = 0;
+            toolStrip1.Text = "toolStrip1";
             // 
-            // button10
+            // toolStripButton1
             // 
-            button10.Location = new Point(588, 212);
-            button10.Name = "button10";
-            button10.Size = new Size(140, 90);
-            button10.TabIndex = 16;
-            button10.UseVisualStyleBackColor = true;
-            button10.Visible = false;
+            toolStripButton1.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripButton1.ImageTransparentColor = Color.Magenta;
+            toolStripButton1.Name = "toolStripButton1";
+            toolStripButton1.Size = new Size(49, 24);
+            toolStripButton1.Text = "Файл";
             // 
-            // button11
+            // toolStripButton2
             // 
-            button11.Location = new Point(296, 212);
-            button11.Name = "button11";
-            button11.Size = new Size(140, 90);
-            button11.TabIndex = 15;
-            button11.UseVisualStyleBackColor = true;
-            button11.Visible = false;
+            toolStripButton2.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripButton2.ImageTransparentColor = Color.Magenta;
+            toolStripButton2.Name = "toolStripButton2";
+            toolStripButton2.Size = new Size(69, 24);
+            toolStripButton2.Text = "Главная";
+            // 
+            // toolStripButton3
+            // 
+            toolStripButton3.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripButton3.ImageTransparentColor = Color.Magenta;
+            toolStripButton3.Name = "toolStripButton3";
+            toolStripButton3.Size = new Size(71, 24);
+            toolStripButton3.Text = "Справка";
             // 
             // Win4
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(782, 453);
+            Controls.Add(pnlToolBar);
             Controls.Add(gbxFunctionalityChoice);
             Controls.Add(gbxInformation);
             Controls.Add(btnBack);
             Controls.Add(btnNext);
-            FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "Win4";
             ShowIcon = false;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Win4";
+            FormClosing += Win4_FormClosing;
             gbxInformation.ResumeLayout(false);
             gbxInformation.PerformLayout();
             gbxFunctionalityChoice.ResumeLayout(false);
+            pnlToolBar.ResumeLayout(false);
+            pnlToolBar.PerformLayout();
+            toolStrip1.ResumeLayout(false);
+            toolStrip1.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -289,5 +346,10 @@
         private Button button7;
         private Button button10;
         private Button button11;
+        private Panel pnlToolBar;
+        private ToolStrip toolStrip1;
+        private ToolStripButton toolStripButton1;
+        private ToolStripButton toolStripButton2;
+        private ToolStripButton toolStripButton3;
     }
 }

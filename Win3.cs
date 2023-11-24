@@ -26,5 +26,10 @@ namespace TC_WinForms
             ActiveForm.Close();
             Program.MainForm.Show();
         }
+
+        private void Win3_FormClosing_1(object sender, FormClosingEventArgs e)
+        {
+            WinProcessing.CloseingApp(e);
+        }
     }
 }

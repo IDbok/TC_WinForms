@@ -10,30 +10,47 @@ namespace TC_WinForms
             InitializeComponent();
 
         }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            ActiveForm.Hide();
+            Program.MainForm.Show();
+        }
+
         private void Win2_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Application.Exit();
+            WinProcessing.CloseingApp(e);
+        }
+        private Control[] GetEnableAfterChoise() => new Control[] { gbxProjectData, btnNext };
+        private void btnTcTransPoint_Click(object sender, EventArgs e)
+        {
+            WinProcessing.ColorizeBtnAndEnableControl(sender, gbxFunctionalityChoice, GetEnableAfterChoise());
+        }
+
+        private void btnTcOilSub_Click(object sender, EventArgs e)
+        {
+            WinProcessing.ColorizeBtnAndEnableControl(sender, gbxFunctionalityChoice, GetEnableAfterChoise());
+        }
+
+        private void btnOpenSwitchgear_Click(object sender, EventArgs e)
+        {
+            WinProcessing.ColorizeBtnAndEnableControl(sender, gbxFunctionalityChoice, GetEnableAfterChoise());
         }
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-
+            bool dataCompleted = WinProcessing.CheckAllTextBoxes(gbxProjectData);
+            if (dataCompleted)
+            {
+                // todo - save data win2 before closing
+                new Win4().Show();
+                this.Hide();
+            }
         }
 
-        private void btnBack_Click(object sender, EventArgs e)
-        {
-            ActiveForm.Close();
-            Program.MainForm.Show();
-        }
+        // fullfilling project data
+        // when all data is filled, btnNext becomes enabled
 
-        private void btnTcTransPoint_Click(object sender, EventArgs e)
-        {
 
-        }
-
-        private void Win2_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

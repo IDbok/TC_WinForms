@@ -5,11 +5,10 @@ namespace TC_WinForms
 {
     public partial class Win1 : Form
     {
-        bool testMode = true;//false;//
         private void TestMode()
         {
-            gbxAuthorizationForm.Visible = false;
-            pnlControlPanel.Enabled = true;
+            //Program.dataToSave = true;
+            AfterAuthorization();
         }
 
         bool isTcDesign = false;
@@ -17,10 +16,7 @@ namespace TC_WinForms
         public Win1()
         {
             InitializeComponent();
-            if (testMode) TestMode();
-
-            // realise pattern Model-View-ViewModel
-
+            if (Program.testMode) TestMode();
         }
 
         private void btnAuthorization_Click(object sender, EventArgs e)
@@ -38,35 +34,41 @@ namespace TC_WinForms
         }
         private void btnNext_Click(object sender, EventArgs e)
         {
-            //activation Win2 form and hide Win1 form
             if (isTcDesign)
             {
                 Win2 win2 = new Win2();
                 win2.Show();
+                this.Hide();
             }
             else if (isTcEditng)
             {
                 Win3 win3 = new Win3();
                 win3.Show();
+                this.Hide();
             }
-            this.Hide();
+
             // todo - make app closable from other forms
 
         }
-
+        private void Win1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = !WinProcessing.CloseAppMessage(e, out bool saveData);
+            if (saveData)
+            {
+                // todo - save data before closing
+            }
+        }
         private void PerformAuthorization()
         {
             try
             {
-                txtName.Text = txtName.Text.Trim();
-                txtSurname.Text = txtSurname.Text.Trim();
-                if (txtName.Text.Length > 0 && txtSurname.Text.Length > 0)
+                txtLogin.Text = txtLogin.Text.Trim();
+                txtPassword.Text = txtPassword.Text.Trim();
+                if (txtLogin.Text.Length > 0 && txtPassword.Text.Length > 0)
                 {
-                    if (IsUserExust(txtName.Text, txtSurname.Text))
+                    if (IsUserExust(txtLogin.Text, txtPassword.Text))
                     {
-                        MessageBox.Show($"Авторизация прошла успешно!\nДобро пожаловать, {AuthUserName()}!");
-                        gbxAuthorizationForm.Visible = false;
-                        pnlControlPanel.Enabled = true;
+                        AfterAuthorization();
                     }
                     else MessageBox.Show("Пользователь не найден!");
                 }
@@ -80,20 +82,16 @@ namespace TC_WinForms
             if (btn.Name == "btnTcDesign") isTcDesign = true;
             else if (btn.Name == "btnTcEditng") isTcDesign = false;
             isTcEditng = !isTcDesign;
-            Colorize(sender);
-            btnNext.Enabled = true;
+            WinProcessing.ColorizeBtnAndEnableControl(sender, gbxFunctionalityChoice, btnNext);
         }
-        private void Colorize(object sender)
-        {
-            Button btn = (Button)sender;
-            //btn.BackColor = Color.FromArgb(128, 255, 191);
-            foreach (Control btn2 in gbxFunctionalityChoice.Controls)
-            { btn2.BackColor = Color.FromArgb(255, 255, 255); }
-            btn.BackColor = Color.FromArgb(128, 255, 191);
 
-            //if (btn.Name == "btnTcDesign") btnTcEditng.BackColor = Color.FromArgb(255, 255, 255);
-            //else if (btn.Name == "btnTcEditng") btnTcDesign.BackColor = Color.FromArgb(255, 255, 255);
+        private void AfterAuthorization()
+        {
+            gbxAuthorizationForm.Visible = false;
+            pnlControlPanel.Enabled = true;
+            gbxFunctionalityChoice.Enabled = true;
         }
+
 
     }
 }
