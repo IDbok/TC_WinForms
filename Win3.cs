@@ -23,7 +23,7 @@ namespace TC_WinForms
 
         private void btnBack_Click(object sender, EventArgs e)
         {
-            ActiveForm.Close();
+            this.Hide();
             Program.MainForm.Show();
         }
 

@@ -10,7 +10,7 @@ namespace TC_WinForms
         static string filepath = @"C:\Users\bokar\OneDrive\Работа\Таврида\Технологические карты\Пример\ТК_ТТ_v4.0_Уфа — копия.xlsx";//@"C:\Users\bokar\Documents\ТК.xlsx";
         static string jsonCatalog = @"Temp\Cards";
 
-        List<string> sheetsTK = new();
+        List<string> sheetsTC = new();
         public ExParserMain()
         {
             ExcelPackage.LicenseContext = LicenseContext.Commercial;
@@ -24,37 +24,39 @@ namespace TC_WinForms
             gbxTCSheets.Visible = false;
 
             // Очистка списка листов с ТК
-            sheetsTK.Clear();
+            sheetsTC.Clear();
             clbxTCSheets.DataSource = null;
 
             // TODO - Make all file manipulations in new class
             string filePathCheck = txtFilePath.Text;
-            if (File.Exists(filePathCheck))
-            {
-                filepath = filePathCheck;
-                // Получение названия всех листов с ТК в книге
-                // Передача названий листов в clbxTCSheets
-                try
-                {
-                    using (var package = new ExcelPackage(new FileInfo(filepath)))
-                    {
-                        foreach (var ws in package.Workbook.Worksheets)
-                        {
-                            if (ws.Name.ToString().Contains("ТК_")) sheetsTK.Add(ws.Name);
-                        }
-                    }
-                    gbxTCSheets.Visible = true;
+
+            sheetsTC = FileProcessing.GetSheetsNamesWithTC(filePathCheck);
+            //if (File.Exists(filePathCheck))
+            //{
+            //    filepath = filePathCheck;
+            //    // Получение названия всех листов с ТК в книге
+            //    // Передача названий листов в clbxTCSheets
+            //    try
+            //    {
+            //        using (var package = new ExcelPackage(new FileInfo(filepath)))
+            //        {
+            //            foreach (var ws in package.Workbook.Worksheets)
+            //            {
+            //                if (ws.Name.ToString().Contains("ТК_")) sheetsTK.Add(ws.Name);
+            //            }
+            //        }
+            //        gbxTCSheets.Visible = true;
                     
-                    clbxTCSheets.DataSource = sheetsTK;
-                }
-                catch (System.IO.IOException ex)
-                {
-                    PrintMessage("Произошла ошибка. Проверьте закрыт ли обрабатываемый файл.\n(" + ex + ")");
-                    gbxTCSheets.Visible = false;
-                }
-                catch (Exception) { PrintMessage("Произошла ошибка при открытии файла."); }
-            }
-            else MessageBox.Show("Файл по указаному пути не найден!");
+            //        clbxTCSheets.DataSource = sheetsTK;
+            //    }
+            //    catch (System.IO.IOException ex)
+            //    {
+            //        PrintMessage("Произошла ошибка. Проверьте закрыт ли обрабатываемый файл.\n(" + ex + ")");
+            //        gbxTCSheets.Visible = false;
+            //    }
+            //    catch (Exception) { PrintMessage("Произошла ошибка при открытии файла."); }
+            //}
+            //else MessageBox.Show("Файл по указаному пути не найден!");
         }
 
         private void btnTCSheetsSelectAll_Click(object sender, EventArgs e)

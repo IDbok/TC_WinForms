@@ -41,6 +41,7 @@ namespace TC_WinForms
             }
             if (closeApp) Application.ExitThread();
         }
+        // todo - ovverload colorization method with except buttons array (not change their color) (default olny one button)
 
         public static void ColorizeChosenButton(object sender, GroupBox gbx)
         {

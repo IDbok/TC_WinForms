@@ -4,9 +4,10 @@ namespace TC_WinForms
 {
     internal static class Program
     {
-        public static bool testMode = true;//false;
+        public static bool testMode = true;//false;//
         public static Win1 MainForm { get; set; }
-        public static bool dataToSave = false;
+
+        public static bool dataToSave = false;//true;//
 
         /// <summary>
         ///  The main entry point for the application.
