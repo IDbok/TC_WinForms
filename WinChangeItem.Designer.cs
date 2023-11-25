@@ -1,6 +1,6 @@
 ﻿namespace TC_WinForms
 {
-    partial class ChangeItemForm
+    partial class WinChangeItem
     {
         /// <summary>
         /// Required designer variable.

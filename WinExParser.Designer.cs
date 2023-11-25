@@ -1,6 +1,6 @@
 ﻿namespace TC_WinForms
 {
-    partial class ExParserMain
+    partial class WinExParser
     {
         /// <summary>
         /// Required designer variable.

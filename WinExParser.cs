@@ -4,14 +4,14 @@ using TC_WinForms.DataProcessing;
 
 namespace TC_WinForms
 {
-    public partial class ExParserMain : Form
+    public partial class WinExParser : Form
     {
         // Путь к файлу с ТК
         static string filepath = @"C:\Users\bokar\OneDrive\Работа\Таврида\Технологические карты\Пример\ТК_ТТ_v4.0_Уфа — копия.xlsx";//@"C:\Users\bokar\Documents\ТК.xlsx";
         static string jsonCatalog = @"Temp\Cards";
 
         List<string> sheetsTC = new();
-        public ExParserMain()
+        public WinExParser()
         {
             ExcelPackage.LicenseContext = LicenseContext.Commercial;
             InitializeComponent();
@@ -27,36 +27,17 @@ namespace TC_WinForms
             sheetsTC.Clear();
             clbxTCSheets.DataSource = null;
 
-            // TODO - Make all file manipulations in new class
             string filePathCheck = txtFilePath.Text;
 
             sheetsTC = FileProcessing.GetSheetsNamesWithTC(filePathCheck);
-            //if (File.Exists(filePathCheck))
-            //{
-            //    filepath = filePathCheck;
-            //    // Получение названия всех листов с ТК в книге
-            //    // Передача названий листов в clbxTCSheets
-            //    try
-            //    {
-            //        using (var package = new ExcelPackage(new FileInfo(filepath)))
-            //        {
-            //            foreach (var ws in package.Workbook.Worksheets)
-            //            {
-            //                if (ws.Name.ToString().Contains("ТК_")) sheetsTK.Add(ws.Name);
-            //            }
-            //        }
-            //        gbxTCSheets.Visible = true;
-                    
-            //        clbxTCSheets.DataSource = sheetsTK;
-            //    }
-            //    catch (System.IO.IOException ex)
-            //    {
-            //        PrintMessage("Произошла ошибка. Проверьте закрыт ли обрабатываемый файл.\n(" + ex + ")");
-            //        gbxTCSheets.Visible = false;
-            //    }
-            //    catch (Exception) { PrintMessage("Произошла ошибка при открытии файла."); }
-            //}
-            //else MessageBox.Show("Файл по указаному пути не найден!");
+            
+            if (sheetsTC.Count == 0)
+            {
+                PrintMessage("В файле не найдено листов с ТК!");
+                return;
+            }
+            gbxTCSheets.Visible = true;
+            clbxTCSheets.DataSource = sheetsTC;
         }
 
         private void btnTCSheetsSelectAll_Click(object sender, EventArgs e)
@@ -87,7 +68,7 @@ namespace TC_WinForms
             // Проверить наличие в списке выбранных листов хотя бы одного
             if (clbxTCSheets.CheckedItems.Count == 0)
             {
-                MessageBox.Show("Не выбран ни один лист с ТК!");
+                PrintMessage("Не выбран ни один лист с ТК!");
                 return;
             }
 
@@ -99,27 +80,10 @@ namespace TC_WinForms
             }
 
             // Проверить наличие папки с каталогом
-            if (!Directory.Exists(jsonCatalog))
+            if (!FileProcessing.CheckDirectory(jsonCatalog))
             {
-                try
-                {
-                    // Попытка создания тестовой директории
-                    var testDir = Directory.CreateDirectory(jsonCatalog);
-                    //Console.WriteLine($"Тестовая директория успешно создана: {testDir.FullName}");
-                    jsonCatalog = testDir.FullName;
-                    Directory.Delete(jsonCatalog); // Удаление тестовой директории
-
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    MessageBox.Show("Нет разрешения на создание директории.");
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Произошла ошибка: {ex.Message}");
-                    return;
-                }
+                PrintMessage("Нет разрешения на создание директории."); // todo - delete this message after adding a history form
+                return;
             }
 
             // Регистрирую делигат для вывода сообщений
@@ -129,8 +93,8 @@ namespace TC_WinForms
             ExParserTC.RegisterCardNameToParse(sheetsToParse);
 
             ExParserTC.DoMain();
-            Directory.CreateDirectory(jsonCatalog);
-            MessageBox.Show("Hello World!");
+            Directory.CreateDirectory(jsonCatalog); // ?? why it's here?
+            PrintMessage("Hello World!");
         }
         // TODO - create a new methot to print event history in the form
         void PrintMessage(string message) => MessageBox.Show(message);

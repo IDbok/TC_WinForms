@@ -5,7 +5,7 @@ namespace TC_WinForms
     internal static class Program
     {
         public static bool testMode = true;//false;//
-        public static Win1 MainForm { get; set; }
+        public static Form MainForm { get; set; }
 
         public static bool dataToSave = false;//true;//
 
@@ -18,7 +18,8 @@ namespace TC_WinForms
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            MainForm = new Win1();
+            //MainForm = new Win1();
+            MainForm = new WinExParser();
             Application.Run(MainForm);
         }
     }

@@ -3,17 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace TC_WinForms.DataProcessing
 {
     internal static class FileProcessing
     {
-        // public static string filepath = @"C:\Users\bokar\OneDrive\Работа\Таврида\Технологические карты\Пример\ТК_ТТ_v4.0_Уфа — копия.xlsx";//@"C:\Users\bokar\Documents\ТК.xlsx";
-        // public static string jsonCatalog = @"Temp\Cards";
-        // create an delegate to print messages
-        static Action<string> PrintMessage = (string message) => { Console.WriteLine(message); };
-
+        // TODO - create an delegate to print messages
+        internal delegate void MessageHandler(string message);
+        static MessageHandler? PrintMessage;
+        internal static void RegisterMessageHandler(MessageHandler? messegeOutMethod) { PrintMessage = messegeOutMethod; }
         public static List<string> GetSheetsNamesWithTC(string filepath)
         {
             List<string> sheetsTC = new List<string>();
@@ -46,6 +46,37 @@ namespace TC_WinForms.DataProcessing
                 }
             }
             return sheetsTK;
+        }
+
+        public static void SaveToJSON(object obj, string filename, string sheetName, string jsonCatalog)
+        {
+            string json = JsonSerializer.Serialize(obj, new JsonSerializerOptions { WriteIndented = true });
+            string path = $@"{jsonCatalog}\{sheetName}_{filename}.json";
+            System.IO.File.WriteAllText(path, json);
+        }
+        public static bool CheckDirectory(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                try
+                {
+                    // Create and delete the directory to check the permissions
+                    var testDir = Directory.CreateDirectory(path);
+                    path = testDir.FullName;
+                    Directory.Delete(path);
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    PrintMessage("Нет разрешения на создание директории.");
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    PrintMessage($"Произошла ошибка: {ex.Message}");
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
