@@ -29,7 +29,7 @@ namespace TC_WinForms
 
             string filePathCheck = txtFilePath.Text;
 
-            sheetsTC = FileProcessing.GetSheetsNamesWithTC(filePathCheck);
+            sheetsTC = FileManager.GetSheetsNamesWithTC(filePathCheck);
             
             if (sheetsTC.Count == 0)
             {
@@ -80,7 +80,7 @@ namespace TC_WinForms
             }
 
             // Проверить наличие папки с каталогом
-            if (!FileProcessing.CheckDirectory(jsonCatalog))
+            if (!FileManager.CheckDirectory(jsonCatalog))
             {
                 PrintMessage("Нет разрешения на создание директории."); // todo - delete this message after adding a history form
                 return;

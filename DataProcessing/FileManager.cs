@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TC_WinForms.DataProcessing
 {
-    internal static class FileProcessing
+    internal static class FileManager
     {
         // TODO - create an delegate to print messages
         internal delegate void MessageHandler(string message);

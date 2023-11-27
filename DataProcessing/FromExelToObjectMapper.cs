@@ -1,9 +1,10 @@
 ﻿using OfficeOpenXml;
 using TC_WinForms.Models;
+using ExcelParsing.DataProcessing;
 
 namespace TC_WinForms.DataProcessing
 {
-    internal class FromExelToObjectMapper
+    public class FromExelToObjectMapper
     {
         const int maxRow = 1000;
         const int maxColumn = 20;
@@ -30,7 +31,7 @@ namespace TC_WinForms.DataProcessing
                         modelsList[eModel] = ParseStaffs(startRow, endRow, worksheet);
                         break;
                     case EModelType.Component:
-                        modelsList[eModel] = ParseComponetns(startRow, endRow, worksheet);
+                        //modelsList[eModel] = ParseComponetns(startRow, endRow, worksheet);
                         break;
                     case EModelType.Machine:
                         modelsList[eModel] = ParseMachines(startRow, endRow, worksheet);
@@ -133,9 +134,14 @@ namespace TC_WinForms.DataProcessing
             }
             return structs;
         }
-        private List<IModelStructure> ParseComponetns(int startRow, int endRow, ExcelWorksheet worksheet)
+        public List<IModelStructure> ParseComponetns(string filepath, string sheetName, int startRow, int endRow)
         {
-            List<IModelStructure> structs = new ();
+            var structs = new List<IModelStructure>();
+            List<string> columnsNames = new List<string> 
+            { "№", "Наименование", "Тип (исполнение)", "Ед. Изм.", "Кол-во", "Стоимость, руб. без НДС" };
+
+            var parser = new ExcelParser();
+            var parsedData = parser.ParseRowsToStrings(columnsNames,filepath,sheetName,startRow,endRow);
 
             // We suppose that the row with the headers is under the startRow
             int columnRow = startRow + 1;
@@ -144,65 +150,68 @@ namespace TC_WinForms.DataProcessing
             int itemWhithConponents = 0;
 
             // TODO: при работе с таблицей 2 комплектующие могут разбивариться на комплекты
-
-            for (int i = startRow + 2; i < endRow; i++)
+            // todo - create a method for finding column by name in a loop
+            
+            foreach (var row in parsedData)
             {
-                int numCol = 1;
-                int titleCol = FindColumn("Наименование", columnRow, worksheet);
-                int typeCol = FindColumn("Тип (исполнение)", columnRow, worksheet);
-                int initCol = FindColumn("Ед. Изм.", columnRow, worksheet);
-                int amountCol = FindColumn("Кол-во", columnRow, worksheet);
-                int priceCol = FindColumn("Стоимость, руб. без НДС", columnRow, worksheet);
+                string num = row[columnsNames.IndexOf("№")];
+                string name = row[columnsNames.IndexOf("Наименование")];
 
-                string num = worksheet.Cells[i, numCol].Value.ToString().Trim();
-                string name = worksheet.Cells[i, titleCol].Value.ToString().Trim();
-                
-                string? type = null;
-                if (worksheet.Cells[i, typeCol].Value != null)
+                string? type = row[columnsNames.IndexOf("Наименование")];
+                //if (worksheet.Cells[i, columnsNums[2]].Value != null)
+                //{
+                //    type = worksheet.Cells[i, columnsNums[2]].Value.ToString().Trim();
+                //}
+                string unit = row[columnsNames.IndexOf("Наименование")];
+                string? amount = row[columnsNames.IndexOf("Наименование")];
+
+                string? price = row[columnsNames.IndexOf("Наименование")];
+                //if (columnsNums[5] != 0 && worksheet.Cells[i, columnsNums[5]].Value != null)
+                //{
+                //    type = worksheet.Cells[i, columnsNums[5]].Value.ToString().Trim();
+                //}
+
+                structs.Add(new Component
                 {
-                    type = worksheet.Cells[i, typeCol].Value.ToString().Trim();
-                }
-                string unit = worksheet.Cells[i, initCol].Value.ToString().Trim();
-                string? amount = amountCol != 0 ? worksheet.Cells[i, amountCol].Value.ToString().Trim() : "0";
-                
-                string? price = null;
-                if (priceCol != 0 && worksheet.Cells[i, typeCol].Value != null)
-                {
-                    type = worksheet.Cells[i, typeCol].Value.ToString().Trim();
-                }
+                    Num = int.Parse(num),
+                    Name = name,
+                    Type = type,
+                    Unit = unit,
+                    Amount = double.Parse(amount),
+                    Price = price != null ? float.Parse(price) : null
+                });
 
-                if (name.Contains("в составе")) itemWhithConponents = itemCounter;
+                //if (name.Contains("в составе")) itemWhithConponents = itemCounter;
 
-                if (itemCounter > itemWhithConponents && num == "-")
-                {
-                    ((Component)structs[itemWhithConponents]).AddComplectItem(new Component
-                    {
-                        Num = 0,
-                        Name = name,
-                        Type = type,
-                        Unit = unit,
-                        Amount = double.Parse(amount),
-                        Price = price != null ? float.Parse(price) : null
-                    });
-                }
-                else
-                {
-                    if (itemWhithConponents != 0 && itemCounter > itemWhithConponents) itemWhithConponents = 0; // Сброс счетчика (исключаем попадание компонентов из другого списка)
-                    
-                    structs.Add(new Component
-                    {
-                        Num = int.Parse(num),
-                        Name = name,
-                        Type = type,
-                        Unit = unit,
-                        Amount = double.Parse(amount),
-                        Price = price != null ? float.Parse(price) : null
-                    });
+                //if (itemCounter > itemWhithConponents && num == "-")
+                //{
+                //    ((Component)structs[itemWhithConponents]).AddComplectItem(new Component
+                //    {
+                //        Num = 0,
+                //        Name = name,
+                //        Type = type,
+                //        Unit = unit,
+                //        Amount = double.Parse(amount),
+                //        Price = price != null ? float.Parse(price) : null
+                //    });
+                //}
+                //else
+                //{
+                //    if (itemWhithConponents != 0 && itemCounter > itemWhithConponents) itemWhithConponents = 0; // Сброс счетчика (исключаем попадание компонентов из другого списка)
 
-                }
+                //    structs.Add(new Component
+                //    {
+                //        Num = int.Parse(num),
+                //        Name = name,
+                //        Type = type,
+                //        Unit = unit,
+                //        Amount = double.Parse(amount),
+                //        Price = price != null ? float.Parse(price) : null
+                //    });
 
-                itemCounter++;
-                
+                //}
+
+                //itemCounter++;
             }
 
             return structs;
@@ -212,15 +221,15 @@ namespace TC_WinForms.DataProcessing
             List<IModelStructure> structs = new();
             int columnRow = startRow + 1;
 
+            int numCol = 1;
+            int titleCol = FindColumn("Наименование", columnRow, worksheet);
+            int typeCol = FindColumn("Тип (исполнение)", columnRow, worksheet);
+            int initCol = FindColumn("Ед. Изм.", columnRow, worksheet);
+            int amountCol = FindColumn("Кол-во", columnRow, worksheet);
+            int priceCol = FindColumn("Стоимость, руб. без НДС", columnRow, worksheet);
+
             for (int i = startRow + 2; i < endRow; i++)
             {
-                int numCol = 1;
-                int titleCol = FindColumn("Наименование", columnRow, worksheet);
-                int typeCol = FindColumn("Тип (исполнение)", columnRow, worksheet);
-                int initCol = FindColumn("Ед. Изм.", columnRow, worksheet);
-                int amountCol = FindColumn("Кол-во", columnRow, worksheet);
-                int priceCol = FindColumn("Стоимость, руб. без НДС", columnRow, worksheet);
-
                 string num = worksheet.Cells[i, numCol].Value.ToString().Trim();
                 string name = worksheet.Cells[i, titleCol].Value.ToString().Trim();
                 string? type = null;
@@ -253,15 +262,15 @@ namespace TC_WinForms.DataProcessing
         {
             List<IModelStructure> structs = new();
             int columnRow = startRow + 1;
+            int numCol = 1;
+            int titleCol = FindColumn("Наименование", columnRow, worksheet);
+            int typeCol = FindColumn("Тип (исполнение)", columnRow, worksheet);
+            int initCol = FindColumn("Ед. Изм.", columnRow, worksheet);
+            int amountCol = FindColumn("Кол-во", columnRow, worksheet);
+            int priceCol = FindColumn("Стоимость, руб. без НДС", columnRow, worksheet);
+
             for (int i = startRow + 2; i < endRow; i++)
             {
-                int numCol = 1;
-                int titleCol = FindColumn("Наименование", columnRow, worksheet);
-                int typeCol = FindColumn("Тип (исполнение)", columnRow, worksheet);
-                int initCol = FindColumn("Ед. Изм.", columnRow, worksheet);
-                int amountCol = FindColumn("Кол-во", columnRow, worksheet);
-                int priceCol = FindColumn("Стоимость, руб. без НДС", columnRow, worksheet);
-
                 string num = worksheet.Cells[i, numCol].Value.ToString().Trim();
                 string name = worksheet.Cells[i, titleCol].Value.ToString().Trim();
                 string? type = null;
@@ -294,23 +303,19 @@ namespace TC_WinForms.DataProcessing
         {
             List<IModelStructure> structs = new();
             int columnRow = startRow + 1;
+            int numCol = 1;
+            int titleCol = FindColumn("Наименование", columnRow, worksheet);
+            int typeCol = FindColumn("Тип (исполнение)", columnRow, worksheet);
+            int initCol = FindColumn("Ед. Изм.", columnRow, worksheet);
+            int amountCol = FindColumn("Кол-во", columnRow, worksheet);
+            int priceCol = FindColumn("Стоимость, руб. без НДС", columnRow, worksheet);
 
             for (int i = startRow + 2; i < endRow; i++)
             {
-                int numCol = 1;
-                int titleCol = FindColumn("Наименование", columnRow, worksheet);
-                int typeCol = FindColumn("Тип (исполнение)", columnRow, worksheet);
-                int initCol = FindColumn("Ед. Изм.", columnRow, worksheet);
-                int amountCol = FindColumn("Кол-во", columnRow, worksheet);
-                int priceCol = FindColumn("Стоимость, руб. без НДС", columnRow, worksheet);
-
-                string num = worksheet.Cells[i, numCol].Value.ToString().Trim();
-                string name = worksheet.Cells[i, titleCol].Value.ToString().Trim();
-                string? type = null;
-                if (worksheet.Cells[i, typeCol].Value != null)
-                {
-                    type = worksheet.Cells[i, typeCol].Value.ToString().Trim();
-                }
+                
+                string num = GetCellValue(i, numCol, worksheet);
+                string name = GetCellValue(i, titleCol, worksheet); 
+                string? type = GetCellValue(i, typeCol, worksheet, null);
                 string unit = worksheet.Cells[i, initCol].Value.ToString().Trim();
                 string? amount = amountCol != 0 ? worksheet.Cells[i, amountCol].Value.ToString().Trim() : "0";
                 string? price = null;
@@ -334,7 +339,16 @@ namespace TC_WinForms.DataProcessing
             return structs;
         }
 
-        private int FindColumn(string columnName, int columnRow, ExcelWorksheet worksheet)
+        private int[] FindListColumn(string[] columnNameList, int columnRow, ExcelWorksheet worksheet)
+        {
+            int[] numColumn = new int[columnNameList.Length];
+            for (int i = 0; i < columnNameList.Length; i++)
+            {
+                numColumn[i] = FindColumn(columnNameList[i], columnRow, worksheet);
+            }
+            return numColumn;
+        }
+        private int FindColumn(string columnName, int columnRow, ExcelWorksheet worksheet) 
         {
             string[] columnNameList = { columnName };
             return FindColumn(columnNameList, columnRow, worksheet);
@@ -348,6 +362,25 @@ namespace TC_WinForms.DataProcessing
                 { numColumn = i; break; }
             }
             return numColumn;
+        }
+        private string GetCellValue(int row, int column, ExcelWorksheet worksheet)
+        {
+            return worksheet.Cells[row, column].Value?.ToString()?.Trim();
+        }
+        private string? GetCellValue(int row, int column, ExcelWorksheet worksheet, string? defaultValue)
+        {
+            return GetCellValue(row, column, worksheet) ?? defaultValue; // 
+        }
+
+        private List<string> GetCellsValue(ExcelWorksheet worksheet, int[] columns, int row) //int row, int column, ExcelWorksheet worksheet)
+        {
+            columns[columns.Length - 1] = 172;
+            List<string> values = new List<string>();
+            foreach (var column in columns)
+            {
+                values.Add(GetCellValue(row, column, worksheet));
+            }
+            return values;
         }
     }
 }

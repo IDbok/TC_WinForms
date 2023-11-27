@@ -39,14 +39,13 @@ namespace TC_WinForms.DataProcessing
                 // Создаю объект для работы с Excel
                 using (var package = new ExcelPackage(new FileInfo(filepath)))
                 {
-                    var parser = new FromExelToObjectMapper();
+                    var mapper = new FromExelToObjectMapper();
                     foreach (string sheetName in listCardName)
                     {
-                        // Определение листа в переменную
                         var worksheet = package.Workbook.Worksheets[sheetName];
 
-                        var parsedData = parser.mapFrom(keyValuePairs, worksheet);
-                        
+                        var parsedData = mapper.mapFrom(keyValuePairs, worksheet);
+
                         foreach (EModelType modelType in parsedData.Keys)
                         {
                             string tableName = keyValuePairs.FirstOrDefault(x => x.Value == modelType).Key;
@@ -59,7 +58,7 @@ namespace TC_WinForms.DataProcessing
                                 msg?.Invoke($"Ошибка при парсинге таблицы {tableName}:\n{ex.Message}");
                             }
                         }
-                    msg?.Invoke($"Парсиг карты на листе {sheetName} законцен!");
+                        msg?.Invoke($"Парсиг карты на листе {sheetName} законцен!");
                     }
                 }
             }

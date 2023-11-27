@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace TC_WinForms.Models
 {
-    internal interface IModelStructure
+    public interface IModelStructure
     {
 
         static EModelType ModelType { get; }
