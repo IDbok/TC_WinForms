@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace TC_WinForms.Models
+namespace TC_WinForms.Models.TcContent
 {
-    internal class Component : Struct, IModelStructure //2. Требования к материалам и комплектующим
+    public class Component : Struct, IModelStructure //2. Требования к материалам и комплектующим
     {
         static EModelType modelType = EModelType.Component;
         public EModelType ModelType { get => modelType; }
@@ -13,11 +13,11 @@ namespace TC_WinForms.Models
         string unit;
         double amount;
         float? price;
-        List<Struct>? complect; 
+        List<Struct>? complect;
 
         public Component()
         {
-            
+
         }
 
         public Component(int num, string name, string? type, string unit, int amount, float? price)
@@ -53,7 +53,7 @@ namespace TC_WinForms.Models
 
         public override void AddComplectItem(Struct Item)
         {
-            if (complect.Count == 0 ) complect = new List<Struct>();
+            if (complect.Count == 0) complect = new List<Struct>();
             complect.Add(Item);
         }
 

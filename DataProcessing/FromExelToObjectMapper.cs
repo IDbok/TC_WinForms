@@ -137,11 +137,17 @@ namespace TC_WinForms.DataProcessing
         public List<IModelStructure> ParseComponetns(string filepath, string sheetName, int startRow, int endRow)
         {
             var structs = new List<IModelStructure>();
+
             List<string> columnsNames = new List<string> 
             { "№", "Наименование", "Тип (исполнение)", "Ед. Изм.", "Кол-во", "Стоимость, руб. без НДС" };
 
+            //todo - method to find start row of table
+            //todo - method to find end row of table
+            //todo - method to mapp parsed data to Component object
+            //todo - method to save Component object to json, database, or smth else
+
             var parser = new ExcelParser();
-            var parsedData = parser.ParseRowsToStrings(columnsNames,filepath,sheetName,startRow,endRow);
+            var parsedData = parser.ParseRowsToStrings(columnsNames,filepath,sheetName,startRow: startRow, endRow: endRow);
 
             // We suppose that the row with the headers is under the startRow
             int columnRow = startRow + 1;
@@ -153,19 +159,19 @@ namespace TC_WinForms.DataProcessing
             // todo - create a method for finding column by name in a loop
             
             foreach (var row in parsedData)
-            {
+            {   
                 string num = row[columnsNames.IndexOf("№")];
                 string name = row[columnsNames.IndexOf("Наименование")];
 
-                string? type = row[columnsNames.IndexOf("Наименование")];
+                string? type = row[columnsNames.IndexOf("Тип (исполнение)")];
                 //if (worksheet.Cells[i, columnsNums[2]].Value != null)
                 //{
                 //    type = worksheet.Cells[i, columnsNums[2]].Value.ToString().Trim();
                 //}
-                string unit = row[columnsNames.IndexOf("Наименование")];
-                string? amount = row[columnsNames.IndexOf("Наименование")];
+                string unit = row[columnsNames.IndexOf("Ед. Изм.")];
+                string? amount = row[columnsNames.IndexOf("Кол-во")];
 
-                string? price = row[columnsNames.IndexOf("Наименование")];
+                string? price = row[columnsNames.IndexOf("Стоимость, руб. без НДС")];
                 //if (columnsNums[5] != 0 && worksheet.Cells[i, columnsNums[5]].Value != null)
                 //{
                 //    type = worksheet.Cells[i, columnsNums[5]].Value.ToString().Trim();

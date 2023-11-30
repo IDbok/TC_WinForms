@@ -7,7 +7,7 @@ namespace TC_WinForms
     {
         private void TestMode()
         {
-            //Program.dataToSave = true;
+            IsUserExust("bokarev.fic@gmail.com", "pass");
             AfterAuthorization();
         }
 
@@ -36,27 +36,30 @@ namespace TC_WinForms
         {
             if (isTcDesign)
             {
-                Win2 win2 = new Win2();
-                win2.Show();
-                this.Hide();
+                // check if Program.FormsForward is not null and not win2 clean it
+                if (Program.FormsForward.Count != 0 && Program.FormsForward.Last() is Win2) WinProcessing.NextFormBtn(this);
+                else
+                {
+                    Program.FormsForward.Clear();
+                    WinProcessing.isDataToSave = false;
+                    WinProcessing.NextFormBtn(new Win2(), this);
+                }
             }
             else if (isTcEditng)
             {
-                Win3 win3 = new Win3();
-                win3.Show();
-                this.Hide();
+                if (Program.FormsForward.Count != 0 && Program.FormsForward.Last() is Win3) WinProcessing.NextFormBtn(this);
+                else 
+                {
+                    Program.FormsForward.Clear();
+                    WinProcessing.isDataToSave = false;
+                    WinProcessing.NextFormBtn(new Win3(), this);
+                }
             }
-
-            // todo - make app closable from other forms
-
         }
         private void Win1_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = !WinProcessing.CloseAppMessage(e, out bool saveData);
-            if (saveData)
-            {
-                // todo - save data before closing
-            }
+            
         }
         private void PerformAuthorization()
         {
@@ -66,6 +69,8 @@ namespace TC_WinForms
                 txtPassword.Text = txtPassword.Text.Trim();
                 if (txtLogin.Text.Length > 0 && txtPassword.Text.Length > 0)
                 {
+                    // throw an exception if password less than 4 symbols
+                    if (txtPassword.Text.Length < 4) throw new Exception("Пароль должен состоять минимум из 4 символов.");
                     if (IsUserExust(txtLogin.Text, txtPassword.Text))
                     {
                         AfterAuthorization();
@@ -74,7 +79,11 @@ namespace TC_WinForms
                 }
                 else MessageBox.Show("Заполните все поля!");
             }
-            catch { MessageBox.Show("Произошла ошибка при авторизации!"); }
+            catch (Exception e) 
+            { 
+                if(txtPassword.Text.Length < 4) MessageBox.Show(e.Message); 
+                else MessageBox.Show("Произошла ошибка при авторизации!"); 
+            }
         }
         private void DisingOrEdingActive(object sender)
         {

@@ -1,9 +1,8 @@
-﻿
-namespace TC_WinForms.Models
+﻿namespace TC_WinForms.Models.TcContent
 {
-    internal class Tool : Struct, IModelStructure //5. Требования к инструментам и приспособлениям
+    public class Protection : Struct, IModelStructure//4. Требования к средствам защиты
     {
-        static private EModelType modelType = EModelType.Tool;
+        static private EModelType modelType = EModelType.Protection;
         public EModelType ModelType { get { return modelType; } }
 
         int num;
@@ -11,11 +10,11 @@ namespace TC_WinForms.Models
         string? type;
         string unit;
         double amount;
-        public Tool()
+        public Protection()
         {
 
         }
-        public Tool(int num, string name, string? type, string unit, int amount)
+        public Protection(int num, string name, string? type, string unit, int amount)
         {
             this.num = num;
             this.name = name;
@@ -25,21 +24,12 @@ namespace TC_WinForms.Models
         }
 
         public override int Num
-        {
-            get { return num; }
-            set { num = value; }
-        }
+        { get { return num; } set { num = value; } }
 
         public override string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
+        { get { return name; } set { name = value; } }
         public override string? Type
-        {
-            get { return type; }
-            set { type = value; }
-        }
+        { get { return type; } set { type = value; } }
 
         public override string Unit
         { get { return unit; } set { unit = value; } }

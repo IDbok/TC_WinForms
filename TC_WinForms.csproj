@@ -9,14 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EPPlus" Version="7.0.1" />
+    <PackageReference Include="EPPlus" Version="7.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="ExpelParsing">
-      <HintPath>..\ExcelParsing\bin\Debug\net7.0\ExpelParsing.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\ExcelParsing\ExcelParsing.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,7 +24,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="Win2.cs">
+    <Compile Update="WinForms\Win2.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

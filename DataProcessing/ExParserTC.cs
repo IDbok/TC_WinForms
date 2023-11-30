@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using TC_WinForms.Models;
-
+using TC_WinForms.Models.TcContent;
 
 namespace TC_WinForms.DataProcessing
 {

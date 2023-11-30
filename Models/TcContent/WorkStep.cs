@@ -1,5 +1,4 @@
-﻿
-namespace TC_WinForms.Models
+﻿namespace TC_WinForms.Models.TcContent
 {
     public class WorkStep : IModelStructure
     {
@@ -18,11 +17,11 @@ namespace TC_WinForms.Models
         //    new[] { "Время выполнения операции на станке, мин" },
         //    new[] { "Средства защиты" },
         //    new[] { "Примечание" }
-            
+
         //};
 
         //static public string[][] GetColumnsNames => columnsNames;
-        
+
         static Dictionary<int, float> stagesDic = new Dictionary<int, float>();
         int num { get; set; }
         string description { get; set; }

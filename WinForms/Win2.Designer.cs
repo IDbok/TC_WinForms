@@ -184,6 +184,7 @@
             // 
             // txtProjectNum
             // 
+            txtProjectNum.Enabled = false;
             txtProjectNum.Location = new Point(35, 45);
             txtProjectNum.Name = "txtProjectNum";
             txtProjectNum.Size = new Size(283, 27);

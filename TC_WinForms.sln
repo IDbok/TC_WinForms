@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestConsoleAppTC", "..\Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExcelParsing", "..\ExcelParsing\ExcelParsing.csproj", "{302A4E66-27F7-4399-BF8C-3892E5CDEB6A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TcDbConnector", "..\DBConnector\TcDbConnector.csproj", "{897F9114-86E6-4419-8498-FE1E048BD9BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcModels", "..\TcApp\TcModels\TcModels.csproj", "{530BBED3-96A9-4A7E-9FC1-8CC1BAFE7918}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{302A4E66-27F7-4399-BF8C-3892E5CDEB6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{302A4E66-27F7-4399-BF8C-3892E5CDEB6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{302A4E66-27F7-4399-BF8C-3892E5CDEB6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{897F9114-86E6-4419-8498-FE1E048BD9BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{897F9114-86E6-4419-8498-FE1E048BD9BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{897F9114-86E6-4419-8498-FE1E048BD9BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{897F9114-86E6-4419-8498-FE1E048BD9BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{530BBED3-96A9-4A7E-9FC1-8CC1BAFE7918}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{530BBED3-96A9-4A7E-9FC1-8CC1BAFE7918}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{530BBED3-96A9-4A7E-9FC1-8CC1BAFE7918}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{530BBED3-96A9-4A7E-9FC1-8CC1BAFE7918}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

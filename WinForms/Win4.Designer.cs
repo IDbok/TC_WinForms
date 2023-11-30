@@ -40,13 +40,13 @@
             btnGround = new Button();
             btnFoundation = new Button();
             btnSwitchgear10_6 = new Button();
-            button5 = new Button();
+            btnTransBusbar = new Button();
             btnLightningRod = new Button();
-            button1 = new Button();
-            button2 = new Button();
+            btnConnections = new Button();
+            btnIllumination = new Button();
             btnTrans = new Button();
-            btnOpenSwitchgear = new Button();
-            btnTcOilSub = new Button();
+            btnLineTrap = new Button();
+            btnFences = new Button();
             btnSwitchgear35 = new Button();
             pnlToolBar = new Panel();
             toolStrip1 = new ToolStrip();
@@ -67,6 +67,7 @@
             btnBack.TabIndex = 9;
             btnBack.Text = "Назад";
             btnBack.UseVisualStyleBackColor = true;
+            btnBack.Click += btnBack_Click;
             // 
             // btnNext
             // 
@@ -106,13 +107,13 @@
             gbxFunctionalityChoice.Controls.Add(btnGround);
             gbxFunctionalityChoice.Controls.Add(btnFoundation);
             gbxFunctionalityChoice.Controls.Add(btnSwitchgear10_6);
-            gbxFunctionalityChoice.Controls.Add(button5);
+            gbxFunctionalityChoice.Controls.Add(btnTransBusbar);
             gbxFunctionalityChoice.Controls.Add(btnLightningRod);
-            gbxFunctionalityChoice.Controls.Add(button1);
-            gbxFunctionalityChoice.Controls.Add(button2);
+            gbxFunctionalityChoice.Controls.Add(btnConnections);
+            gbxFunctionalityChoice.Controls.Add(btnIllumination);
             gbxFunctionalityChoice.Controls.Add(btnTrans);
-            gbxFunctionalityChoice.Controls.Add(btnOpenSwitchgear);
-            gbxFunctionalityChoice.Controls.Add(btnTcOilSub);
+            gbxFunctionalityChoice.Controls.Add(btnLineTrap);
+            gbxFunctionalityChoice.Controls.Add(btnFences);
             gbxFunctionalityChoice.Controls.Add(btnSwitchgear35);
             gbxFunctionalityChoice.Location = new Point(20, 81);
             gbxFunctionalityChoice.Name = "gbxFunctionalityChoice";
@@ -165,6 +166,7 @@
             btnGround.TabIndex = 14;
             btnGround.Text = "Контур заземления";
             btnGround.UseVisualStyleBackColor = true;
+            btnGround.Click += btnGround_Click;
             // 
             // btnFoundation
             // 
@@ -174,6 +176,7 @@
             btnFoundation.TabIndex = 12;
             btnFoundation.Text = "Фундамент";
             btnFoundation.UseVisualStyleBackColor = true;
+            btnFoundation.Click += btnFoundation_Click;
             // 
             // btnSwitchgear10_6
             // 
@@ -183,15 +186,17 @@
             btnSwitchgear10_6.TabIndex = 11;
             btnSwitchgear10_6.Text = "ОРУ 10/6";
             btnSwitchgear10_6.UseVisualStyleBackColor = true;
+            btnSwitchgear10_6.Click += btnSwitchgear10_6_Click;
             // 
-            // button5
+            // btnTransBusbar
             // 
-            button5.Location = new Point(442, 117);
-            button5.Name = "button5";
-            button5.Size = new Size(140, 90);
-            button5.TabIndex = 9;
-            button5.Text = "Ошиновка тр-ра";
-            button5.UseVisualStyleBackColor = true;
+            btnTransBusbar.Location = new Point(442, 117);
+            btnTransBusbar.Name = "btnTransBusbar";
+            btnTransBusbar.Size = new Size(140, 90);
+            btnTransBusbar.TabIndex = 9;
+            btnTransBusbar.Text = "Ошиновка тр-ра";
+            btnTransBusbar.UseVisualStyleBackColor = true;
+            btnTransBusbar.Click += btnTransBusbar_Click;
             // 
             // btnLightningRod
             // 
@@ -201,24 +206,27 @@
             btnLightningRod.TabIndex = 8;
             btnLightningRod.Text = "Молниеприёмник";
             btnLightningRod.UseVisualStyleBackColor = true;
+            btnLightningRod.Click += btnLightningRod_Click;
             // 
-            // button1
+            // btnConnections
             // 
-            button1.Location = new Point(588, 117);
-            button1.Name = "button1";
-            button1.Size = new Size(140, 90);
-            button1.TabIndex = 7;
-            button1.Text = "Узлы подключения";
-            button1.UseVisualStyleBackColor = true;
+            btnConnections.Location = new Point(588, 117);
+            btnConnections.Name = "btnConnections";
+            btnConnections.Size = new Size(140, 90);
+            btnConnections.TabIndex = 7;
+            btnConnections.Text = "Узлы подключения";
+            btnConnections.UseVisualStyleBackColor = true;
+            btnConnections.Click += btnConnections_Click;
             // 
-            // button2
+            // btnIllumination
             // 
-            button2.Location = new Point(296, 117);
-            button2.Name = "button2";
-            button2.Size = new Size(140, 90);
-            button2.TabIndex = 6;
-            button2.Text = "Освещение";
-            button2.UseVisualStyleBackColor = true;
+            btnIllumination.Location = new Point(296, 117);
+            btnIllumination.Name = "btnIllumination";
+            btnIllumination.Size = new Size(140, 90);
+            btnIllumination.TabIndex = 6;
+            btnIllumination.Text = "Освещение";
+            btnIllumination.UseVisualStyleBackColor = true;
+            btnIllumination.Click += btnIllumination_Click;
             // 
             // btnTrans
             // 
@@ -228,24 +236,27 @@
             btnTrans.TabIndex = 5;
             btnTrans.Text = "Трансформатор";
             btnTrans.UseVisualStyleBackColor = true;
+            btnTrans.Click += btnTrans_Click;
             // 
-            // btnOpenSwitchgear
+            // btnLineTrap
             // 
-            btnOpenSwitchgear.Location = new Point(4, 213);
-            btnOpenSwitchgear.Name = "btnOpenSwitchgear";
-            btnOpenSwitchgear.Size = new Size(140, 90);
-            btnOpenSwitchgear.TabIndex = 4;
-            btnOpenSwitchgear.Text = "ВЧ связь";
-            btnOpenSwitchgear.UseVisualStyleBackColor = true;
+            btnLineTrap.Location = new Point(4, 213);
+            btnLineTrap.Name = "btnLineTrap";
+            btnLineTrap.Size = new Size(140, 90);
+            btnLineTrap.TabIndex = 4;
+            btnLineTrap.Text = "ВЧ связь";
+            btnLineTrap.UseVisualStyleBackColor = true;
+            btnLineTrap.Click += btnLineTrap_Click;
             // 
-            // btnTcOilSub
+            // btnFences
             // 
-            btnTcOilSub.Location = new Point(4, 117);
-            btnTcOilSub.Name = "btnTcOilSub";
-            btnTcOilSub.Size = new Size(140, 90);
-            btnTcOilSub.TabIndex = 3;
-            btnTcOilSub.Text = "Элемент ограждения";
-            btnTcOilSub.UseVisualStyleBackColor = true;
+            btnFences.Location = new Point(4, 117);
+            btnFences.Name = "btnFences";
+            btnFences.Size = new Size(140, 90);
+            btnFences.TabIndex = 3;
+            btnFences.Text = "Элемент ограждения";
+            btnFences.UseVisualStyleBackColor = true;
+            btnFences.Click += btnFences_Click;
             // 
             // btnSwitchgear35
             // 
@@ -255,6 +266,7 @@
             btnSwitchgear35.TabIndex = 2;
             btnSwitchgear35.Text = "ОРУ 35";
             btnSwitchgear35.UseVisualStyleBackColor = true;
+            btnSwitchgear35.Click += btnSwitchgear35_Click;
             // 
             // pnlToolBar
             // 
@@ -331,16 +343,16 @@
         private GroupBox gbxInformation;
         private Label lblWinInformantion;
         private GroupBox gbxFunctionalityChoice;
-        private Button btnOpenSwitchgear;
-        private Button btnTcOilSub;
+        private Button btnLineTrap;
+        private Button btnFences;
         private Button btnSwitchgear35;
         private Button btnGround;
         private Button btnFoundation;
         private Button btnSwitchgear10_6;
-        private Button button5;
+        private Button btnTransBusbar;
         private Button btnLightningRod;
-        private Button button1;
-        private Button button2;
+        private Button btnConnections;
+        private Button btnIllumination;
         private Button btnTrans;
         private Button button4;
         private Button button7;

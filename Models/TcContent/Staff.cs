@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TC_WinForms.Models
+﻿namespace TC_WinForms.Models.TcContent
 {
     public class Staff : IModelStructure //1. Требования к составу бригады и квалификации
     {

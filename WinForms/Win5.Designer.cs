@@ -28,28 +28,54 @@
         /// </summary>
         private void InitializeComponent()
         {
-            comboBox1 = new ComboBox();
+            cmbChoice = new ComboBox();
             panel1 = new Panel();
+            btnCancel = new Button();
+            btnAccept = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
-            // comboBox1
+            // cmbChoice
             // 
-            comboBox1.Anchor = AnchorStyles.None;
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(21, 27);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(229, 28);
-            comboBox1.TabIndex = 0;
+            cmbChoice.Anchor = AnchorStyles.None;
+            cmbChoice.FormattingEnabled = true;
+            cmbChoice.Location = new Point(19, 27);
+            cmbChoice.Name = "cmbChoice";
+            cmbChoice.Size = new Size(229, 28);
+            cmbChoice.TabIndex = 0;
+            cmbChoice.SelectedIndexChanged += cmbChoice_SelectedIndexChanged;
             // 
             // panel1
             // 
-            panel1.Controls.Add(comboBox1);
+            panel1.Controls.Add(btnCancel);
+            panel1.Controls.Add(btnAccept);
+            panel1.Controls.Add(cmbChoice);
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(277, 138);
+            panel1.Size = new Size(272, 138);
             panel1.TabIndex = 1;
+            // 
+            // btnCancel
+            // 
+            btnCancel.Location = new Point(154, 87);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(94, 29);
+            btnCancel.TabIndex = 2;
+            btnCancel.Text = "Отменить";
+            btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Click += btnCancel_Click;
+            // 
+            // btnAccept
+            // 
+            btnAccept.Enabled = false;
+            btnAccept.Location = new Point(19, 87);
+            btnAccept.Name = "btnAccept";
+            btnAccept.Size = new Size(94, 29);
+            btnAccept.TabIndex = 1;
+            btnAccept.Text = "Применить";
+            btnAccept.UseVisualStyleBackColor = true;
+            btnAccept.Click += btnAccept_Click;
             // 
             // Win5
             // 
@@ -59,6 +85,7 @@
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "Win5";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Выбор [название категории]";
             panel1.ResumeLayout(false);
             ResumeLayout(false);
@@ -66,7 +93,9 @@
 
         #endregion
 
-        private ComboBox comboBox1;
+        private ComboBox cmbChoice;
         private Panel panel1;
+        private Button btnCancel;
+        private Button btnAccept;
     }
 }

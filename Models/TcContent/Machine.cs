@@ -1,21 +1,20 @@
-﻿
-namespace TC_WinForms.Models
+﻿namespace TC_WinForms.Models.TcContent
 {
-    internal class Protection : Struct, IModelStructure//4. Требования к средствам защиты
+    public class Machine : Struct, IModelStructure  //3. Требования к механизмам
     {
-        static private EModelType modelType = EModelType.Protection;
-        public EModelType ModelType { get { return modelType; } }
+        static EModelType modelType = EModelType.Machine;
+        public EModelType ModelType { get => modelType; }
 
         int num;
         string name;
         string? type;
         string unit;
-        double amount;
-        public Protection()
+        double amount; // TODO - проверка на 0 и отриц значений
+        public Machine()
         {
 
         }
-        public Protection(int num, string name, string? type, string unit, int amount)
+        public Machine(int num, string name, string? type, string unit, double amount)
         {
             this.num = num;
             this.name = name;

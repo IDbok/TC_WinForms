@@ -4,26 +4,38 @@
     {
         private static User authUser = null;
         public static string AuthUserName() => authUser.Name();
+        public static string AuthUserSurname() => authUser.Surname();
+        public static string AuthUserFullName() => authUser.Name() + " " + authUser.Surname();
+        public static string AuthUserEmail() => authUser.Login();
 
-        private static Dictionary<int, User> Operators = new Dictionary<int, User>()
-        {
-            {1, new User("newuser@mail.com", "password","Александр", "Кузнецов")},
-            {2, new User("bokarev.fic@gmail.com","pass", "Игорь", "Бокарев")},
-            {3, new User("anpa@tavrida.com","pass","Павел", "Анохин")}
-        };
+        private static Dictionary<string, User> Users = new Dictionary<string, User>();
+
+        private static Dictionary<string, string> Passwords = new Dictionary<string, string>();
 
         public static bool IsUserExust(string login, string password)
         {
-            
-            foreach (var user in Operators.Values)
+            try
             {
-                if (user.Login().ToLower() == login.ToLower() && user.Password() == password)
+
+                Users.Clear();
+                Passwords.Clear();
+                // creatin new user
+                Users = new Dictionary<string, User>()
                 {
-                    // return an link to the authed user
-                    authUser = user;
+                    {"newuser@mail.com", new User("newuser@mail.com", "password", "Александр", "Кузнецов")},
+                    {"bokarev.fic@gmail.com", new User("bokarev.fic@gmail.com", "pass", "Игорь", "Бокарев")},
+                    {"anpa@tavrida.com", new User("anpa@tavrida.com", "pass","Павел", "Анохин")}
+                };
+
+            
+                if (Passwords[login.ToLower()] == password) 
+                { 
+                    authUser = Users[login.ToLower()].Copy();
                     return true;
                 }
             }
+            catch (Exception e) {
+                MessageBox.Show("Error auth"/*e.Message*/); }
             return false;
         }
 
@@ -33,26 +45,20 @@
             private string? surname;
 
             private string login;
-            private string password;
 
             public string Login() => login;
-            public string Password() => password;
+            //public string Password() => password;
             public string Name() => name != null ? name : "no information";
             public string Surname() => surname != null ? surname : "no information";
-            public User(string login, string password,string name, string surname)
+            public User(string login, string password, string name, string surname)
             {
                 this.login = login;
-                this.password = password;
+                Passwords.Add(login, password);
                 this.name = name;
                 this.surname = surname;
             }
-            public User(string login, string password)
-            {
-                this.login = login;
-                this.password = password;
-                this.name = null;
-                this.surname = null;
-            }
+            public User(string login, string password): this(login, password, name: null, surname: null)
+            { }
             public User Copy()
             {
                 return (User)this.MemberwiseClone();
