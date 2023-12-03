@@ -1,6 +1,5 @@
-﻿using TC_WinForms.DataProcessing;
-
-namespace TC_WinForms.Models
+﻿
+namespace TC_WinForms.DataProcessing
 {
     public class TcData
     {

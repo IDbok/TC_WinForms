@@ -1,4 +1,4 @@
-﻿using TC_WinForms.Models.TcContent;
+﻿using TcModels.Models.TcContent;
 
 namespace TC_WinForms
 {

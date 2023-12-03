@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TC_WinForms.DataProcessing;
-using TC_WinForms.Models;
 
 namespace TC_WinForms
 {

@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using OfficeOpenXml;
-using TC_WinForms.Models;
 
 namespace TC_WinForms
 {

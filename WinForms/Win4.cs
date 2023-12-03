@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using TC_WinForms.Models;
+using TcModels.Models;
 
 namespace TC_WinForms
 {

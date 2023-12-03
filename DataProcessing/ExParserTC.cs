@@ -1,8 +1,8 @@
 ﻿using OfficeOpenXml;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using TC_WinForms.Models;
-using TC_WinForms.Models.TcContent;
+using TcModels.Models;
+using TcModels.Models.TcContent;
 
 namespace TC_WinForms.DataProcessing
 {
@@ -39,6 +39,7 @@ namespace TC_WinForms.DataProcessing
                 // Создаю объект для работы с Excel
                 using (var package = new ExcelPackage(new FileInfo(filepath)))
                 {
+
                     var mapper = new FromExelToObjectMapper();
                     foreach (string sheetName in listCardName)
                     {
