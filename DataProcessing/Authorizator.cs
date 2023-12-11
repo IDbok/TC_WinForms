@@ -1,12 +1,17 @@
-﻿namespace TC_WinForms.DataProcessing
+﻿using TcModels.Models;
+
+namespace TC_WinForms.DataProcessing
 {
-    internal static class Authorizator
+    public static class Authorizator
     {
-        private static User authUser = null;
-        public static string AuthUserName() => authUser.Name();
-        public static string AuthUserSurname() => authUser.Surname();
-        public static string AuthUserFullName() => authUser.Name() + " " + authUser.Surname();
-        public static string AuthUserEmail() => authUser.Login();
+        public static Author author = new(); 
+
+        //private static User authUser = null;
+        //public static User GetUser() => authUser;
+        //public static string AuthUserName() => authUser.Name();
+        //public static string AuthUserSurname() => authUser.Surname();
+        public static string AuthUserFullName() => author.Name + " " + author.Surname;
+        //public static string AuthUserEmail() => authUser.Login();
 
         private static Dictionary<string, User> Users = new Dictionary<string, User>();
 
@@ -27,10 +32,15 @@
                     {"anpa@tavrida.com", new User("anpa@tavrida.com", "pass","Павел", "Анохин")}
                 };
 
-            
-                if (Passwords[login.ToLower()] == password) 
-                { 
-                    authUser = Users[login.ToLower()].Copy();
+
+                if (Passwords[login.ToLower()] == password)
+                {
+                    author = new Author() {
+                        Name = Users[login.ToLower()].Name(),
+                        Surname = Users[login.ToLower()].Surname(),
+                        Email = Users[login.ToLower()].Login()
+                    };
+                    //authUser = Users[login.ToLower()].Copy();
                     return true;
                 }
             }

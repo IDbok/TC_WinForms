@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 namespace TC_WinForms
 {
+    //todo - make able to open only one form of this type
     public partial class Win5 : Form
     {
         object formSender;

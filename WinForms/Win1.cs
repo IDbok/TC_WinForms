@@ -47,6 +47,8 @@ namespace TC_WinForms
             }
             else if (isTcEditng)
             {
+                // todo - Make unable form while loading data (m.b. add loading circle)
+
                 if (Program.FormsForward.Count != 0 && Program.FormsForward.Last() is Win3) WinProcessing.NextFormBtn(this);
                 else 
                 {

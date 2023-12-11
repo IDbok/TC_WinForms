@@ -22,28 +22,28 @@ namespace TC_WinForms.DataProcessing
             EModelType[] eModels = new EModelType[keyValuePairs.Count];
             keyValuePairs.Values.CopyTo(eModels, 0);
             var parser = new ExcelParser();
-            parser.FindTableBorderRows(keyValuePairs, worksheet, out modelStartRows,out modelEndRows);
+            //parser.FindTableBorderRows(keyValuePairs, worksheet, out modelStartRows,out modelEndRows);
             foreach (EModelType eModel in eModels)
             {
                 int startRow = modelStartRows[eModel];
                 int endRow = modelEndRows[eModel];
                 switch (eModel)
                 {
-                    case EModelType.Staff:
-                        modelsList[eModel] = ParseStaffs(startRow, endRow, worksheet);
-                        break;
-                    case EModelType.Component:
-                        //modelsList[eModel] = ParseComponetns(startRow, endRow, worksheet);
-                        break;
-                    case EModelType.Machine:
-                        modelsList[eModel] = ParseMachines(startRow, endRow, worksheet);
-                        break;
-                    case EModelType.Protection:
-                        modelsList[eModel] = ParseProtections(startRow, endRow, worksheet);
-                        break;
-                    case EModelType.Tool:
-                        modelsList[eModel] = ParseTools(startRow, endRow, worksheet);
-                        break;
+                    //case EModelType.Staff:
+                    //    modelsList[eModel] = ParseStaffs(startRow, endRow, worksheet);
+                    //    break;
+                    //case EModelType.Component:
+                    //    //modelsList[eModel] = ParseComponetns(startRow, endRow, worksheet);
+                    //    break;
+                    //case EModelType.Machine:
+                    //    modelsList[eModel] = ParseMachines(startRow, endRow, worksheet);
+                    //    break;
+                    //case EModelType.Protection:
+                    //    modelsList[eModel] = ParseProtections(startRow, endRow, worksheet);
+                    //    break;
+                    //case EModelType.Tool:
+                    //    modelsList[eModel] = ParseTools(startRow, endRow, worksheet);
+                    //    break;
                     //case EModelType.WorkStep:
                     //    modelsList[eModel] = ParseStaffs(startRow, endRow, worksheet);
                     //    break;
@@ -91,7 +91,7 @@ namespace TC_WinForms.DataProcessing
                     ElSaftyGroup = elSaftyGroup,
                     Grade = grade,
                     Competence = competence,
-                    Symbol = symbol,
+                    // Symbol = symbol,
 
                 });
             }
@@ -124,15 +124,15 @@ namespace TC_WinForms.DataProcessing
 
                 if (itemCounter > itemWhithConponents && num == "-")
                 {
-                    ((Component)structs[itemWhithConponents]).AddComplectItem(new Component
-                    {
-                        Num = 0,
-                        Name = name,
-                        Type = type,
-                        Unit = unit,
-                        Amount = double.Parse(amount),
-                        Price = price != null ? float.Parse(price) : null
-                    });
+                    //((Component)structs[itemWhithConponents]).AddComplectItem(new Component
+                    //{
+                    //    Num = 0,
+                    //    Name = name,
+                    //    Type = type,
+                    //    Unit = unit,
+                    //    Amount = double.Parse(amount),
+                    //    Price = price != null ? float.Parse(price) : null
+                    //});
                 }
                 else
                 {

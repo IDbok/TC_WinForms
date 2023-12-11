@@ -29,30 +29,30 @@
         private void InitializeComponent()
         {
             cmbTechProcessName = new ComboBox();
-            dataGridView1 = new DataGridView();
-            Column1 = new DataGridViewTextBoxColumn();
-            Column2 = new DataGridViewTextBoxColumn();
-            Column3 = new DataGridViewTextBoxColumn();
-            lblTechProcessName = new Label();
+            dgvTcObjects = new DataGridView();
+            Num = new DataGridViewTextBoxColumn();
+            Title = new DataGridViewTextBoxColumn();
+            Type = new DataGridViewTextBoxColumn();
+            Units = new DataGridViewTextBoxColumn();
+            Amount = new DataGridViewTextBoxColumn();
             toolStrip1 = new ToolStrip();
             toolStripButton1 = new ToolStripButton();
             toolStripButton2 = new ToolStripButton();
             toolStripButton3 = new ToolStripButton();
-            comboBox1 = new ComboBox();
-            label1 = new Label();
+            cmbTechCardName = new ComboBox();
             btnBack = new Button();
             btnSaveChanges = new Button();
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
-            button4 = new Button();
-            button5 = new Button();
-            button6 = new Button();
+            btnShowStaffs = new Button();
+            btnShowComponents = new Button();
+            btnShowMachines = new Button();
+            btnShowProtections = new Button();
+            btnShowTools = new Button();
+            btnShowWorkSteps = new Button();
             pnlNavigationTC = new Panel();
             pnlControls = new Panel();
             pnlTable = new Panel();
             panel1 = new Panel();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvTcObjects).BeginInit();
             toolStrip1.SuspendLayout();
             pnlNavigationTC.SuspendLayout();
             pnlControls.SuspendLayout();
@@ -67,55 +67,56 @@
             cmbTechProcessName.Name = "cmbTechProcessName";
             cmbTechProcessName.Size = new Size(307, 28);
             cmbTechProcessName.TabIndex = 20;
+            cmbTechProcessName.SelectedIndexChanged += cmbTechProcessName_SelectedIndexChanged;
             // 
-            // dataGridView1
+            // dgvTcObjects
             // 
-            dataGridView1.AllowUserToDeleteRows = false;
-            dataGridView1.AllowUserToOrderColumns = true;
-            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridView1.BorderStyle = BorderStyle.None;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3 });
-            dataGridView1.Location = new Point(0, 0);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.ReadOnly = true;
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.RowTemplate.Height = 29;
-            dataGridView1.Size = new Size(540, 334);
-            dataGridView1.TabIndex = 22;
+            dgvTcObjects.AllowUserToOrderColumns = true;
+            dgvTcObjects.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvTcObjects.BorderStyle = BorderStyle.None;
+            dgvTcObjects.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvTcObjects.Columns.AddRange(new DataGridViewColumn[] { Num, Title, Type, Units, Amount });
+            dgvTcObjects.Location = new Point(0, 0);
+            dgvTcObjects.Name = "dgvTcObjects";
+            dgvTcObjects.RowHeadersWidth = 51;
+            dgvTcObjects.RowTemplate.Height = 29;
+            dgvTcObjects.Size = new Size(540, 334);
+            dgvTcObjects.TabIndex = 22;
             // 
-            // Column1
+            // Num
             // 
-            Column1.HeaderText = "Порядковый номер";
-            Column1.MinimumWidth = 6;
-            Column1.Name = "Column1";
-            Column1.ReadOnly = true;
-            Column1.Width = 125;
+            Num.HeaderText = "Порядковый номер";
+            Num.MinimumWidth = 6;
+            Num.Name = "Num";
+            Num.Width = 125;
             // 
-            // Column2
+            // Title
             // 
-            Column2.HeaderText = "Наименование";
-            Column2.MinimumWidth = 6;
-            Column2.Name = "Column2";
-            Column2.ReadOnly = true;
-            Column2.Width = 300;
+            Title.HeaderText = "Наименование";
+            Title.MinimumWidth = 6;
+            Title.Name = "Title";
+            Title.Width = 300;
             // 
-            // Column3
+            // Type
             // 
-            Column3.HeaderText = "Номер ТК";
-            Column3.MinimumWidth = 6;
-            Column3.Name = "Column3";
-            Column3.ReadOnly = true;
-            Column3.Width = 125;
+            Type.HeaderText = "Тип (исполнение)";
+            Type.MinimumWidth = 6;
+            Type.Name = "Type";
+            Type.Width = 125;
             // 
-            // lblTechProcessName
+            // Units
             // 
-            lblTechProcessName.AutoSize = true;
-            lblTechProcessName.Location = new Point(2, 4);
-            lblTechProcessName.Name = "lblTechProcessName";
-            lblTechProcessName.Size = new Size(268, 20);
-            lblTechProcessName.TabIndex = 21;
-            lblTechProcessName.Text = "Выберите Технологический процесс:";
+            Units.HeaderText = "Ед. Изм.";
+            Units.MinimumWidth = 6;
+            Units.Name = "Units";
+            Units.Width = 125;
+            // 
+            // Amount
+            // 
+            Amount.HeaderText = "Кол-во";
+            Amount.MinimumWidth = 6;
+            Amount.Name = "Amount";
+            Amount.Width = 125;
             // 
             // toolStrip1
             // 
@@ -151,22 +152,14 @@
             toolStripButton3.Size = new Size(71, 24);
             toolStripButton3.Text = "Справка";
             // 
-            // comboBox1
+            // cmbTechCardName
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(442, 4);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(307, 28);
-            comboBox1.TabIndex = 23;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(442, 4);
-            label1.Name = "label1";
-            label1.Size = new Size(268, 20);
-            label1.TabIndex = 24;
-            label1.Text = "Выберите Технологический процесс:";
+            cmbTechCardName.FormattingEnabled = true;
+            cmbTechCardName.Location = new Point(442, 4);
+            cmbTechCardName.Name = "cmbTechCardName";
+            cmbTechCardName.Size = new Size(307, 28);
+            cmbTechCardName.TabIndex = 23;
+            cmbTechCardName.SelectedIndexChanged += cmbTechCardName_SelectedIndexChanged;
             // 
             // btnBack
             // 
@@ -190,74 +183,76 @@
             btnSaveChanges.Text = "Сохранить";
             btnSaveChanges.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // btnShowStaffs
             // 
-            button1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            button1.Location = new Point(5, 4);
-            button1.Name = "button1";
-            button1.Size = new Size(230, 50);
-            button1.TabIndex = 27;
-            button1.Text = "Требования к составу бригады и квалификации";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            btnShowStaffs.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnShowStaffs.Location = new Point(5, 4);
+            btnShowStaffs.Name = "btnShowStaffs";
+            btnShowStaffs.Size = new Size(230, 50);
+            btnShowStaffs.TabIndex = 27;
+            btnShowStaffs.Text = "Требования к составу бригады и квалификации";
+            btnShowStaffs.UseVisualStyleBackColor = true;
+            btnShowStaffs.Click += btnShowStaffs_Click;
             // 
-            // button2
+            // btnShowComponents
             // 
-            button2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            button2.Location = new Point(5, 60);
-            button2.Name = "button2";
-            button2.Size = new Size(230, 50);
-            button2.TabIndex = 28;
-            button2.Text = " Требования к материалам и комплектующим";
-            button2.UseVisualStyleBackColor = true;
+            btnShowComponents.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnShowComponents.Location = new Point(5, 60);
+            btnShowComponents.Name = "btnShowComponents";
+            btnShowComponents.Size = new Size(230, 50);
+            btnShowComponents.TabIndex = 28;
+            btnShowComponents.Text = " Требования к материалам и комплектующим";
+            btnShowComponents.UseVisualStyleBackColor = true;
+            btnShowComponents.Click += btnShowComponents_Click;
             // 
-            // button3
+            // btnShowMachines
             // 
-            button3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            button3.Location = new Point(5, 116);
-            button3.Name = "button3";
-            button3.Size = new Size(230, 50);
-            button3.TabIndex = 29;
-            button3.Text = "Требования к механизмам";
-            button3.UseVisualStyleBackColor = true;
+            btnShowMachines.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnShowMachines.Location = new Point(5, 116);
+            btnShowMachines.Name = "btnShowMachines";
+            btnShowMachines.Size = new Size(230, 50);
+            btnShowMachines.TabIndex = 29;
+            btnShowMachines.Text = "Требования к механизмам";
+            btnShowMachines.UseVisualStyleBackColor = true;
+            btnShowMachines.Click += btnShowMachines_Click;
             // 
-            // button4
+            // btnShowProtections
             // 
-            button4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            button4.Location = new Point(5, 172);
-            button4.Name = "button4";
-            button4.Size = new Size(230, 50);
-            button4.TabIndex = 30;
-            button4.Text = "Требования к средствам защиты";
-            button4.UseVisualStyleBackColor = true;
+            btnShowProtections.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnShowProtections.Location = new Point(5, 172);
+            btnShowProtections.Name = "btnShowProtections";
+            btnShowProtections.Size = new Size(230, 50);
+            btnShowProtections.TabIndex = 30;
+            btnShowProtections.Text = "Требования к средствам защиты";
+            btnShowProtections.UseVisualStyleBackColor = true;
+            btnShowProtections.Click += btnShowProtections_Click;
             // 
-            // button5
+            // btnShowTools
             // 
-            button5.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            button5.Location = new Point(5, 228);
-            button5.Name = "button5";
-            button5.Size = new Size(230, 50);
-            button5.TabIndex = 31;
-            button5.Text = "Требования к инструментам и приспособлениям";
-            button5.UseVisualStyleBackColor = true;
-            button5.Click += button5_Click;
+            btnShowTools.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnShowTools.Location = new Point(5, 228);
+            btnShowTools.Name = "btnShowTools";
+            btnShowTools.Size = new Size(230, 50);
+            btnShowTools.TabIndex = 31;
+            btnShowTools.Text = "Требования к инструментам и приспособлениям";
+            btnShowTools.UseVisualStyleBackColor = true;
+            btnShowTools.Click += btnShowTools_Click;
             // 
-            // button6
+            // btnShowWorkSteps
             // 
-            button6.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            button6.Location = new Point(5, 284);
-            button6.Name = "button6";
-            button6.Size = new Size(230, 50);
-            button6.TabIndex = 32;
-            button6.Text = "Требования к инструментам и приспособлениям";
-            button6.UseVisualStyleBackColor = true;
+            btnShowWorkSteps.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnShowWorkSteps.Location = new Point(5, 284);
+            btnShowWorkSteps.Name = "btnShowWorkSteps";
+            btnShowWorkSteps.Size = new Size(230, 50);
+            btnShowWorkSteps.TabIndex = 32;
+            btnShowWorkSteps.Text = "Ход работ";
+            btnShowWorkSteps.UseVisualStyleBackColor = true;
+            btnShowWorkSteps.Click += btnShowWorkSteps_Click;
             // 
             // pnlNavigationTC
             // 
-            pnlNavigationTC.Controls.Add(comboBox1);
-            pnlNavigationTC.Controls.Add(label1);
+            pnlNavigationTC.Controls.Add(cmbTechCardName);
             pnlNavigationTC.Controls.Add(cmbTechProcessName);
-            pnlNavigationTC.Controls.Add(lblTechProcessName);
             pnlNavigationTC.Dock = DockStyle.Top;
             pnlNavigationTC.Location = new Point(0, 27);
             pnlNavigationTC.Name = "pnlNavigationTC";
@@ -266,12 +261,12 @@
             // 
             // pnlControls
             // 
-            pnlControls.Controls.Add(button6);
-            pnlControls.Controls.Add(button5);
-            pnlControls.Controls.Add(button4);
-            pnlControls.Controls.Add(button3);
-            pnlControls.Controls.Add(button2);
-            pnlControls.Controls.Add(button1);
+            pnlControls.Controls.Add(btnShowWorkSteps);
+            pnlControls.Controls.Add(btnShowTools);
+            pnlControls.Controls.Add(btnShowProtections);
+            pnlControls.Controls.Add(btnShowMachines);
+            pnlControls.Controls.Add(btnShowComponents);
+            pnlControls.Controls.Add(btnShowStaffs);
             pnlControls.Dock = DockStyle.Left;
             pnlControls.Location = new Point(0, 63);
             pnlControls.Name = "pnlControls";
@@ -280,7 +275,7 @@
             // 
             // pnlTable
             // 
-            pnlTable.Controls.Add(dataGridView1);
+            pnlTable.Controls.Add(dgvTcObjects);
             pnlTable.Dock = DockStyle.Fill;
             pnlTable.Location = new Point(242, 63);
             pnlTable.Name = "pnlTable";
@@ -311,11 +306,10 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Win6";
             FormClosing += Win6_FormClosing;
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvTcObjects).EndInit();
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
             pnlNavigationTC.ResumeLayout(false);
-            pnlNavigationTC.PerformLayout();
             pnlControls.ResumeLayout(false);
             pnlTable.ResumeLayout(false);
             panel1.ResumeLayout(false);
@@ -326,28 +320,28 @@
         #endregion
 
         private ComboBox cmbTechProcessName;
-        private DataGridView dataGridView1;
-        private DataGridViewTextBoxColumn Column1;
-        private DataGridViewTextBoxColumn Column2;
-        private DataGridViewTextBoxColumn Column3;
-        private Label lblTechProcessName;
+        private DataGridView dgvTcObjects;
         private ToolStrip toolStrip1;
         private ToolStripButton toolStripButton1;
         private ToolStripButton toolStripButton2;
         private ToolStripButton toolStripButton3;
-        private ComboBox comboBox1;
-        private Label label1;
+        private ComboBox cmbTechCardName;
         private Button btnBack;
         private Button btnSaveChanges;
-        private Button button1;
-        private Button button2;
-        private Button button3;
-        private Button button4;
-        private Button button5;
-        private Button button6;
+        private Button btnShowStaffs;
+        private Button btnShowComponents;
+        private Button btnShowMachines;
+        private Button btnShowProtections;
+        private Button btnShowTools;
+        private Button btnShowWorkSteps;
         private Panel pnlNavigationTC;
         private Panel pnlControls;
         private Panel pnlTable;
         private Panel panel1;
+        private DataGridViewTextBoxColumn Num;
+        private DataGridViewTextBoxColumn Title;
+        private DataGridViewTextBoxColumn Type;
+        private DataGridViewTextBoxColumn Units;
+        private DataGridViewTextBoxColumn Amount;
     }
 }

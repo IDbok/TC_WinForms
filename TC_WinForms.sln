@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExcelParsing", "..\ExcelPar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TcDbConnector", "..\DBConnector\TcDbConnector.csproj", "{897F9114-86E6-4419-8498-FE1E048BD9BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcModels", "..\TcApp\TcModels\TcModels.csproj", "{530BBED3-96A9-4A7E-9FC1-8CC1BAFE7918}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TcModels", "..\TcApp\TcModels\TcModels.csproj", "{530BBED3-96A9-4A7E-9FC1-8CC1BAFE7918}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

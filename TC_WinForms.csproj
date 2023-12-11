@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DBConnector\TcDbConnector.csproj" />
     <ProjectReference Include="..\ExcelParsing\ExcelParsing.csproj" />
     <ProjectReference Include="..\TcApp\TcModels\TcModels.csproj" />
   </ItemGroup>

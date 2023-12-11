@@ -43,14 +43,14 @@ namespace TC_WinForms
             btnAddNewTC = new Button();
             btnUpdateTC = new Button();
             btnDeleteTC = new Button();
-            dataGridView1 = new DataGridView();
-            staffBindingSource = new BindingSource(components);
+            dgvTcInTp = new DataGridView();
             Column1 = new DataGridViewTextBoxColumn();
             Column2 = new DataGridViewTextBoxColumn();
             Column3 = new DataGridViewTextBoxColumn();
+            staffBindingSource = new BindingSource(components);
             pnlToolBar.SuspendLayout();
             toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvTcInTp).BeginInit();
             ((System.ComponentModel.ISupportInitialize)staffBindingSource).BeginInit();
             SuspendLayout();
             // 
@@ -124,6 +124,7 @@ namespace TC_WinForms
             cmbTechProcessName.Name = "cmbTechProcessName";
             cmbTechProcessName.Size = new Size(307, 28);
             cmbTechProcessName.TabIndex = 13;
+            cmbTechProcessName.SelectedIndexChanged += cmbTechProcessName_SelectedIndexChanged;
             // 
             // lblTechProcessName
             // 
@@ -136,18 +137,19 @@ namespace TC_WinForms
             // 
             // btnAddNewTC
             // 
-            btnAddNewTC.Location = new Point(379, 47);
+            btnAddNewTC.Location = new Point(363, 35);
             btnAddNewTC.Name = "btnAddNewTC";
-            btnAddNewTC.Size = new Size(94, 29);
+            btnAddNewTC.Size = new Size(120, 50);
             btnAddNewTC.TabIndex = 15;
             btnAddNewTC.Text = "Добавить новую карту";
             btnAddNewTC.UseVisualStyleBackColor = true;
+            btnAddNewTC.Click += btnAddNewTC_Click;
             // 
             // btnUpdateTC
             // 
-            btnUpdateTC.Location = new Point(512, 47);
+            btnUpdateTC.Location = new Point(498, 35);
             btnUpdateTC.Name = "btnUpdateTC";
-            btnUpdateTC.Size = new Size(94, 29);
+            btnUpdateTC.Size = new Size(120, 50);
             btnUpdateTC.TabIndex = 16;
             btnUpdateTC.Text = "Редактировать";
             btnUpdateTC.UseVisualStyleBackColor = true;
@@ -155,31 +157,29 @@ namespace TC_WinForms
             // 
             // btnDeleteTC
             // 
-            btnDeleteTC.Location = new Point(659, 47);
+            btnDeleteTC.Location = new Point(633, 35);
             btnDeleteTC.Name = "btnDeleteTC";
-            btnDeleteTC.Size = new Size(94, 29);
+            btnDeleteTC.Size = new Size(120, 50);
             btnDeleteTC.TabIndex = 17;
             btnDeleteTC.Text = "Удалить";
             btnDeleteTC.UseVisualStyleBackColor = true;
+            btnDeleteTC.Click += btnDeleteTC_Click;
             // 
-            // dataGridView1
+            // dgvTcInTp
             // 
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AllowUserToDeleteRows = false;
-            dataGridView1.AllowUserToOrderColumns = true;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3 });
-            dataGridView1.Location = new Point(22, 100);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.ReadOnly = true;
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.RowTemplate.Height = 29;
-            dataGridView1.Size = new Size(731, 289);
-            dataGridView1.TabIndex = 18;
-            // 
-            // staffBindingSource
-            // 
-            staffBindingSource.DataSource = typeof(Staff);
+            dgvTcInTp.AllowUserToAddRows = false;
+            dgvTcInTp.AllowUserToDeleteRows = false;
+            dgvTcInTp.AllowUserToOrderColumns = true;
+            dgvTcInTp.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvTcInTp.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3 });
+            dgvTcInTp.Location = new Point(22, 100);
+            dgvTcInTp.Name = "dgvTcInTp";
+            dgvTcInTp.ReadOnly = true;
+            dgvTcInTp.RowHeadersWidth = 51;
+            dgvTcInTp.RowTemplate.Height = 29;
+            dgvTcInTp.Size = new Size(731, 289);
+            dgvTcInTp.TabIndex = 18;
+            dgvTcInTp.SelectionChanged += dgvTcInTp_SelectionChanged;
             // 
             // Column1
             // 
@@ -205,13 +205,17 @@ namespace TC_WinForms
             Column3.ReadOnly = true;
             Column3.Width = 125;
             // 
+            // staffBindingSource
+            // 
+            staffBindingSource.DataSource = typeof(Staff);
+            // 
             // Win3
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(782, 453);
             Controls.Add(cmbTechProcessName);
-            Controls.Add(dataGridView1);
+            Controls.Add(dgvTcInTp);
             Controls.Add(btnDeleteTC);
             Controls.Add(btnUpdateTC);
             Controls.Add(btnAddNewTC);
@@ -229,7 +233,7 @@ namespace TC_WinForms
             pnlToolBar.PerformLayout();
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvTcInTp).EndInit();
             ((System.ComponentModel.ISupportInitialize)staffBindingSource).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -249,7 +253,7 @@ namespace TC_WinForms
         private Button btnAddNewTC;
         private Button btnUpdateTC;
         private Button btnDeleteTC;
-        private DataGridView dataGridView1;
+        private DataGridView dgvTcInTp;
         private BindingSource staffBindingSource;
         private DataGridViewTextBoxColumn Column1;
         private DataGridViewTextBoxColumn Column2;

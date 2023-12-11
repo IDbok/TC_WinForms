@@ -1,18 +1,19 @@
 ﻿
 
 using TC_WinForms.DataProcessing;
+using TcModels.Models;
 
 namespace TC_WinForms
 {
     public partial class Win2 : Form//, ISaveableForm
     {
-        static string titleTC = "Технологическая карта";
+        //static string titleTC = "Технологическая карта";
         public string ProjectType { get; set; }
-        public TcData createdTcData;
+        public TechnologicalProcess tp;
         public string GetPath() => @"Temp\ProjectData.json";
-        public TcData DataToSave()
+        public TechnologicalProcess DataToSave()
         {
-            return createdTcData;
+            return tp;
         }
         public Win2()
         {
@@ -64,31 +65,27 @@ namespace TC_WinForms
         }
         private void FillProjectData()
         {
-            createdTcData = new();
-            txtProjectNum.Text = createdTcData.ProjectNumber;
-            txtProjectOperator.Text = createdTcData.ProjectAuthorName + " " + createdTcData.ProjectAuthorSurname;
-            txtProjectCreationDate.Text = createdTcData.ProjectDateCreated;
-            txtProjectVersion.Text = createdTcData.ProjectVersion;
+            if (tp == null) tp = new TechnologicalProcess();
+            tp.Authors = new List<Author> { WinProcessing.GetAuthUser() };
+            tp.Type = ProjectType;
+            // todo - make an mehanism to get last num from db if previous project was saved
+            DbConnector db = new DbConnector();
+
+            //Random rnd = new Random();
+            txtProjectNum.Text = (db.GetLastId<TechnologicalProcess>() + 1).ToString();//(db.GetLastId<TechnologicalProcess>()+1).ToString(); //rnd.Next(1000, 9999).ToString();
+            txtProjectOperator.Text = tp.Authors[0].Name + " " + tp.Authors[0].Surname; // todo - how will work with multiple authors?
+            txtProjectCreationDate.Text = tp.DateCreation.ToString();
+            txtProjectVersion.Text = tp.Version;
 
             WinProcessing.isDataToSave = true;
         }
         private void UpdateProjectData()
         {
-            if (createdTcData != null)
+            if (tp != null)
             {
-                createdTcData.ProjectType = ProjectType;
-                createdTcData.ProjectNumber = txtProjectNum.Text;
-                createdTcData.ProjectName = txtProjectName.Text;
-                createdTcData.ProjectAuthorName = txtProjectOperator.Text;
-                createdTcData.ProjectDateCreated = txtProjectCreationDate.Text;
-                createdTcData.ProjectVersion = txtProjectVersion.Text;
+                tp.Name = txtProjectName.Text;
+                tp.DateCreation = DateTime.Parse(txtProjectCreationDate.Text);
             }
         }
-
-
-        // fullfilling project data
-        // when all data is filled, btnNext becomes enabled
-
-
     }
 }

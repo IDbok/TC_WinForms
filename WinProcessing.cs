@@ -1,16 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Diagnostics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TC_WinForms.DataProcessing;
+﻿using TC_WinForms.DataProcessing;
+using TcModels.Models;
 
 namespace TC_WinForms
 {
     internal static class WinProcessing
     {
-
+        private static Author author = new();
         public static bool isDataToSave { get; set; } = false;
         private static void SaveData() 
         {
@@ -22,7 +17,7 @@ namespace TC_WinForms
                 if (form is Win2)
                 { 
                     Win2 saveableForm = (Win2)form;
-                    DataJsonSerializer.Serialize<TcData>(saveableForm.createdTcData, saveableForm.GetPath());
+                    //DataJsonSerializer.Serialize<TcData>(saveableForm.tp, saveableForm.GetPath());
                 }
             }
             //Form[] allForms = Program.FormsBack.Concat(Program.FormsForward).ToArray();
@@ -109,6 +104,10 @@ namespace TC_WinForms
             }
             return true;
         }
+        public static Author GetAuthUser()
+        {
+            return Authorizator.author;
+        }
         public static void NextFormBtn(Form newForm, Form thisForm)
         {
             Program.FormsBack.Add(thisForm);
@@ -130,6 +129,14 @@ namespace TC_WinForms
             Program.FormsBack.RemoveAt(Program.FormsBack.Count - 1);
             Program.MainForm.Show();
             thisForm.Hide();
+        }
+
+        public static void AddItemsToListBox(ListBox listBox, List<string> items)
+        {
+            foreach (var item in items)
+            {
+                listBox.Items.Add(item);
+            }
         }
     }
 }
