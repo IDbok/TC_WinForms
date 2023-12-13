@@ -470,7 +470,7 @@ namespace TC_WinForms.WinForms
                 mouseDown = true;
                 Cursor.Current = Cursors.Hand;
                 // make time delay to check if mouse is still down
-                Thread.Sleep(500);
+                //Thread.Sleep(500);
                 foreach (DataGridViewRow item in selectedRows)
                 {
                     item.Selected = true;

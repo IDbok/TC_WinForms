@@ -50,7 +50,7 @@ namespace TC_WinForms
                 // todo - Make unable form while loading data (m.b. add loading circle)
 
                 if (Program.FormsForward.Count != 0 && Program.FormsForward.Last() is Win3) WinProcessing.NextFormBtn(this);
-                else 
+                else
                 {
                     Program.FormsForward.Clear();
                     WinProcessing.isDataToSave = false;
@@ -61,7 +61,7 @@ namespace TC_WinForms
         private void Win1_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = !WinProcessing.CloseAppMessage(e, out bool saveData);
-            
+
         }
         private void PerformAuthorization()
         {
@@ -81,10 +81,10 @@ namespace TC_WinForms
                 }
                 else MessageBox.Show("Заполните все поля!");
             }
-            catch (Exception e) 
-            { 
-                if(txtPassword.Text.Length < 4) MessageBox.Show(e.Message); 
-                else MessageBox.Show("Произошла ошибка при авторизации!"); 
+            catch (Exception e)
+            {
+                if (txtPassword.Text.Length < 4) MessageBox.Show(e.Message);
+                else MessageBox.Show("Произошла ошибка при авторизации!");
             }
         }
         private void DisingOrEdingActive(object sender)

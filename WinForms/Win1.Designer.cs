@@ -77,9 +77,11 @@
             // 
             // txtPassword
             // 
+            txtPassword.Font = new Font("Gill Sans Ultra Bold", 9F, FontStyle.Regular, GraphicsUnit.Point);
             txtPassword.Location = new Point(141, 81);
             txtPassword.Name = "txtPassword";
-            txtPassword.Size = new Size(200, 27);
+            txtPassword.PasswordChar = '*';
+            txtPassword.Size = new Size(200, 26);
             txtPassword.TabIndex = 3;
             // 
             // lblAuthLogin

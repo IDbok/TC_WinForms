@@ -7,7 +7,7 @@ namespace TC_WinForms
 {
     internal static class Program
     {
-        public static bool testMode = true; //false;//
+        public static bool testMode = false;//true; //
         public static Form MainForm { get; set; }
         public static List<Form> FormsBack { get; set; } = new List<Form>();
         public static List<Form> FormsForward { get; set; } = new List<Form>();
@@ -26,7 +26,7 @@ namespace TC_WinForms
             // see https://aka.ms/applicationconfiguration.
 
             ApplicationConfiguration.Initialize();
-            MainForm = new Win6(new Button { Name = "btnUpdateTC" /*"btnAddNewTC"*/ });//new Win1();//new Win3();//
+            MainForm = new Win1();//new Win3();//new Win6(new Button { Name = "btnUpdateTC" /*"btnAddNewTC"*/ });//
             Application.Run(MainForm);
         }
 
