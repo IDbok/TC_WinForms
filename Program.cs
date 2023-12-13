@@ -26,7 +26,7 @@ namespace TC_WinForms
             // see https://aka.ms/applicationconfiguration.
 
             ApplicationConfiguration.Initialize();
-            MainForm = new Win6(new Button { Name = "btnUpdateTC" /*"btnAddNewTC"*/ });//new Win1();//new Win3();//
+            MainForm = new Win1();//new Win3();//new Win6(new Button { Name = "btnUpdateTC" /*"btnAddNewTC"*/ });//
             Application.Run(MainForm);
         }
 
