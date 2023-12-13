@@ -141,11 +141,11 @@ namespace TC_WinForms.DataProcessing
 
                     structs.Add(new Component
                     {
-                        Num = int.Parse(num),
+                        // Num = int.Parse(num),
                         Name = name,
                         Type = type,
                         Unit = unit,
-                        Amount = double.Parse(amount),
+                        // Amount = double.Parse(amount),
                         Price = price != null ? float.Parse(price) : null
                     });
 
