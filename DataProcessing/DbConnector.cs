@@ -16,6 +16,16 @@ namespace TC_WinForms.DataProcessing
         {
             Program.CurrentTc = GetObject<TechnologicalCard>(id);
         }
+        public void Update<T>(T updatingobj)
+        {
+            using (var context = new MyDbContext())
+            {
+                // todo add mecanism to increase version of object if it was version field
+                
+                context.Update(updatingobj);
+                context.SaveChanges();
+            }
+        }
         public int GetLastId<T>() where T : class, IIdentifiable
         {
             using (var context = new MyDbContext())

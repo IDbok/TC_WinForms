@@ -67,7 +67,6 @@
             cmbTechProcessName.Name = "cmbTechProcessName";
             cmbTechProcessName.Size = new Size(307, 28);
             cmbTechProcessName.TabIndex = 20;
-            cmbTechProcessName.SelectedIndexChanged += cmbTechProcessName_SelectedIndexChanged;
             // 
             // dgvTcObjects
             // 
@@ -82,6 +81,9 @@
             dgvTcObjects.RowTemplate.Height = 29;
             dgvTcObjects.Size = new Size(540, 334);
             dgvTcObjects.TabIndex = 22;
+            dgvTcObjects.CellEndEdit += dgvTcObjects_CellEndEdit;
+            dgvTcObjects.CellMouseDown += dgvTcObjects_CellMouseDown;
+            dgvTcObjects.CellMouseUp += dgvTcObjects_CellMouseUp;
             // 
             // Num
             // 
@@ -182,6 +184,7 @@
             btnSaveChanges.TabIndex = 25;
             btnSaveChanges.Text = "Сохранить";
             btnSaveChanges.UseVisualStyleBackColor = true;
+            btnSaveChanges.Click += btnSaveChanges_Click;
             // 
             // btnShowStaffs
             // 
