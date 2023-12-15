@@ -124,7 +124,7 @@
             // btnNext
             // 
             btnNext.Enabled = false;
-            btnNext.Location = new Point(209, 335);
+            btnNext.Location = new Point(216, 335);
             btnNext.Name = "btnNext";
             btnNext.Size = new Size(160, 45);
             btnNext.TabIndex = 4;
@@ -160,7 +160,7 @@
             lbxPreviousActionsTC.ItemHeight = 20;
             lbxPreviousActionsTC.Location = new Point(13, 16);
             lbxPreviousActionsTC.Name = "lbxPreviousActionsTC";
-            lbxPreviousActionsTC.Size = new Size(337, 304);
+            lbxPreviousActionsTC.Size = new Size(363, 304);
             lbxPreviousActionsTC.TabIndex = 6;
             // 
             // pnlControlPanel

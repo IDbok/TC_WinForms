@@ -39,6 +39,7 @@ namespace TC_WinForms
         private void btnUpdateTC_Click(object sender, EventArgs e)
         {
             if (dgvTcInTp.SelectedRows.Count == 0) return;
+            //Program.CurrentTp = Program.ExistingProcces[cmbTechProcessName.SelectedIndex];
             WinProcessing.NextFormBtn(new Win6(sender), this);
         }
 

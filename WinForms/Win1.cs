@@ -17,6 +17,12 @@ namespace TC_WinForms
         {
             InitializeComponent();
             if (Program.testMode) TestMode();
+
+            // add some test data in lbxPreviousActionsTC
+            lbxPreviousActionsTC.Items.Add("Добропожаловать в программу!");
+            lbxPreviousActionsTC.Items.Add("Для начала работы необходимо");
+            lbxPreviousActionsTC.Items.Add("авторизоваться в системе.");
+
         }
 
         private void btnAuthorization_Click(object sender, EventArgs e)
@@ -101,6 +107,17 @@ namespace TC_WinForms
             gbxAuthorizationForm.Visible = false;
             pnlControlPanel.Enabled = true;
             gbxFunctionalityChoice.Enabled = true;
+
+            lbxPreviousActionsTC.Items.Clear();
+
+            lbxPreviousActionsTC.Items.Add("* Создание ТП: ТПМ точки трансформации (ТТ)");
+            lbxPreviousActionsTC.Items.Add("* Создание ТК: ТК_Вынос осей (ТК_1.1)");
+            lbxPreviousActionsTC.Items.Add("* Связь ТК с ТП: ТПМ точки трансформации (ТТ)");
+            lbxPreviousActionsTC.Items.Add(" - ТК_1.1");
+            lbxPreviousActionsTC.Items.Add("* Создание ТК: ТК_Комплекс земляных работ по ");
+            lbxPreviousActionsTC.Items.Add("разработке котлована (ТК_1.4.1)");
+            lbxPreviousActionsTC.Items.Add("* Связь ТК с ТП: ТПМ точки трансформации (ТТ) -");
+            lbxPreviousActionsTC.Items.Add(" ТК_1.4.1");
         }
 
 

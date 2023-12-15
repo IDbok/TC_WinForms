@@ -14,6 +14,7 @@ namespace TC_WinForms
         public static List<TechnologicalCard> ExistingCatds { get; set; } = new List<TechnologicalCard>();
         public static List<TechnologicalProcess> ExistingProcces { get; set; } = new List<TechnologicalProcess>();
         public static TechnologicalCard? CurrentTc { get; set; }
+        public static TechnologicalCard? NewTc { get; set; }
         public static TechnologicalProcess CurrentTp { get; set; }
         
         /// <summary>

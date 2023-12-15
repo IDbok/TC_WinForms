@@ -82,18 +82,20 @@ namespace TC_WinForms.DataProcessing
                 string competence = row[6];
                 string symbol = row[7];
                 
-                structs.Add(new Staff
-                {
-                    Num = int.Parse(num),
-                    Name = name,
-                    Type = type,
-                    CombineResponsibility = combineResponsibility,
-                    ElSaftyGroup = elSaftyGroup,
-                    Grade = grade,
-                    Competence = competence,
-                    // Symbol = symbol,
+                //structs.Add(new Staff
+                //{
+                //    //Num = int.Parse(num),
+                //    Name = name,
+                //    Type = type,
+                //    CombineResponsibility = combineResponsibility,
+                //    ElSaftyGroup = elSaftyGroup,
+                //    Grade = grade,
+                //    Competence = competence,
+                //    // Symbol = symbol,
 
-                });
+                //}
+                //);
+            
             }
             return structs;
         }
@@ -177,11 +179,11 @@ namespace TC_WinForms.DataProcessing
 
                 structs.Add(new Machine
                 {
-                    Num = int.Parse(num),
+                    //Num = int.Parse(num),
                     Name = name,
                     Type = type,
                     Unit = unit,
-                    Amount = double.Parse(amount),
+                    //Amount = double.Parse(amount),
                     Price = price != null ? float.Parse(price) : null
                 });
             }
@@ -208,11 +210,11 @@ namespace TC_WinForms.DataProcessing
 
                 structs.Add(new Protection
                 {
-                    Num = int.Parse(num),
+                    //Num = int.Parse(num),
                     Name = name,
                     Type = type,
                     Unit = unit,
-                    Amount = double.Parse(amount),
+                    //Amount = double.Parse(amount),
                     Price = price != null ? float.Parse(price) : null
                 });
             }
@@ -239,11 +241,11 @@ namespace TC_WinForms.DataProcessing
 
                 structs.Add(new Tool
                 {
-                    Num = int.Parse(num),
+                    //Num = int.Parse(num),
                     Name = name,
                     Type = type,
                     Unit = unit,
-                    Amount = double.Parse(amount),
+                    //Amount = double.Parse(amount),
                     Price = price != null ? float.Parse(price) : null
                 });
             }

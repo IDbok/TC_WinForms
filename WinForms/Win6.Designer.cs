@@ -30,11 +30,6 @@
         {
             cmbTechProcessName = new ComboBox();
             dgvTcObjects = new DataGridView();
-            Num = new DataGridViewTextBoxColumn();
-            Title = new DataGridViewTextBoxColumn();
-            Type = new DataGridViewTextBoxColumn();
-            Units = new DataGridViewTextBoxColumn();
-            Amount = new DataGridViewTextBoxColumn();
             toolStrip1 = new ToolStrip();
             toolStripButton1 = new ToolStripButton();
             toolStripButton2 = new ToolStripButton();
@@ -74,7 +69,6 @@
             dgvTcObjects.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvTcObjects.BorderStyle = BorderStyle.None;
             dgvTcObjects.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvTcObjects.Columns.AddRange(new DataGridViewColumn[] { Num, Title, Type, Units, Amount });
             dgvTcObjects.Location = new Point(0, 0);
             dgvTcObjects.Name = "dgvTcObjects";
             dgvTcObjects.RowHeadersWidth = 51;
@@ -84,41 +78,8 @@
             dgvTcObjects.CellEndEdit += dgvTcObjects_CellEndEdit;
             dgvTcObjects.CellMouseDown += dgvTcObjects_CellMouseDown;
             dgvTcObjects.CellMouseUp += dgvTcObjects_CellMouseUp;
-            // 
-            // Num
-            // 
-            Num.HeaderText = "Порядковый номер";
-            Num.MinimumWidth = 6;
-            Num.Name = "Num";
-            Num.Width = 125;
-            // 
-            // Title
-            // 
-            Title.HeaderText = "Наименование";
-            Title.MinimumWidth = 6;
-            Title.Name = "Title";
-            Title.Width = 300;
-            // 
-            // Type
-            // 
-            Type.HeaderText = "Тип (исполнение)";
-            Type.MinimumWidth = 6;
-            Type.Name = "Type";
-            Type.Width = 125;
-            // 
-            // Units
-            // 
-            Units.HeaderText = "Ед. Изм.";
-            Units.MinimumWidth = 6;
-            Units.Name = "Units";
-            Units.Width = 125;
-            // 
-            // Amount
-            // 
-            Amount.HeaderText = "Кол-во";
-            Amount.MinimumWidth = 6;
-            Amount.Name = "Amount";
-            Amount.Width = 125;
+            dgvTcObjects.RowsRemoved += dgvTcObjects_RowsRemoved;
+            dgvTcObjects.UserDeletingRow += dgvTcObjects_UserDeletingRow;
             // 
             // toolStrip1
             // 
@@ -341,10 +302,5 @@
         private Panel pnlControls;
         private Panel pnlTable;
         private Panel panel1;
-        private DataGridViewTextBoxColumn Num;
-        private DataGridViewTextBoxColumn Title;
-        private DataGridViewTextBoxColumn Type;
-        private DataGridViewTextBoxColumn Units;
-        private DataGridViewTextBoxColumn Amount;
     }
 }
