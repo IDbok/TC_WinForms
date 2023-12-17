@@ -1,5 +1,4 @@
-﻿
-using Microsoft.VisualBasic.Devices;
+﻿using Microsoft.VisualBasic.Devices;
 using OfficeOpenXml.Style;
 using System.ComponentModel;
 using System.Windows.Forms;
@@ -228,8 +227,6 @@ namespace TC_WinForms.WinForms
 
             if (activeModelType == EModelType.Staff)
             {
-                // Program.CurrentTc.Staff_TCs.Clear();
-
                 for (int i = 0; i < dgvTcObjects.Rows.Count - 1; i++)
                 {
 
