@@ -12,8 +12,9 @@ namespace TC_WinForms.WinForms
 {
     public partial class Win6 : Form
     {
-        DbConnector db = new DbConnector();
         EModelType activeModelType;
+        DbConnector db = new DbConnector();
+
         public Win6(object sender)
         {
 
@@ -216,7 +217,7 @@ namespace TC_WinForms.WinForms
                 dgvTcObjects.Columns.Add(item.Key, item.Value);
             }
         }
-        // save data from dgvTcObjects to Program.CurrentTc
+        
         private void SaveDataFromDGV() // todo - ??? mb beter catch changes and save them in Program.CurrentTc
         {
 
@@ -458,36 +459,28 @@ namespace TC_WinForms.WinForms
                         string type = dgvTcObjects.Rows[i].Cells["Type"].Value.ToString();
                         string unit = dgvTcObjects.Rows[i].Cells["Unit"].Value.ToString();
 
-                        //int.TryParse(dgvTcObjects.Rows[i].Cells["Quantity"].Value.ToString(), out quantity);
+                        int.TryParse(dgvTcObjects.Rows[i].Cells["Quantity"].Value.ToString(), out quantity);
                         //int.TryParse(dgvTcObjects.Rows[i].Cells["Price"].Value.ToString(), out price);
 
-                        // check if object is already exists in db
-                        var obj = db.GetObject<Tool>(id);
-                        Tool newobj = new Tool()
-                        {
-                            Id = obj.Id != null ? obj.Id : 0,
-                            Name = name,
-                            Type = type,
-                            Unit = unit,
-                        };
+                        Tool obj = WinProcessing.GetObjFromDbOrAdd<Tool>(id,name,type,unit);
 
-                        if (obj == null)
+                        var sttc = db.GetObject<Tool_TC, Tool>(Program.CurrentTc.Id, obj.Id);
+
+                        if (sttc == null)
                         {
-                            db.Add(newobj); // todo - make an storege of new staffs to add them all at once
-                            obj = newobj;
+                            Program.CurrentTc.Tool_TCs.Add(new Tool_TC()
+                            {
+                                Order = order,
+                                Child = obj,
+                                Quantity = quantity,
+                            });
                         }
                         else
                         {
-                            if (!(obj.Id == newobj.Id &&
-                                obj.Name == newobj.Name &&
-                                obj.Type == newobj.Type &&
-                                obj.Unit == newobj.Unit))
-                            {
-                                db.Update(obj); // todo - update objects in object related to TurrentTc
-                            }
-                            else return; // end of method if staff is not changed
+                            sttc.Order = order;
+                            sttc.Quantity = quantity;
+                            db.Update(sttc);
                         }
-
                     }
                 }
             }
