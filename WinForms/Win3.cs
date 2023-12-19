@@ -63,7 +63,7 @@ namespace TC_WinForms
             if (dgvTcInTp.SelectedRows.Count == 0) return;
             // get selected item number
             int selectedRow = dgvTcInTp.SelectedRows[0].Index;
-            Program.CurrentTc = Program.ExistingCatds[selectedRow];
+            Program.currentTc = Program.ExistingCatds[selectedRow];
             dgvTcInTp.Rows[dgvTcInTp.SelectedRows[0].Index].Selected = true;
         }
         private void dgvTcInTp_ColumnRemoved(object sender, DataGridViewColumnEventArgs e)

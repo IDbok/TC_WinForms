@@ -12,7 +12,8 @@ namespace TC_WinForms.WinForms
 {
     public partial class Win6 : Form
     {
-        EModelType activeModelType;
+        EModelType? activeModelType = null;
+
         DbConnector db = new DbConnector();
 
         public Win6(object sender)
@@ -29,7 +30,7 @@ namespace TC_WinForms.WinForms
                 Program.ExistingProcces = db.GetList<TechnologicalProcess>();
                 Program.CurrentTp = Program.ExistingProcces[0];
                 Program.ExistingCatds = Program.CurrentTp.TechnologicalCards;
-                Program.CurrentTc = Program.ExistingCatds[0];
+                Program.currentTc = Program.ExistingCatds[0];
             }
 
             ////////////////////////////////////
@@ -45,13 +46,13 @@ namespace TC_WinForms.WinForms
             Button btn = (Button)sender;
             if (btn.Name == "btnUpdateTC")
             {
-                db.UpdateCurrentTc(Program.CurrentTc.Id);
+                db.UpdateCurrentTc(Program.currentTc.Id);
 
                 foreach (var item in Program.ExistingCatds)
                 {
                     cmbTechCardName.Items.Add(item.Article);
                 }
-                cmbTechCardName.Text = Program.CurrentTc.Article;
+                cmbTechCardName.Text = Program.currentTc.Article;
             }
             else if (btn.Name == "btnAddNewTC")
             {
@@ -62,7 +63,8 @@ namespace TC_WinForms.WinForms
 
                 Program.NewTc = new TechnologicalCard();
             }
-            btnShowStaffs_Click(null, null);
+
+            btnShowStaffs_Click(btnShowStaffs, null);
             btnSaveChanges.Enabled = true; // todo - make check if changes were made
         }
         private void btnBack_Click(object sender, EventArgs e)
@@ -71,11 +73,11 @@ namespace TC_WinForms.WinForms
         }
         private void btnSaveChanges_Click(object sender, EventArgs e)
         {
-            SaveDataFromDGV();
+            SaveDataFromDGV(activeModelType);
 
             //var db = new DbConnector();
 
-            if (Program.CurrentTc.Id == 0)
+            if (Program.currentTc.Id == 0)
             {
                 MessageBox.Show("ТК не сохранена в БД. Сохранение невозможно.");
                 //Program.CurrentTc.Article = ((TextBox)pnlNavigationTC.Controls["tbxNewTcName"]).Text;
@@ -89,7 +91,7 @@ namespace TC_WinForms.WinForms
             }
             else
             {
-                db.Update(Program.CurrentTc);
+                db.Update(Program.currentTc);
                 MessageBox.Show("Изменения сохранены в БД.");
             }
         }
@@ -101,7 +103,7 @@ namespace TC_WinForms.WinForms
 
         private void cmbTechCardName_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (Program.CurrentTc != null && Program.CurrentTc.Article == cmbTechCardName.Text) return;
+            if (Program.currentTc != null && Program.currentTc.Article == cmbTechCardName.Text) return;
             else
             {
                 db.UpdateCurrentTc(Program.ExistingCatds[cmbTechCardName.SelectedIndex].Id);
@@ -116,97 +118,77 @@ namespace TC_WinForms.WinForms
         /// <typeparam name="C">It is Child model that is implemented in intermediate table</typeparam>
         /// <param name="obj"></param>
         /// <param name="DGV"></param>
-        private void AddNewRowsToDGV<T, C>(List<T> obj, DataGridView DGV)
-            where T : IStructIntermediateTable<TechnologicalCard, C>
-            where C : IModelStructure
-        {
-            for (int i = 0; i < obj.Count; i++)
-            {
-                DGV.Rows.Add(
-                    (int)obj[i].ChildId,
-                    (int)obj[i].Order,
-
-                    obj[i].Child.Name,
-                    obj[i].Child.Type,
-                    obj[i].Child.Unit,
-
-                    obj[i].Quantity);
-                // todo - fix it
-            }
-        }
-        // todo - overload this method to make it work with Staff_TC and WorkStep
-
-        /// <summary>
-        /// Add new rows to Table typeof DataGridView from Staff_TC object
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="DGV"></param>
-        private void AddNewRowsToDGV(List<Staff_TC> obj, DataGridView DGV)
-        {
-            for (int i = 0; i < obj.Count; i++)
-            {
-                DGV.Rows.Add(
-                    (int)obj[i].ChildId,
-                    (int)obj[i].Order,
-
-                    obj[i].Child.Name,
-                    obj[i].Child.Type,
-                    obj[i].Child.CombineResponsibility,
-                    obj[i].Child.Competence,
-
-                    obj[i].Symbol);
-            }
-        }
+        
 
         private void btnShowStaffs_Click(object sender, EventArgs e)
         {
             // todo - save changes in dgvTcObjects if they are
-            SaveDataFromDGV();
+            if (activeModelType == EModelType.Staff) return;
+            SaveDataFromDGV(activeModelType);
             DGVNewStructure(EModelType.Staff);
 
-            var obj = Program.CurrentTc.Staff_TCs.OrderBy(x => x.Order).ToList();
+            var obj = Program.currentTc.Staff_TCs.OrderBy(x => x.Order).ToList();
 
-            AddNewRowsToDGV(obj, dgvTcObjects);
+            WinProcessing.AddNewRowsToDGV(obj, dgvTcObjects);
+
+            if (sender is Button)
+                WinProcessing.ColorizeOnlyChosenButton(sender as Button, pnlControls);
 
         }
 
         private void btnShowComponents_Click(object sender, EventArgs e)
         {
-            SaveDataFromDGV();
+            if (activeModelType == EModelType.Component) return;
+            SaveDataFromDGV(activeModelType);
             DGVNewStructure(EModelType.Component);
-            var obj = Program.CurrentTc.Component_TCs.OrderBy(x => x.Order).ToList();
-            AddNewRowsToDGV<Component_TC, TcModels.Models.TcContent.Component>(obj, dgvTcObjects);
+            var obj = Program.currentTc.Component_TCs.OrderBy(x => x.Order).ToList();
+            WinProcessing.AddNewRowsToDGV<Component_TC, TcModels.Models.TcContent.Component>(obj, dgvTcObjects);
+            if (sender is Button)
+                WinProcessing.ColorizeOnlyChosenButton(sender as Button, pnlControls);
         }
 
         private void btnShowMachines_Click(object sender, EventArgs e)
         {
-            SaveDataFromDGV();
+            if (activeModelType == EModelType.Machine) return;
+            SaveDataFromDGV(activeModelType);
             DGVNewStructure(EModelType.Machine);
 
-            var obj = Program.CurrentTc.Machine_TCs.OrderBy(x => x.Order).ToList();
-            AddNewRowsToDGV<Machine_TC, Machine>(obj, dgvTcObjects);
+            var obj = Program.currentTc.Machine_TCs.OrderBy(x => x.Order).ToList();
+            WinProcessing.AddNewRowsToDGV<Machine_TC, Machine>(obj, dgvTcObjects);
+            if (sender is Button)
+                WinProcessing.ColorizeOnlyChosenButton(sender as Button, pnlControls);
         }
 
         private void btnShowProtections_Click(object sender, EventArgs e)
         {
-            SaveDataFromDGV();
+            if (activeModelType == EModelType.Protection) return;
+            SaveDataFromDGV(activeModelType);
             DGVNewStructure(EModelType.Protection);
-            var obj = Program.CurrentTc.Protection_TCs.OrderBy(x => x.Order).ToList();
-            AddNewRowsToDGV<Protection_TC, Protection>(obj, dgvTcObjects);
+            var obj = Program.currentTc.Protection_TCs.OrderBy(x => x.Order).ToList();
+            WinProcessing.AddNewRowsToDGV<Protection_TC, Protection>(obj, dgvTcObjects);
+            if (sender is Button)
+                WinProcessing.ColorizeOnlyChosenButton(sender as Button, pnlControls);
         }
 
         private void btnShowTools_Click(object sender, EventArgs e)
         {
-            SaveDataFromDGV();
+            if (activeModelType == EModelType.Tool) return;
+            SaveDataFromDGV(activeModelType);
             DGVNewStructure(EModelType.Tool);
-            var obj = Program.CurrentTc.Tool_TCs.OrderBy(x => x.Order).ToList();
-            AddNewRowsToDGV<Tool_TC, Tool>(obj, dgvTcObjects);
+            var obj = Program.currentTc.Tool_TCs.OrderBy(x => x.Order).ToList();
+            WinProcessing.AddNewRowsToDGV<Tool_TC, Tool>(obj, dgvTcObjects);
+            if (sender is Button)
+                WinProcessing.ColorizeOnlyChosenButton(sender as Button, pnlControls);
         }
 
         private void btnShowWorkSteps_Click(object sender, EventArgs e)
         {
-            //SaveDataFromDGV();
-            //DGVNewStructure(EModelType.WorkStep);
+            if (activeModelType == EModelType.WorkStep) return;
+            //SaveDataFromDGV(activeModelType);
+            DGVNewStructure(EModelType.WorkStep);
+            activeModelType = EModelType.WorkStep;
+            if (sender is Button)
+                WinProcessing.ColorizeOnlyChosenButton(sender as Button, pnlControls);
         } // todo - make it work
 
         private void DGVStructure(Dictionary<string, string> columnNames)
@@ -218,15 +200,15 @@ namespace TC_WinForms.WinForms
             }
         }
         
-        private void SaveDataFromDGV() // todo - ??? mb beter catch changes and save them in Program.CurrentTc
+        private void SaveDataFromDGV(EModelType? ModelType) // todo - ??? mb beter catch changes and save them in Program.CurrentTc
         {
 
-            if (dgvTcObjects.Rows.Count == 1 || dgvTcObjects.Columns.Count == 0) return;
+            if (dgvTcObjects.Rows.Count == 1 || ModelType == null) return;
 
             int id = 0;
             int order = 0;
 
-            if (activeModelType == EModelType.Staff)
+            if (ModelType == EModelType.Staff)
             {
                 for (int i = 0; i < dgvTcObjects.Rows.Count - 1; i++)
                 {
@@ -268,16 +250,16 @@ namespace TC_WinForms.WinForms
                             staff.ElSaftyGroup == newStaff.ElSaftyGroup &&
                             staff.Grade == newStaff.Grade))
                         {
-                            db.Update(staff); // todo - update objects in object related to TurrentTc
+                            // db.Update(staff); // todo - update objects in object related to TurrentTc
                         }
                         else return; // end of method if staff is not changed
                     }
 
                     // Check if staff is already connected to TC. If not - add new Staff_TC object to db
-                    var sttc = db.GetObject<Staff_TC, Staff>(Program.CurrentTc.Id, staff.Id);
+                    var sttc = db.GetObject<Staff_TC, Staff>(Program.currentTc.Id, staff.Id);
                     if (sttc == null)
                     {
-                        Program.CurrentTc.Staff_TCs.Add(new Staff_TC()
+                        Program.currentTc.Staff_TCs.Add(new Staff_TC()
                         {
                             Order = order,
                             Child = staff,
@@ -288,11 +270,11 @@ namespace TC_WinForms.WinForms
                     {
                         sttc.Order = order;
                         sttc.Symbol = symbol;
-                        db.Update(sttc);
+                        // db.Update(sttc);
                     }
                 }
             }
-            //else if (activeModelType == EModelType.WorkStep)
+            //else if (ModelType == EModelType.WorkStep)
             //{
             //    Program.CurrentTc.WorkSteps.Clear();
             //    for (int i = 0; i < dgvTcObjects.Rows.Count - 1; i++)
@@ -312,180 +294,32 @@ namespace TC_WinForms.WinForms
             //        });
             //    }
             //}
-            else 
+            else
             {
-                int quantity = 0;
-                int price = 0;
-
-                if (activeModelType == EModelType.Component)
+                if (ModelType == EModelType.Component)
                 {
-                    //Program.CurrentTc.Component_TCs.Clear();
-                    for (int i = 0; i < dgvTcObjects.Rows.Count - 1; i++)
-                    {
-                        int.TryParse(dgvTcObjects.Rows[i].Cells["Id"].Value.ToString(), out id);
-                        int.TryParse(dgvTcObjects.Rows[i].Cells["Num"].Value.ToString(), out order);
-
-                        string name = dgvTcObjects.Rows[i].Cells["Title"].Value.ToString(); // todo - make null values enable to be in dgvTcObjects in not null columns
-                        string type = dgvTcObjects.Rows[i].Cells["Type"].Value.ToString();
-                        string unit = dgvTcObjects.Rows[i].Cells["Unit"].Value.ToString();
-                        
-                        //int.TryParse(dgvTcObjects.Rows[i].Cells["Quantity"].Value.ToString(), out quantity);
-                        //int.TryParse(dgvTcObjects.Rows[i].Cells["Price"].Value.ToString(),out price);
-                        
-                        // check if object is already exists in db
-                        var obj = db.GetObject<TcModels.Models.TcContent.Component>(id);
-                        TcModels.Models.TcContent.Component newobj = new TcModels.Models.TcContent.Component()
-                        {
-                            Id = obj.Id != null ? obj.Id : 0,
-                            Name = name,
-                            Type = type,
-                            Unit = unit,
-                        };
-
-                        if (obj == null)
-                        {
-                            db.Add(newobj); // todo - make an storege of new staffs to add them all at once
-                            obj = newobj;
-                        }
-                        else
-                        {
-                            if (!(obj.Id == newobj.Id &&
-                                obj.Name == newobj.Name &&
-                                obj.Type == newobj.Type &&
-                                obj.Unit == newobj.Unit ))
-                            {
-                                db.Update(obj); // todo - update objects in object related to TurrentTc
-                            }
-                            else return; // end of method if staff is not changed
-                        }
-
-                    }
+                    var objects = WinProcessing.MappDataFromDGV<Component_TC, TcModels.Models.TcContent.Component>(dgvTcObjects, ref Program.currentTc);
+                    WinProcessing.AddDataToTC<Component_TC, TcModels.Models.TcContent.Component>(objects, ref Program.currentTc);
                 }
-                else if (activeModelType == EModelType.Machine)
+                else if (ModelType == EModelType.Machine)
                 {
-                    //Program.CurrentTc.Machine_TCs.Clear();
-                    for (int i = 0; i < dgvTcObjects.Rows.Count - 1; i++)
-                    {
-                        int.TryParse(dgvTcObjects.Rows[i].Cells["Id"].Value.ToString(), out id);
-                        int.TryParse(dgvTcObjects.Rows[i].Cells["Num"].Value.ToString(), out order);
-
-                        string name = dgvTcObjects.Rows[i].Cells["Title"].Value.ToString(); // todo - make null values enable to be in dgvTcObjects in not null columns
-                        string type = dgvTcObjects.Rows[i].Cells["Type"].Value.ToString();
-                        string unit = dgvTcObjects.Rows[i].Cells["Unit"].Value.ToString();
-
-                        //int.TryParse(dgvTcObjects.Rows[i].Cells["Quantity"].Value.ToString(), out quantity);
-                        //int.TryParse(dgvTcObjects.Rows[i].Cells["Price"].Value.ToString(), out price);
-
-                        // check if object is already exists in db
-                        var obj = db.GetObject<Machine>(id);
-                        Machine newobj = new Machine()
-                        {
-                            Id = obj.Id != null ? obj.Id : 0,
-                            Name = name,
-                            Type = type,
-                            Unit = unit,
-                        };
-
-                        if (obj == null)
-                        {
-                            db.Add(newobj); // todo - make an storege of new staffs to add them all at once
-                            obj = newobj;
-                        }
-                        else
-                        {
-                            if (!(obj.Id == newobj.Id &&
-                                obj.Name == newobj.Name &&
-                                obj.Type == newobj.Type &&
-                                obj.Unit == newobj.Unit))
-                            {
-                                db.Update(obj); // todo - update objects in object related to TurrentTc
-                            }
-                            else return; // end of method if staff is not changed
-                        }
-
-                    }
+                    var objects = WinProcessing.MappDataFromDGV<Machine_TC, Machine>(dgvTcObjects, ref Program.currentTc);
+                    WinProcessing.AddDataToTC<Machine_TC, Machine>(objects, ref Program.currentTc);
                 }
-                else if (activeModelType == EModelType.Protection)
+                else if (ModelType == EModelType.Protection)
                 {
-                    for (int i = 0; i < dgvTcObjects.Rows.Count - 1; i++)
-                    {
-                        int.TryParse(dgvTcObjects.Rows[i].Cells["Id"].Value.ToString(), out id);
-                        int.TryParse(dgvTcObjects.Rows[i].Cells["Num"].Value.ToString(), out order);
-
-                        string name = dgvTcObjects.Rows[i].Cells["Title"].Value.ToString(); // todo - make null values enable to be in dgvTcObjects in not null columns
-                        string type = dgvTcObjects.Rows[i].Cells["Type"].Value.ToString();
-                        string unit = dgvTcObjects.Rows[i].Cells["Unit"].Value.ToString();
-
-                        //int.TryParse(dgvTcObjects.Rows[i].Cells["Quantity"].Value.ToString(), out quantity);
-                        //int.TryParse(dgvTcObjects.Rows[i].Cells["Price"].Value.ToString(), out price);
-
-                        // check if object is already exists in db
-                        var obj = db.GetObject<Protection>(id);
-                        Protection newobj = new Protection()
-                        {
-                            Id = obj.Id != null ? obj.Id : 0,
-                            Name = name,
-                            Type = type,
-                            Unit = unit,
-                        };
-
-                        if (obj == null)
-                        {
-                            db.Add(newobj); // todo - make an storege of new staffs to add them all at once
-                            obj = newobj;
-                        }
-                        else
-                        {
-                            if (!(obj.Id == newobj.Id &&
-                                obj.Name == newobj.Name &&
-                                obj.Type == newobj.Type &&
-                                obj.Unit == newobj.Unit))
-                            {
-                                db.Update(obj); // todo - update objects in object related to TurrentTc
-                            }
-                            else return; // end of method if staff is not changed
-                        }
-
-                    }
+                    var objects = WinProcessing.MappDataFromDGV<Protection_TC, Protection>(dgvTcObjects, ref Program.currentTc);
+                    WinProcessing.AddDataToTC<Protection_TC, Protection>(objects, ref Program.currentTc);
                 }
-                else if (activeModelType == EModelType.Tool)
+                else if (ModelType == EModelType.Tool)
                 {
-                    for (int i = 0; i < dgvTcObjects.Rows.Count - 1; i++)
-                    {
-                        int.TryParse(dgvTcObjects.Rows[i].Cells["Id"].Value.ToString(), out id);
-                        int.TryParse(dgvTcObjects.Rows[i].Cells["Num"].Value.ToString(), out order);
-
-                        string name = dgvTcObjects.Rows[i].Cells["Title"].Value.ToString(); // todo - make null values enable to be in dgvTcObjects in not null columns
-                        string type = dgvTcObjects.Rows[i].Cells["Type"].Value.ToString();
-                        string unit = dgvTcObjects.Rows[i].Cells["Unit"].Value.ToString();
-
-                        int.TryParse(dgvTcObjects.Rows[i].Cells["Quantity"].Value.ToString(), out quantity);
-                        //int.TryParse(dgvTcObjects.Rows[i].Cells["Price"].Value.ToString(), out price);
-
-                        Tool obj = WinProcessing.GetObjFromDbOrAdd<Tool>(id,name,type,unit);
-
-                        var sttc = db.GetObject<Tool_TC, Tool>(Program.CurrentTc.Id, obj.Id);
-
-                        if (sttc == null)
-                        {
-                            Program.CurrentTc.Tool_TCs.Add(new Tool_TC()
-                            {
-                                Order = order,
-                                Child = obj,
-                                Quantity = quantity,
-                            });
-                        }
-                        else
-                        {
-                            sttc.Order = order;
-                            sttc.Quantity = quantity;
-                            db.Update(sttc);
-                        }
-                    }
+                    var objects = WinProcessing.MappDataFromDGV<Tool_TC,Tool>(dgvTcObjects, ref Program.currentTc);
+                    WinProcessing.AddDataToTC<Tool_TC, Tool>(objects, ref Program.currentTc);
                 }
             }
         }
 
+        
         /// <summary>
         /// Add new columns to dgvTcObjects and set activeModelType
         /// </summary>
@@ -648,32 +482,32 @@ namespace TC_WinForms.WinForms
             //MessageBox.Show($"RowRemoved: {string.Join(", ", index)}");
         }
 
-        private void DeleteRelationInTC(int id, int order,EModelType modelType)
+        private void DeleteRelationInTC(int id, int order,EModelType? modelType)
         {
             if (modelType == EModelType.Staff)
             {
-                var sttc = Program.CurrentTc.Staff_TCs.Find(x => x.ChildId == id && x.Order == order);
-                Program.CurrentTc.Staff_TCs.Remove(sttc);
+                var sttc = Program.currentTc.Staff_TCs.Find(x => x.ChildId == id && x.Order == order);
+                Program.currentTc.Staff_TCs.Remove(sttc);
             }
             else if (modelType == EModelType.Component)
             {
-                var sttc = Program.CurrentTc.Component_TCs.Find(x => x.ChildId == id);
-                Program.CurrentTc.Component_TCs.Remove(sttc);
+                var sttc = Program.currentTc.Component_TCs.Find(x => x.ChildId == id);
+                Program.currentTc.Component_TCs.Remove(sttc);
             }
             else if (modelType == EModelType.Machine)
             {
-                var sttc = Program.CurrentTc.Machine_TCs.Find(x => x.ChildId == id);
-                Program.CurrentTc.Machine_TCs.Remove(sttc);
+                var sttc = Program.currentTc.Machine_TCs.Find(x => x.ChildId == id);
+                Program.currentTc.Machine_TCs.Remove(sttc);
             }
             else if (modelType == EModelType.Protection)
             {
-                var sttc = Program.CurrentTc.Protection_TCs.Find(x => x.ChildId == id);
-                Program.CurrentTc.Protection_TCs.Remove(sttc);
+                var sttc = Program.currentTc.Protection_TCs.Find(x => x.ChildId == id);
+                Program.currentTc.Protection_TCs.Remove(sttc);
             }
             else if (modelType == EModelType.Tool)
             {
-                var sttc = Program.CurrentTc.Tool_TCs.Find(x => x.ChildId == id);
-                Program.CurrentTc.Tool_TCs.Remove(sttc);
+                var sttc = Program.currentTc.Tool_TCs.Find(x => x.ChildId == id);
+                Program.currentTc.Tool_TCs.Remove(sttc);
             }
             else if (modelType == EModelType.WorkStep)
             {
@@ -693,7 +527,7 @@ namespace TC_WinForms.WinForms
 
             DeleteRelationInTC(id, order, activeModelType);
 
-            MessageBox.Show($"UserDeletingRow: {string.Join(", ", index)}");
+            // MessageBox.Show($"UserDeletingRow: {string.Join(", ", index)}");
         }
     }
 
